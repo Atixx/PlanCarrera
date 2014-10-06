@@ -2,7 +2,17 @@ from django.shortcuts import render, get_object_or_404
 from plan.models import Alumno, Parcial, Materia
 
 # Create your views here.
-
+def home(request):
+    seleccion=request.GET.get('reg','')
+    if request.method == "POST":
+        u=request.POST.get('user','a')
+        n=request.POST.get('name','b')
+        e=request.POST.get('email','c')
+        nuevoalumno=Alumno(usuario=u, nombre=n, email= e)
+        nuevoalumno.save()
+    
+    return render(request, "plan/home.html",{"reg" : seleccion})
+                  
 def index(request):
     lista_alumnos = Alumno.objects.all()
     lista_parciales = Parcial.objects.all()

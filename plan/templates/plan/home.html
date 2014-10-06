@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>Plan Carrera</title>
+</head>
+<body>
+  <h1>Bienvenido al inicio</h1>
+  <form action="." method="GET">
+    <!--
+<label for="q">Search: </label>
+    <input type="text" name="q" value="{{ query|escape }}">
+    <input type="submit" value="Search">
+    <input type="submit" value="Search">
+-->
+    <button type="submit" name="reg" value="1">¡Registrarse!</button>
+    <button type="submit" name="reg" value="0">Ingresar!</button>
+
+  </form>
+ 
+  <form action="." method="POST">
+  {% if reg %}
+    <h2>Segunda Parte::</h2>
+ 
+    {% ifequal reg "0" %}
+      <ul>
+      <p>Presionamos Ingresar</p>
+      </ul>
+    {% endifequal %}
+    {% ifequal reg "1" %}
+	<ul>
+      <p>Presionamos Registrarse</p>
+	Usuario:<input type="text" name="user">
+	Nombre:<input type="text" name="name">
+	Email<input type="text" name="email" value="aaa@aaa.com">
+    <input type="submit" value="Confirmar">
+
+	</ul>
+    {% endifequal %}
+  {% endif %}
+  </form>
+</body>
+</html>
