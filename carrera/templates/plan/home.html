@@ -1,0 +1,69 @@
+{% extends "format.html" %}
+
+{% block titulo %}Plan Carrera {% endblock %}
+
+{% block cabezera %} Bienvenido al inicio {% endblock %}
+
+{% block contenido %}
+
+<form action="." method="GET">
+    <div padding=15px class="form-group">
+    <!--
+<label for="q">Search: </label>
+    <input type="text" name="q" value="{{ query|escape }}">
+    <input type="submit" value="Search">
+    <input type="submit" value="Search">
+-->
+    <button type="submit" class="btn btn-success" name="reg" value="1">¡Registrarse!</button>
+    <button type="submit" class="btn btn-primary" name="reg" value="0">Ingresar!</button>
+    </div>
+</form>
+ 
+<form class="form-horizontal" action="." method="POST">
+    
+  {% if reg %}
+  <div id="segundaParte">
+        <h2>Segunda Parte::</h2>
+     
+        {% ifequal reg "0" %}
+              <ul>
+                 <p>Presionamos Ingresar</p>
+              </ul>
+        {% endifequal %}
+        
+        {% ifequal reg "1" %}
+        <div class="form-group">
+            <label for="usuario">Usuario</label>
+            <input type="text" class="form-control" id="usuario" placeholder="Nombre usuario" name="user">
+        </div>
+        <div class="form-group">
+            <label for="pass">Contraseña</label>
+            <input type="password" class="form-control" id="pass" placeholder="Contraseña" name="passwd">
+        </div>
+        <div id="form-group">
+              <label for="rpt">Repita Contraseña</label>
+              <input type="password" class="form-control" id="rpt" placeholder="Repita Contraseña" name="repasswd">
+        </div>
+            {% ifequal passinv "1" %}
+                <FONT COLOR="RED">*La contraseña no coincide</font>
+            {% endifequal %}
+        <div id="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Nombre" name="name">
+        </div>
+        <div id="form-group">
+            <label for="apellido">Apellido</label>
+            <input type="text" class="form-control" id="apellido" placeholder="Apellido" name="lastname">
+        </div>
+        <div id="form-group">
+            <label for="email">E-Mail</label>
+            <input type="text" class="form-control" id="email" name="email"  value="aaa@aaa.com">
+        </div>
+        <div style=padding-top:15px>
+            <button type="submit" class="btn btn-default">Registrarse</button>
+        </div>
+        {% endifequal %}
+    </div>
+  {% endif %}
+</form>
+{% endblock %}
