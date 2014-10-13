@@ -1,0 +1,10 @@
+{%extends "format.html" %}
+
+{%block cabezera %} El Detallado!! {% end block %}
+
+{% block contenido %}
+
+<h1> Funciono el detallado! </h1>
+{{ materia }}
+
+{% end block %}
