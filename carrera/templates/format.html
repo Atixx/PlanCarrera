@@ -3,24 +3,24 @@
 <html>
     <head>
         {% load staticfiles %}
-        <link href= "{% static "mysite/css/bootstrap.min.css" %}" rel="stylesheet">
-        <link href= "{% static "mysite/css/bottstrap-responsive.css" %}" rel="stylesheet">
-        <link href= "{% static "mysite/css/nuestro.css" %}" rel="stylesheet">  
+        <link href= "{% static "carrera/css/bootstrap.min.css" %}" rel="stylesheet">
+        <link href= "{% static "carrera/css/bottstrap-responsive.css" %}" rel="stylesheet">
+        <link href= "{% static "carrera/css/nuestro.css" %}" rel="stylesheet">  
         
-        <title>{% block titulo %}Plan Carrera {% endblock %}</title>
+        <title>{% block titulo %}Plan Carrera{% endblock %}</title>
         
         
-       <script src= "{% static "mysite/js/jquery-1.11.1.js" %}"></script>
-       <script src= "{% static "mysite/js/bootstrap.min.js" %}"></script>
+       <script src= "{% static "carrera/js/jquery-1.11.1.js" %}"></script>
+       <script src= "{% static "carrera/js/bootstrap.min.js" %}"></script>
         
     </head>
 
     <body>
-      <h1>{% block cabezera %} Bienvenido al inicio {% endblock %}</h1>
+      <h1>{% block cabezera %} Bienvenidos {% endblock %}</h1>
       {% block contenido %} {% endblock %}    
       {% block footer %}
     <hr>
-    <div id="bottom">Copyright &#169; Supergrupo nionios.</p>
+    <div id="bottom">Copyright &#169; Supergrupo ñoños.</p>
     {% endblock %}
 </body>    
 </html>
