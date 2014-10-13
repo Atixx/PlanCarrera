@@ -1,26 +1,34 @@
 from django.shortcuts import render, get_object_or_404
-from plan.models import Alumno, Parcial, Materia
+from plan.models import Parcial, Materia
+from django.contrib.auth.models import User
 
 # Create your views here.
 def home(request):
     seleccion=request.GET.get('reg','')
+    passinvalida=False
     if request.method == "POST":
-        u=request.POST.get('user','a')
-        n=request.POST.get('name','b')
-        e=request.POST.get('email','c')
-        nuevoalumno=Alumno(usuario=u, nombre=n, email= e)
-        nuevoalumno.save()
-    
-    return render(request, "plan/home.html",{"reg" : seleccion})
+        p=request.POST.get('passwd','')
+        p2=request.POST.get('repasswd','')
+        if p == p2:
+            u=request.POST.get('user','')
+            n=request.POST.get('name','')
+            a=request.POST.get('lastname','')
+            e=request.POST.get('email','')
+            nuevoalumno=User(username=u, password=p, first_name=n, last_name=a, email= e)
+            nuevoalumno.save()
+        else:
+            passinvalida=True
+            
+    return render(request, "plan/home.html",{"reg" : seleccion,"passinv":passinvalida})
                   
 def index(request):
-    lista_alumnos = Alumno.objects.all()
+    lista_alumnos = User.objects.all()
     lista_parciales = Parcial.objects.all()
     context = {"lista_alumnos" : lista_alumnos , "lista_parciales" : lista_parciales}
     return render(request, "plan/index.html", context)
 
 def alumno(request, usuario):
-    alumno = get_object_or_404(Alumno, nombre = usuario)
+    alumno = get_object_or_404(User, nombre = usuario)
     return render(request, "plan/detallado.html", {"alumno" : alumno})
 
 

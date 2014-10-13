@@ -61,7 +61,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'carrera',
         'USER': 'root',
-        'PASSWORD': 'aoromi',
+        'PASSWORD': 'root',
         'HOST': '127.0.0.1',
     }
 }
@@ -82,7 +82,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-
+            
 STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]

@@ -1,16 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 
-
-class Alumno(models.Model):
-    #TODO: agregar usuario como PK
-    usuario = models.CharField(max_length=30)
-    nombre = models.CharField(max_length=50)
-    email = models.EmailField(max_length=50)
-
-    def __unicode__(self):
-        return self.nombre
 
 class Profesor(models.Model):
     nombre = models.CharField(max_length=50)
@@ -40,7 +33,7 @@ class Materia(models.Model):
 class Parcial(models.Model):
     nota = models.DecimalField(max_digits=2, decimal_places=1)
     fecha = models.DateTimeField('fecha rendido')
-    alumno = models.ForeignKey(Alumno)
+    alumno = models.ForeignKey(User)
     materia = models.ForeignKey(Materia)
     
     def __unicode__(self):
@@ -59,7 +52,7 @@ class EstadoMateria(models.Model):
         (FINAL, 'Completa'),
     )
     materia = models.ForeignKey(Materia)
-    alumno = models.ForeignKey(Alumno)
+    alumno = models.ForeignKey(User)
     estado = models.CharField(max_length=2,
                             choices = ESTADOS,
                             default = LIBRE)      

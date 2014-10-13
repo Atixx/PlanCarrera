@@ -9,8 +9,6 @@ class AlumnoAdmin(admin.ModelAdmin):
     ]
 
 
-
-admin.site.register(Alumno, AlumnoAdmin)
 admin.site.register(Materia)
 admin.site.register(Profesor)
 admin.site.register(Parcial)
