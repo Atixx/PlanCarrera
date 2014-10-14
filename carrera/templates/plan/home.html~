@@ -44,7 +44,7 @@
               <label for="rpt">Repita Contraseña</label>
               <input type="password" class="form-control" id="rpt" placeholder="Repita Contraseña" name="repasswd">
         </div>
-            {% if regerror == "passnoigual" %}
+            {% if regerror == "Passnoigual" %}
                 <FONT COLOR="RED">*Las contraseñas no coinciden</font>
             {% endif %}
         <div id="form-group">
@@ -59,7 +59,7 @@
             <label for="email">E-Mail</label>
             <input type="text" class="form-control" id="email" name="email"  value="aaa@aaa.com">
         </div>
-            {% if regerror != "Usuario Existente" and regerror != "" and regerror != "passnoigual"%}
+            {% if regerror != "Usuario Existente" and regerror != "" and regerror != "Passnoigual"%}
                 	<FONT COLOR="RED">*Campo {{regerror}} vacio</font>
             {% endif %}
             {% if regerror == "Usuario Existente" %}
