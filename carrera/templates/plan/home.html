@@ -14,8 +14,7 @@
     <input type="submit" value="Search">
     <input type="submit" value="Search">
 -->
-    <button type="submit" class="btn btn-success" name="reg" value="1">¡Registrarse!</button>
-    <button type="submit" class="btn btn-primary" name="reg" value="0">Ingresar!</button>
+    <button type="submit" id="reg0" class="btn btn-primary" name="reg" value="0">Ingresar!</button>
     </div>
 </form>
  
@@ -34,30 +33,30 @@
         {% ifequal reg "1" %}
         <div class="form-group">
             <label for="usuario">Usuario</label>
-            <input type="text" class="form-control" id="usuario" placeholder="Nombre usuario" name="user">
+            <input type="text" class="form-control" id="usuario" autofocus placeholder="Nombre usuario" name="user" required minlength="5" maxlength="20" />
         </div>
         <div class="form-group">
             <label for="pass">Contraseña</label>
-            <input type="password" class="form-control" id="pass" placeholder="Contraseña" name="passwd">
+            <input type="password" class="form-control" id="pass" placeholder="Contraseña" name="passwd" required />
         </div>
         <div id="form-group">
               <label for="rpt">Repita Contraseña</label>
-              <input type="password" class="form-control" id="rpt" placeholder="Repita Contraseña" name="repasswd">
+              <input type="password" class="form-control" id="rpt" placeholder="Repita Contraseña" name="repasswd" required />
         </div>
             {% ifequal passinv "1" %}
                 <FONT COLOR="RED">*La contraseña no coincide</font>
             {% endifequal %}
         <div id="form-group">
             <label for="nombre">Nombre</label>
-            <input type="text" class="form-control" id="nombre" placeholder="Nombre" name="name">
+            <input type="text" class="form-control" id="nombre" placeholder="Nombre" name="name" required />
         </div>
         <div id="form-group">
             <label for="apellido">Apellido</label>
-            <input type="text" class="form-control" id="apellido" placeholder="Apellido" name="lastname">
+            <input type="text" class="form-control" id="apellido" placeholder="Apellido" name="lastname" required />
         </div>
         <div id="form-group">
             <label for="email">E-Mail</label>
-            <input type="text" class="form-control" id="email" name="email"  value="aaa@aaa.com">
+            <input type="email" class="form-control" id="email" name="email"  value="name@example.com" required />
         </div>
         <div style=padding-top:15px>
             <button type="submit" class="btn btn-default">Registrarse</button>
