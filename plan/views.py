@@ -18,11 +18,11 @@ def home(request):
         datos={"user":u,"passwd":p,"repasswd":p2,"name":n,"lastname":a,"email":e}
         regerror = validacampo(datos)
         if regerror == "":
-                if usuarioexistente(u) == False:
-                    nuevoalumno=User(username=u, password=p, first_name=n, last_name=a, email= e)
-                    nuevoalumno.save()
-                else:
-                    regerror="Usuario Existente"
+            if usuarioexistente(u) == False:
+                nuevoalumno=User(username=u, password=p, first_name=n, last_name=a, email= e)
+                nuevoalumno.save()
+            else:
+                regerror="Usuario Existente"
         seleccion="1"
 
             

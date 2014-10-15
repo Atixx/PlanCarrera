@@ -26,7 +26,7 @@ def validacampo(campos):
 def usuarioexistente(usuario):
 
     Encontrado=False
-    if User.objects.filter(username=usuario) != "":
+    if User.objects.filter(username=usuario): #retornaba lista vascia, por lo tanto siempre daba distinto de ""
         Encontrado=True
     return(Encontrado)
     
