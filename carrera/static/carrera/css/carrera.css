@@ -1,8 +1,17 @@
-#navegador {
-    list-style-type: none;
-}   
+body
+{
+    padding: 10px;
+    padding-top: 75px;
+}
 
 #segundaParte
 {
     padding: 5px 30px 40px 50px;
 }
+
+#navbar
+{
+    width:100%;
+    text-align:center;
+}
+
