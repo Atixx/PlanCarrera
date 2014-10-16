@@ -1,0 +1,25 @@
+{%extends "format.html" %}
+
+{% block titulo %} Anotarse materia {% block titulo %} 
+
+
+{% block contenido %}
+
+<h2> Elija la materia </h2>
+<br/>
+
+<div>
+    <form action="." method="POST">
+        <select>
+            <option value="" disable selected>Seleccione la Materia</option>
+            <option value="Materia1">Materia1</option>
+            <option value="Materia2">Materia2</option>
+        </select>
+        
+        <button type="submit" class="btn btn-default">Anotarse</button>
+    </form>
+</div>
+
+
+
+{% endblock %}
