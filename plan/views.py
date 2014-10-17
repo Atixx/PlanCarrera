@@ -3,6 +3,7 @@ from plan.models import Parcial, EstadoMateria
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
 from django.contrib import auth
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 def home(request):
@@ -27,6 +28,7 @@ def home(request):
             regerror = validacampo(datos)
             if regerror == "":
                 if usuarioexistente(u) == False:
+                    p = make_password(p)
                     nuevoalumno=User(username=u, password=p, first_name=n, last_name=a, email= e)
                     nuevoalumno.save()
                 else:
