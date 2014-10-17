@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from plan.models import Parcial, Materia
+from plan.models import Parcial, EstadoMateria
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
 from django.contrib import auth
@@ -59,8 +59,20 @@ def index(request):
     return render(request, "plan/index.html", context)
 
 def alumno(request, usuario):
-    alumno = get_object_or_404(User, nombre = usuario)
-    return render(request, "plan/detallado.html", {"alumno" : alumno})
+    alumno = get_object_or_404(User, username = usuario)
+    if EstadoMateria.objects.filter(alumno_id = alumno.id).exists():
+        mat = EstadoMateria.objects.filter(alumno_id = alumno.id)
+        libre = mat.filter(estado = 'LI')
+        en_curso = mat.filter(estado = 'CU')
+        aprobada = mat.filter(estado = 'RE')
+        completa = mat.filter(estado = 'FI')
+    else:
+        libre = None
+        en_curso = None
+        aprobada = None
+        completa = None
+       
+    return render(request, "plan/alumno.html", {"alumno" : alumno, "libre" : libre, "en_curso" : en_curso, "aprobada" : aprobada, "completa" : completa})
 
 def materia(request, materia_nom):
     materia = get_object_or_404(Materia, nombre__iexact= materia_nom)

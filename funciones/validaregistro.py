@@ -38,3 +38,4 @@ def validarpasswd(datos):
     if check_password(datos["passwd"], m.password)==True:
         encontrado = True
     return (encontrado)
+
