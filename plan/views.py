@@ -1,10 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from plan.models import Parcial, EstadoMateria
 from django.contrib.auth.models import User
-from funciones.validaregistro import validacampo, usuarioexistente
+from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
+from django.contrib import auth
 
 # Create your views here.
 def home(request):
+    if request.user.is_authenticated():
+        #PRUEBO SI MANTIENE LA SESION
+        yalogeado="1"
+        return render(request, "plan/detallado.html",{"yalogeado" : "1"} )
     seleccion=request.GET.get('reg','')
     regerror=""
     if request.method == "POST":
@@ -14,19 +19,37 @@ def home(request):
         n=request.POST.get('name','')
         a=request.POST.get('lastname','')
         e=request.POST.get('email','')
-        
-        datos={"user":u,"passwd":p,"repasswd":p2,"name":n,"lastname":a,"email":e}
-        regerror = validacampo(datos)
-        if regerror == "":
-            if usuarioexistente(u) == False:
-                nuevoalumno=User(username=u, password=p, first_name=n, last_name=a, email= e)
-                nuevoalumno.save()
+        u2=request.POST.get('userlog','')
+        pl=request.POST.get('passwdlog','')
+        #Valida REGISTRO
+        if u:
+            datos={"user":u,"passwd":p,"repasswd":p2,"name":n,"lastname":a,"email":e}
+            regerror = validacampo(datos)
+            if regerror == "":
+                if usuarioexistente(u) == False:
+                    nuevoalumno=User(username=u, password=p, first_name=n, last_name=a, email= e)
+                    nuevoalumno.save()
+                else:
+                    regerror="Usuario Existente"
+            seleccion="1"
+        if u2:
+            datos={"user":u2,"passwd":pl}
+            seleccion="0"
+            if usuarioexistente(u2):
+                if validarpasswd(datos):
+                    #Datos Validos, hacer logeo
+                    usuario = auth.authenticate(username=u2,password=pl)
+                    auth.login(request, usuario)
+                    return render(request, "plan/detallado.html")
+                else:
+                    regerror="Password Invalida"
             else:
-                regerror="Usuario Existente"
-        seleccion="1"
+                regerror="El usuario no existe"
 
-            
-            
+
+        #LOGEO
+        
+        
     return render(request, "plan/home.html",{"reg" : seleccion,"regerror":regerror})
                   
 def index(request):
@@ -50,7 +73,6 @@ def alumno(request, usuario):
         completa = None
        
     return render(request, "plan/alumno.html", {"alumno" : alumno, "libre" : libre, "en_curso" : en_curso, "aprobada" : aprobada, "completa" : completa})
-
 
 def materia(request, materia_nom):
     materia = get_object_or_404(Materia, nombre__iexact= materia_nom)
