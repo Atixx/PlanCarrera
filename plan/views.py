@@ -37,7 +37,7 @@ def index(request):
 
 def alumno(request, usuario):
     alumno = get_object_or_404(User, nombre = usuario)
-    return render(request, "plan/detallado.html", {"alumno" : alumno})
+    return render(request, "plan/alumno.html", {"alumno" : alumno})
 
 
 def materia(request, materia_nom):
