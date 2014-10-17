@@ -36,9 +36,6 @@
         <div style=padding-top:15px>
             <button type="submit" class="btn btn-default">Ingresar!</button>
         </div>
-	{% if regerror != "" %}
-            <FONT COLOR="RED">*{{regerror}}</font>
-        {% endif %}
         {% endifequal %}        
         {% if reg == "1" %}
         <div class="form-group">

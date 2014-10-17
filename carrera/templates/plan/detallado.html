@@ -1,10 +1,19 @@
 {%extends "format.html" %}
 
-{%block cabezera %} El Detallado!! {% endblock %}
+{%block cabezera %} Login!! {% endblock %}
 
 {% block contenido %}
 
-<h1> Funciono el detallado! </h1>
-{{ materia }}
+<h1> Funciono el Login! </h1>
+<h1> Datos del usuario logeado</h1>
+
+Nombre de Usuario: {{ user.username }}
+ID: {{user.pk}}
+Email: {{user.email}}
+
+{%if yalogeado = "1" %}
+	USUARIO {{user.username}} YA LOGEADO
+{% endif %}
+
 
 {% endblock %}
