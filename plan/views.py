@@ -9,8 +9,9 @@ from django.contrib.auth.hashers import make_password
 def home(request):
     if request.user.is_authenticated():
         #PRUEBO SI MANTIENE LA SESION
-        yalogeado="1"
-        return render(request, "plan/detallado.html",{"yalogeado" : "1"} )
+        #yalogeado="1"
+        #return render(request, "plan/detallado.html",{"yalogeado" : "1"} )
+        return alumno(request, request.user.username)
     seleccion=request.GET.get('reg','')
     regerror=""
     if request.method == "POST":
@@ -42,7 +43,8 @@ def home(request):
                     #Datos Validos, hacer logeo
                     usuario = auth.authenticate(username=u2,password=pl)
                     auth.login(request, usuario)
-                    return render(request, "plan/detallado.html")
+                    return alumno(request, usuario)
+                    #return render(request, "plan/detallado.html")
                 else:
                     regerror="Password Invalida"
             else:
