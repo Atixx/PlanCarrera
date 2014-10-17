@@ -39,16 +39,17 @@ def alumno(request, usuario):
     alumno = get_object_or_404(User, username = usuario)
     if EstadoMateria.objects.filter(alumno_id = alumno.id).exists():
         mat = EstadoMateria.objects.filter(alumno_id = alumno.id)
-        materias = {
-            'libre' : mat.filter(estado = 'LI'),
-            'en_curso' : mat.filter(estado = 'CU'),
-            'aprobada' : mat.filter(estado = 'RE'),
-            'completa' : mat.filter(estado = 'FI')
-        }
+        libre = mat.filter(estado = 'LI')
+        en_curso = mat.filter(estado = 'CU')
+        aprobada = mat.filter(estado = 'RE')
+        completa = mat.filter(estado = 'FI')
     else:
-        materias = None
+        libre = None
+        en_curso = None
+        aprobada = None
+        completa = None
        
-    return render(request, "plan/alumno.html", {"alumno" : alumno, "libre" : materias['libre'], "en_curso" : materias['en_curso'], "aprobada" : materias ['aprobada'], "completa" : materias['completa']})
+    return render(request, "plan/alumno.html", {"alumno" : alumno, "libre" : libre, "en_curso" : en_curso, "aprobada" : aprobada, "completa" : completa})
 
 
 def materia(request, materia_nom):
