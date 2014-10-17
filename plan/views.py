@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from plan.models import Parcial, EstadoMateria
+from plan.models import Parcial, EstadoMateria, Materia
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 def home(request):
@@ -66,7 +67,7 @@ def alumno(request, usuario):
     alumno = get_object_or_404(User, username = usuario)
     if EstadoMateria.objects.filter(alumno_id = alumno.id).exists():
         mat = EstadoMateria.objects.filter(alumno_id = alumno.id)
-        libre = mat.filter(estado = 'LI')
+        libre = mat.filter(estado = 'LB')
         en_curso = mat.filter(estado = 'CU')
         aprobada = mat.filter(estado = 'RE')
         completa = mat.filter(estado = 'FI')
@@ -78,9 +79,27 @@ def alumno(request, usuario):
        
     return render(request, "plan/alumno.html", {"alumno" : alumno, "libre" : libre, "en_curso" : en_curso, "aprobada" : aprobada, "completa" : completa})
 
-def materia(request, materia_nom):
-    materia = get_object_or_404(Materia, nombre__iexact= materia_nom)
-    return render(request, "plan/detallado.html", {"materia" : materia})
+def anotarse_materia(request):
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            nombreMateria = request.POST.get('materia', '')
+            try:
+                existe = EstadoMateria.objects.get(materia__nombre__exact = nombreMateria, alumno__id = request.user.id)
+                existe.estado = 'CU'
+                existe.save()
+            except ObjectDoesNotExist:    
+                estadonuevo = EstadoMateria( materia =  Materia.objects.get(nombre__exact = nombreMateria), alumno = User.objects.get(pk=request.user.id), estado = 'CU')
+                estadonuevo.save()
+                
+            msg = "Se ha inscripto en la materia: "+nombreMateria+" , que la curse con exito!"
+            return render(request, "plan/anotarse_materia.html", {"msg" : msg})
+        else:
+            libres =  Materia.objects.filter(estadomateria__estado__exact = 'LB', estadomateria__alumno_id__exact = request.user.id)
+            no_cursadas = Materia.objects.exclude(estadomateria__alumno_id__exact = request.user.id)
+            return render(request, "plan/anotarse_materia.html", {"libres" : libres, "no_cursadas" : no_cursadas})
+    else:
+        return home(request)
+
 
 def parcial(request, id_parcial):
     parcial = get_object_or_404(Parcial, pk=id_parcial)

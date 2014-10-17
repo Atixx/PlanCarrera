@@ -1,25 +1,41 @@
 {%extends "format.html" %}
 
-{% block titulo %} Anotarse materia {% block titulo %} 
+{% block titulo %} Anotarse materia {% endblock %} 
 
 
 {% block contenido %}
-
+{% if msg %}
+<h3>{{msg}}</h3>
+<h5><a href=".">Anotarme en otra!</a><h5>
+{% elif libres or no_cursadas %}
 <h2> Elija la materia </h2>
 <br/>
 
 <div>
-    <form action="." method="POST">
-        <select>
-            <option value="" disable selected>Seleccione la Materia</option>
-            <option value="Materia1">Materia1</option>
-            <option value="Materia2">Materia2</option>
+    <form class="form-horizontal" action="." method="POST">
+        <select name="materia" class="selectpicker" data-style="btn-primary" data-live-search="true" show-tick data-size="6" header="Elija una materia">
+            <option default value="">  </option>
+            {% if no_cursadas %}
+            <optgroup label="Nuevas Materias">
+            {% for n in no_cursadas %}
+            <option value="{{n}}">{{n}}</option>
+            {%endfor%}   
+            {% endif %}         
+            </optgroup>
+            {% if libres %}
+            <optgroup label="Abandonadas">
+            {% for l in libres %}
+            <option value="{{l}}">{{l}}</option>
+            {% endfor %}
+            {% endif %}
+            </optgroup>
         </select>
         
-        <button type="submit" class="btn btn-default">Anotarse</button>
+        <button type="submit" class="btn btn-success">Anotarse</button>
     </form>
 </div>
-
-
+{% else %}
+<h3>No quedaron materias, casi terminas o que onda??</h3>
+{% endif %}
 
 {% endblock %}
