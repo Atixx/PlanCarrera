@@ -5,6 +5,7 @@
         {% load staticfiles %}
         <link href= "{% static "carrera/css/bootstrap.min.css" %}" rel="stylesheet">
         <link href= "{% static "carrera/css/bootstrap-responsive.css" %}" rel="stylesheet">
+        <link href= "{% static "carrera/css/normalize.css" %}" rel="stylesheet">  
         <link href= "{% static "carrera/css/carrera.css" %}" rel="stylesheet">  
         
         <title>{% block titulo %}Plan Carrera{% endblock %}</title>
@@ -18,9 +19,9 @@
 <body>
 
 <nav class ="navbar navbar-default navbar-fixed-top" role="navegation">
-    <div class="navbar-header">
+<!---    <div class="navbar-header">
        <a class="navbar-brand" href="/"><img src=" {% static "carrera/img/logo.png" %}" alt="Sistemas UNLa"/></a> 
-    </div>
+    </div> --->
     <div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="/">Inicio</a></li>
@@ -49,7 +50,7 @@
         </ul>
     </div>
 </nav> 
-     <h1>{% block cabezera %} Bienvenidos {% endblock %}</h1>
+     <h1>{% block cabezera %}{% endblock %}</h1>
       {% block contenido %} {% endblock %}    
       {% block footer %}
     <div id="bottom">Copyright &#169; Supergrupo ñoños.</p>
