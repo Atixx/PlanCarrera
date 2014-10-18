@@ -93,10 +93,45 @@ def anotarse_materia(request):
                 
             msg = "Se ha inscripto en la materia: "+nombreMateria+" , que la curse con exito!"
             return render(request, "plan/anotarse_materia.html", {"msg" : msg})
-        else:
-            libres =  Materia.objects.filter(estadomateria__estado__exact = 'LB', estadomateria__alumno_id__exact = request.user.id)
-            no_cursadas = Materia.objects.exclude(estadomateria__alumno_id__exact = request.user.id)
-            return render(request, "plan/anotarse_materia.html", {"libres" : libres, "no_cursadas" : no_cursadas})
+        else: #usar .select_related() para minimizar overhead
+            #libres =  Materia.objects.filter(estadomateria__estado = 'LB', estadomateria__alumno_id = request.user.id)
+            #no_cursadas = Materia.objects.exclude(estadomateria__alumno_id__exact = request.user.id)
+            enabled = []
+            disabled = []
+            n=0
+            m=0
+            for l in Materia.objects.all():
+                n=0 #nueva materia
+                if not (l.correlativas.all().exists()):
+                    if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists():
+                        estado = EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id)
+                        if (estado.estado == 'LI'):
+                           enabled.append(l) #agrega 
+                    else:
+                        enabled.append(l)
+                for c in l.correlativas.all():
+                    m=0 #nueva correlativa
+                    if not (EstadoMateria.objects.filter(materia__nombre = c.nombre, alumno_id = request.user.id).exists()):
+                        n+=1 #bandera de correlativa existente
+                    else:
+                        estado = EstadoMateria.objects.get(materia__nombre = c.nombre, alumno_id = request.user.id)
+                        n+=1
+                        if (estado.estado == 'RE') or (estado.estado == 'FI'):
+                            m+= 1 #bandera de correlativa aprobada
+                            if (m==n):  
+                               enabled.append(l)
+#                for l in no_cursadas:
+#                    n=0
+#                    for c in l.correlativas.all():
+#                        m=0
+#                        estado = EstadoMateria.objects.get(materia__nombre = c.nombre, alumno_id = request.user.id)
+#                        n+= 1
+#                        if (estado.estado == 'RE') or (estado.estado == 'FI'):
+#                            m+= 1
+#                            if (m==n):
+#                                enabled.append(l)   
+            
+            return render(request, "plan/anotarse_materia.html", {"libres" : enabled})#"no_cursadas" : no_cursadas})
     else:
         return home(request)
 
