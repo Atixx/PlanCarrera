@@ -100,26 +100,33 @@ def anotarse_materia(request):
             disabled = []
             n=0
             m=0
-            for l in Materia.objects.all():
+            for l in Materia.objects.select_related().all(): #TODO: Hacer funcional las busquedas (usar archivo .py con funciones)
                 n=0 #nueva materia
-                if not (l.correlativas.all().exists()):
-                    if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists():
-                        estado = EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id)
-                        if (estado.estado == 'LI'):
+                if not (l.correlativas.all().exists()): #si no tiene correlativas
+                    if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists(): #existe el algun estado
+                        #estado = EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id)
+                        if (EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id).estado == 'LB'):# Y ese estado es libre
                            enabled.append(l) #agrega 
-                    else:
+                    else: #no tiene estado, no la curso (puede anotarse)
                         enabled.append(l)
-                for c in l.correlativas.all():
-                    m=0 #nueva correlativa
-                    if not (EstadoMateria.objects.filter(materia__nombre = c.nombre, alumno_id = request.user.id).exists()):
-                        n+=1 #bandera de correlativa existente
-                    else:
-                        estado = EstadoMateria.objects.get(materia__nombre = c.nombre, alumno_id = request.user.id)
-                        n+=1
-                        if (estado.estado == 'RE') or (estado.estado == 'FI'):
-                            m+= 1 #bandera de correlativa aprobada
-                            if (m==n):  
-                               enabled.append(l)
+                else: #si SI tiene correlativas
+                    for c in l.correlativas.all():
+                        m=0 #nueva correlativa
+                        n+=1 #bandera de correlativa existente (la materia la tiene)
+                        if not (EstadoMateria.objects.filter(materia__nombre = c.nombre, alumno_id = request.user.id).exists()): #si la correlativa no existe en Estado, no fue cursada
+                            disabled.append(l)
+                        else:
+                            estado = EstadoMateria.objects.get(materia__nombre = c.nombre, alumno_id = request.user.id)
+                            if (estado.estado == 'RE') or (estado.estado == 'FI'):
+                                m+= 1 #bandera de correlativa aprobada
+                        if (m==n):  
+                            if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists(): #existe el algun estado
+                               #estado = EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id)
+                               if (EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id).estado == 'LB'):# Y ese estado es libre
+                                   enabled.append(l) #agrega 
+                            else: #no tiene estado, no la curso (puede anotarse)
+                              enabled.append(l)
+                           #enabled.append(l)
 #                for l in no_cursadas:
 #                    n=0
 #                    for c in l.correlativas.all():
