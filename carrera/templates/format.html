@@ -3,17 +3,20 @@
 <html>
     <head>
         {% load staticfiles %}
-        <link href= "{% static "carrera/css/bootstrap.min.css" %}" rel="stylesheet">
-        <link href= "{% static "carrera/css/bootstrap-responsive.css" %}" rel="stylesheet">
-        <link href= "{% static "carrera/css/normalize.css" %}" rel="stylesheet">  
-        <link href= "{% static "carrera/css/carrera.css" %}" rel="stylesheet">  
+        <link type = "text/css" href= "{% static "carrera/css/bootstrap.min.css" %}" rel="stylesheet"></link>
+        <link type = "text/css" href= "{% static "carrera/css/bootstrap-responsive.css" %}" rel="stylesheet"></link>
+        <link type = "text/css" href= "{% static "carrera/css/normalize.css" %}" rel="stylesheet"></link>
+        <link type = "text/css" href= "{% static "carrera/css/bootstrap-select.min.css" %}" rel="stylesheet"></link>
+        <link type = "text/css" rel="stylesheet" href= "{% static "carrera/css/carrera.css" %}"></link>  
         
         <title>{% block titulo %}Plan Carrera{% endblock %}</title>
         
         
        <script src= "{% static "carrera/js/jquery-1.11.1.js" %}"></script>
        <script src= "{% static "carrera/js/bootstrap.min.js" %}"></script>
+       <script src= "{% static "carrera/js/bootstrap-select.min.js" %}"></script>
        <script src= "{% static "carrera/js/carrera.js" %}"></script>
+       
        
     </head>
 <body>
@@ -22,38 +25,56 @@
 <!---    <div class="navbar-header">
        <a class="navbar-brand" href="/"><img src=" {% static "carrera/img/logo.png" %}" alt="Sistemas UNLa"/></a> 
     </div> --->
-    <div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="/">Inicio</a></li>
-            <li class="active"><a href="#">Planificador</a></li>
-            <li class="dropdown">
+            <li class="active dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 Materias <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Materias Aprobadas</a></li>
-                    <li><a href="#">Materias Reguladas</a></li>
-                    <li><a href="#">Materias En Curso</a><li>
+                    <li><a href="/plan/nueva-materia">anotarse nueva materia</a></li>
+                    <li><a href="#">abandonar materia</a></li>
                     <li class="divider"></li>
-                    <li><a href="#">Todas las Materias</a></li>
+                    <li><a href="#">listar materias</a></li>
+                </ul>            
+            </li>
+            <li class="active dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Examenes <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/plan/nueva-materia">anotarse parcial</a></li>
+                    <li><a href="#">anotarse final</a></li>
                 </ul> 
             </li>
-            <li class="dropdown"> 
+            <li class="active dropdown user">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Datos Utiles <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu"> <!--- probar como hacer para que abra estos links en otro tab --->
+                    <li><a href="http://www.unla.edu.ar">sitio oficial UNLa</a></li>
+                    <li><a href="http://www.unla.edu.ar/sistemas/sls">sistemas UNLa</a></li>
+                </ul>            
+            </li>            
+            <li class="active dropdown"> 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 Usuario <b class="caret"></b>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Preferencias</a></li>
+                    <li><a href="/admin">ver datos</a></li>
                     <li class="divider"></li>
-                    <li><a href="/admin/logout">Log out</a></li>
+                    <li><a href="/admin/logout">logout</a></li>
                 </ul>
             </li>
         </ul>
-    </div>
 </nav> 
-     <h1>{% block cabezera %}{% endblock %}</h1>
-      {% block contenido %} {% endblock %}    
-      {% block footer %}
-    <div id="bottom">Copyright &#169; Supergrupo ñoños.</p>
-    {% endblock %}
-</body>    
+<div class="wrapper">
+         <h1>{% block cabezera %}{% endblock %}</h1>
+          {% block contenido %} {% endblock %}    
+</div>
+</body>
+<footer class="footer">
+        {% block footer %}
+        <div id="bottom">Copyright &#169; Supergrupo ñoños.</p>
+        {% endblock %}    
+</footer>
 </html>

@@ -1,0 +1,38 @@
+{%extends "format.html" %} <!--- llevar el formato a uno generico --->
+
+{% block titulo %} Anotarse materia {% endblock %} 
+
+
+{% block contenido %}
+{% if msg %}
+<h3>{{msg}}</h3>
+<h5><a href=".">Anotarme en otra!</a><h5>
+{% elif enabled or disabled %}
+<h2> Elija la materia </h2>
+<br/>
+
+<div> 
+    <form class="form-horizontal" action="." method="POST">
+        <select name="materia" class="selectpicker" data-style="btn-primary" data-live-search="true" show-tick data-size="6" header="Elija una materia">
+            <option default value="">  </option>
+            {% for n in enabled %}
+            <option value="{{n}}">{{n}}</option>
+            {%endfor%}   
+            {% if enabled %}
+            <option data-divider="true"></option>
+            {% endif %}         
+            {% if disabled %}
+            {% for l in disabled %}
+            <option disabled="disabled" value="{{l}}">{{l}}</option>
+            {% endfor %}
+            {% endif %}
+        </select>
+        
+        <button type="submit" class="btn btn-success">Anotarse</button>
+    </form>
+</div>
+{% else %}
+<h3>No quedaron materias, casi terminas o que onda??</h3>
+{% endif %}
+
+{% endblock %}
