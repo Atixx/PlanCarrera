@@ -88,10 +88,12 @@ def anotarse_materia(request):
                 existe.estado = 'CU'
                 existe.save()
             except ObjectDoesNotExist:    
-                estadonuevo = EstadoMateria( materia =  Materia.objects.get(nombre__exact = nombreMateria), alumno = User.objects.get(pk=request.user.id), estado = 'CU')
-                estadonuevo.save()
-                
-            msg = "Se ha inscripto en la materia: "+nombreMateria+" , que la curse con exito!"
+                try:
+                    estadonuevo = EstadoMateria( materia =  Materia.objects.get(nombre__exact = nombreMateria), alumno = User.objects.get(pk=request.user.id), estado = 'CU')
+                    msg = "Se ha inscripto en la materia: "+nombreMateria+" , que la curse con exito!"
+                    estadonuevo.save()
+                except:
+                    msg = "No ha seleccionado ninguna materia, debe elejir una!!!"
             return render(request, "plan/anotarse_materia.html", {"msg" : msg})
         else: #usar .select_related() para minimizar overhead
             #libres =  Materia.objects.filter(estadomateria__estado = 'LB', estadomateria__alumno_id = request.user.id)
@@ -138,7 +140,7 @@ def anotarse_materia(request):
 #                            if (m==n):
 #                                enabled.append(l)   
             
-            return render(request, "plan/anotarse_materia.html", {"libres" : enabled})#"no_cursadas" : no_cursadas})
+            return render(request, "plan/anotarse_materia.html", {"enabled" : enabled, "disabled" : disabled})#"no_cursadas" : no_cursadas})
     else:
         return home(request)
 
