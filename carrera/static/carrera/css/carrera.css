@@ -51,3 +51,22 @@ body
 {
     text-align:center;
 }
+
+#materias
+{
+    list-style-type:none;
+    width:25%
+}
+
+#promedio
+{
+    color: red;
+    font-family: Garamond;
+    font-size:38px;
+}
+
+.progress
+{
+    margin-right:50px;
+    height: 40px;
+}

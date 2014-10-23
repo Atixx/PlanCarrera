@@ -12,7 +12,8 @@ def home(request):
         #PRUEBO SI MANTIENE LA SESION
         #yalogeado="1"
         #return render(request, "plan/detallado.html",{"yalogeado" : "1"} )
-        return alumno(request, request.user.username)
+        #return alumno(request, request.user.username)
+        return index(request)
     seleccion=request.GET.get('reg','')
     regerror=""
     if request.method == "POST":
@@ -58,9 +59,30 @@ def home(request):
     return render(request, "plan/home.html",{"reg" : seleccion,"regerror":regerror})
                   
 def index(request):
-    lista_alumnos = User.objects.all()
-    lista_parciales = Parcial.objects.all()
-    context = {"lista_alumnos" : lista_alumnos , "lista_parciales" : lista_parciales}
+    #lista_alumnos = User.objects.all()
+    #lista_parciales = Parcial.objects.all()
+    #context = {"lista_alumnos" : lista_alumnos , "lista_parciales" : lista_parciales}
+    alumno = User.objects.get(pk=request.user.id)
+    tot = Materia.objects.count()
+    if tot != 0:
+    
+        reg = EstadoMateria.objects.filter(alumno_id = alumno.id , estado = 'RE').count()
+        regperc = reg*100/tot
+        com = EstadoMateria.objects.filter(alumno_id = alumno.id , estado = 'FI').count() 
+        comperc = com*100/tot
+        cur = EstadoMateria.objects.filter(alumno_id = alumno.id , estado = 'CU').count()
+        curperc = cur*100/tot
+    
+    context = {
+        "alumno" : alumno,
+        "reg" : reg,
+        "regperc" : regperc,
+        "com" : com,
+        "comperc" : comperc,
+        "cur" : cur, 
+        "curperc" : curperc,
+        "tot" : tot
+    }
     return render(request, "plan/index.html", context)
 
 def alumno(request, usuario):
@@ -163,3 +185,4 @@ def parcial(request, id_parcial):
     
 def ayuda(request):
     return render(request, "plan/ayuda.html")    
+
