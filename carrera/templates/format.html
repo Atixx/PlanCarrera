@@ -20,7 +20,6 @@
        
     </head>
 <body>
-
 <nav class ="navbar navbar-default navbar-fixed-top" role="navegation">
 <!---    <div class="navbar-header">
        <a class="navbar-brand" href="/"><img src=" {% static "carrera/img/logo.png" %}" alt="Sistemas UNLa"/></a> 
@@ -33,7 +32,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="/plan/nueva-materia">anotarse nueva materia</a></li>
-                    <li><a href="#">abandonar materia</a></li>
+                    <li><a href="/plan/abandonar-materia">abandonar materia</a></li>
                     <li class="divider"></li>
                     <li><a href="#">listar materias</a></li>
                 </ul>            
@@ -43,7 +42,7 @@
                 Examenes <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="/plan/nueva-materia">anotarse parcial</a></li>
+                    <li><a href="#">anotarse parcial</a></li>
                     <li><a href="#">anotarse final</a></li>
                 </ul> 
             </li>
@@ -51,7 +50,9 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 Datos Utiles <b class="caret"></b>
                 </a>
-                <ul class="dropdown-menu"> <!--- probar como hacer para que abra estos links en otro tab --->
+                <ul class="dropdown-menu">
+                    <li><a href="#">Ayuda</a></li>
+                    <li class="divider"></li>
                     <li><a href="http://www.unla.edu.ar" target="_blank">sitio oficial UNLa</a></li>
                     <li><a href="http://www.unla.edu.ar/sistemas/sls"
                     target="_blank">sistemas UNLa</a></li>
@@ -59,7 +60,11 @@
             </li>            
             <li class="active dropdown"> 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Usuario <b class="caret"></b>
+                {% if request.user.username %}
+                    {{ request.user.username }}
+                {% else %}
+                    Usuario
+                {% endif %} <b class="caret"></b>
                 <ul class="dropdown-menu">
                     <li><a href="/admin">ver datos</a></li>
                     <li class="divider"></li>
@@ -70,7 +75,8 @@
 </nav> 
 <div class="wrapper">
          <h1>{% block cabezera %}{% endblock %}</h1>
-          {% block contenido %} {% endblock %}    
+         <div class="contenido">{% block contenido %}{% endblock %} <!--- Arreglar que el contenido extienda el DIV --->
+         </div>
 </div>
 </body>
 <footer class="footer">

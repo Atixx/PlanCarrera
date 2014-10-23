@@ -8,5 +8,6 @@ urlpatterns = patterns ('',
     #url(r'^(?P<materia_nom>\w+)/materia/$', views.materia, name="materia"),
     url(r'^nueva-materia/$', views.anotarse_materia, name="anotarse-materia"),
     url(r'^(?P<id_parcial>\d+)/parcial/$', views.parcial, name="parcial"),
+    url(r'^abandonar-materia/$', views.abandonar_materia, name="abandonar-materia"),
     
 )
