@@ -160,3 +160,6 @@ def abandonar_materia(request):
 def parcial(request, id_parcial):
     parcial = get_object_or_404(Parcial, pk=id_parcial)
     return render(request, "plan/detallado.html", {"alumno" : parcial})
+    
+def ayuda(request):
+    return render(request, "plan/ayuda.html")    

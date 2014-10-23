@@ -1,0 +1,20 @@
+{% extends "format.html" %}
+{% block titulo %} Ayuda: PlanCarrera {% endblock %}
+{% block contenido %}
+
+<h2>PlanCarrera</h2>
+<h3>El assistente para mantenerse al dia con el progresso de la carrera en la UNLa</h3>
+<h4>{% block nombre_seccion %}Contenido{%endblock%}</h4>
+<ol>
+    {% block tabla_contenido %}
+    <li>Usuario</li>
+    <li>Materias</li>
+    <li>Examenes</li>
+    {% endblock tabla_contenido %}
+</ol>
+
+{% if link %}
+<a href="{{link}}">Regresar</a> <!-- mejorar el link para regresar un nivel -->
+{% endif %}
+
+{% endblock contenido %}
