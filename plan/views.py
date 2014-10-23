@@ -103,6 +103,7 @@ def anotarse_materia(request):
             m=0
             for l in Materia.objects.select_related().all(): #TODO: Hacer funcional las busquedas (usar archivo .py con funciones)
                 n=0 #nueva materia
+                m=0
                 if not (l.correlativas.all().exists()): #si no tiene correlativas
                     if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists(): #existe el algun estado
                         if (EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id).estado == 'LB'):# Y ese estado es libre
@@ -110,8 +111,7 @@ def anotarse_materia(request):
                     else: #no tiene estado, no la curso (puede anotarse)
                         enabled.append(l)
                 else: #si SI tiene correlativas
-                    for c in l.correlativas.all():
-                        m=0 #nueva correlativa
+                    for c in l.correlativas.all():#nueva correlativa
                         n+=1 #bandera de correlativa existente (la materia la tiene)
                         if not (EstadoMateria.objects.filter(materia__nombre = c.nombre, alumno_id = request.user.id).exists()): #si la correlativa no existe en Estado, no fue cursada
                             disabled.append(l)
@@ -119,12 +119,14 @@ def anotarse_materia(request):
                             estado = EstadoMateria.objects.get(materia__nombre = c.nombre, alumno_id = request.user.id)
                             if (estado.estado == 'RE') or (estado.estado == 'FI'):
                                 m+= 1 #bandera de correlativa aprobada
-                        if (m==n):  
-                            if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists(): #existe algun estado
-                               if (EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id).estado == 'LB'):# Y ese estado es libre
-                                   enabled.append(l) #agrega 
-                            else: #no tiene estado, no la curso (puede anotarse)
-                              enabled.append(l)
+                            else:
+                                disabled.append(l)
+                    if (m==n):  
+                        if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists(): #existe algun estado
+                           if (EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id).estado == 'LB'):# Y ese estado es libre
+                               enabled.append(l) #agrega 
+                        else: #no tiene estado, no la curso (puede anotarse)
+                          enabled.append(l)
             context = {"enabled" : enabled, "disabled" : disabled}
             return render(request, "plan/anotarse_materia.html", context)
     else:
