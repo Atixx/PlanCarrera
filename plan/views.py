@@ -144,7 +144,7 @@ def abandonar_materia(request):
                 libre.save()
                 msg = "Ha quedado libre de "+nombreMateria+" suerte en el resto de la cursada."
             except ObjectDoesNotExist:
-                msg = "usted debe seleciionar una materia para abandonar."
+                msg = "usted debe seleccionar una materia para abandonar."
                 
             return render(request, "plan/abandonar_materia.html", { "msg" : msg })
         else:
