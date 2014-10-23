@@ -142,6 +142,7 @@ def abandonar_materia(request):
                 libre = EstadoMateria.objects.get(materia__nombre = nombreMateria, alumno_id = request.user.id)
                 libre.estado = 'LB'
                 libre.save()
+                Parcial.objects.filter(materia__nombre = nombreMateria, alumno_id = request.user.id).delete()
                 msg = "Ha quedado libre de "+nombreMateria+" suerte en el resto de la cursada."
             except ObjectDoesNotExist:
                 msg = "usted debe seleccionar una materia para abandonar."
