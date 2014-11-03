@@ -5,6 +5,19 @@ body
     background-color:#A60000;
 }
 
+.contenido
+{
+    /*float:left;*/
+    margin: inherit;
+    margin-top:0px;
+    
+}
+
+#contenido_chico
+{
+    float: left;
+}
+
 .wrapper
 {
     background-color:#f0f0f0;
@@ -16,6 +29,10 @@ body
     width:90%;
     margin:5% 5% 5% 4%;
     padding-left: 2%
+    /*float: left;*/
+    position: fixed;
+    overflow-y: scroll;
+    overflow-x: hidden;
     
 }
 .navbar-nav
@@ -69,4 +86,12 @@ body
 {
     margin-right:50px;
     height: 40px;
+}
+
+#cabezera
+{
+    text-align:center;
+    font-family: Times, Cursive;
+    font-size: 42px;
+    
 }

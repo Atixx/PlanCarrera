@@ -10,5 +10,7 @@ urlpatterns = patterns ('',
     url(r'^(?P<id_parcial>\d+)/parcial/$', views.parcial, name="parcial"),
     url(r'^abandonar-materia/$', views.abandonar_materia, name="abandonar-materia"),
     url(r'^ayuda/$', views.ayuda, name="ayuda"),
+    url(r'^alumno/$', views.alumno, name="alumno"),
+    url(r'^logout/$', views.logout, name="logout"),
     
 )

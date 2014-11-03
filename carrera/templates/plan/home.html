@@ -4,7 +4,7 @@
 
 {% block cabezera %} Bienvenido al inicio {% endblock %}
 
-{% block contenido %}
+{% block contenidochico %}
 
 <form action="." method="GET">
     <div padding=15px class="form-group">
@@ -22,7 +22,7 @@
     
   {% if reg %}
   <div id="segundaParte">
-        <h2>Segunda Parte::</h2>
+        <h3>Ingrese sus datos</h3>
      
         {% ifequal reg "0" %}
 	<div class="form-group">
@@ -81,4 +81,4 @@
     </div>
   {% endif %}	
 </form>
-{% endblock %}
+{% endblock contenidochico %}

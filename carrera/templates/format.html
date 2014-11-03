@@ -66,16 +66,21 @@
                     Usuario
                 {% endif %} <b class="caret"></b>
                 <ul class="dropdown-menu">
-                    <li><a href="/admin">ver datos</a></li>
+                    <li><a href="/plan/alumno">ver datos</a></li>
                     <li class="divider"></li>
-                    <li><a href="/admin/logout">logout</a></li>
+                    <li><a href="/plan/logout">logout</a></li>
                 </ul>
             </li>
         </ul>
 </nav> 
 <div class="wrapper">
-         <h1>{% block cabezera %}{% endblock %}</h1>
-         <div class="contenido">{% block contenido %}{% endblock %} <!--- Arreglar que el contenido extienda el DIV --->
+         <h1 id="cabezera">{% block cabezera %}{% endblock %}</h1>
+         
+         <div class="contenido">
+             <div id="contenido_chico">
+                 {% block contenidochico %}{% endblock contenidochico %}<!-- para barras que necesiten ser cortas -->
+             </div>
+             {% block contenido %}{% endblock %} <!--- Arreglar que el contenido extienda el DIV --->
          </div>
 </div>
 </body>
