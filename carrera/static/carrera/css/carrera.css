@@ -31,7 +31,8 @@ body
     padding-left: 2%
     /*float: left;*/
     position: fixed;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
+    overflow-y: auto;
     overflow-x: hidden;
     
 }
