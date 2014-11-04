@@ -32,7 +32,7 @@ class Materia(models.Model):
         
 class Parcial(models.Model):
     nota = models.DecimalField(max_digits=2, decimal_places=1)
-    fecha = models.DateTimeField('fecha rendido')
+    fecha = models.DateField('fecha rendido')
     alumno = models.ForeignKey(User)
     materia = models.ForeignKey(Materia)
     

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from plan.models import Parcial, EstadoMateria, Materia
+from plan.models import Parcial, EstadoMateria, Materia, Profesor
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
 from django.contrib import auth
@@ -204,4 +204,15 @@ def lista_materias(request):
 def materia(request, nombre_materia):
     nombre_materia = nombre_materia.replace("-" ," ")
     materia = get_object_or_404(Materia, nombre__iexact = nombre_materia)
-    return render(request, "plan/materia.html", {"mat": materia})
+    profesor = materia.profesor.all()#Profesor.objects.filter(materia__nombre = nombre_materia)
+    correlativas = materia.correlativas.all()
+    context = {"mat": materia, "profesor" : profesor, "correlativas" : correlativas}
+    if request.user.is_authenticated(): #datos solo disponibles a logged
+        context["auth"] = True;
+        if EstadoMateria.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():
+            context["estado"] = EstadoMateria.objects.get(materia__nombre = materia.nombre, alumno_id = request.user.id).estado
+        if Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():
+            context["parciales"] = Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id)
+    else: #datos disponibles solo a NO logged
+        context["auth"] = False;
+    return render(request, "plan/materia.html", context)
