@@ -7,7 +7,8 @@
         <link type = "text/css" href= "{% static "carrera/css/bootstrap-responsive.css" %}" rel="stylesheet"></link>
         <link type = "text/css" href= "{% static "carrera/css/normalize.css" %}" rel="stylesheet"></link>
         <link type = "text/css" href= "{% static "carrera/css/bootstrap-select.min.css" %}" rel="stylesheet"></link>
-        <link type = "text/css" rel="stylesheet" href= "{% static "carrera/css/carrera.css" %}"></link>  
+        <link type = "text/css" rel="stylesheet" href= "{% static "carrera/css/carrera.css" %}"></link>
+        {% block links %}{%endblock links%}  
         
         <title>{% block titulo %}Plan Carrera{% endblock %}</title>
         
@@ -34,7 +35,7 @@
                     <li><a href="/plan/nueva-materia">anotarse nueva materia</a></li>
                     <li><a href="/plan/abandonar-materia">abandonar materia</a></li>
                     <li class="divider"></li>
-                    <li><a href="#">listar materias</a></li>
+                    <li><a href="/plan/materias">listar materias</a></li>
                 </ul>            
             </li>
             <li class="active dropdown">
@@ -74,7 +75,7 @@
         </ul>
 </nav> 
 <div class="wrapper">
-         <h1 id="cabezera">{% block cabezera %}{% endblock %}</h1>
+         <h3 id="cabezera">{% block cabezera %}{% endblock %}</h3>
          
          <div class="contenido">
              <div id="contenido_chico">

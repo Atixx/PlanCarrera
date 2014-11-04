@@ -177,7 +177,7 @@ def abandonar_materia(request):
         context = { "materias" : mat }
         return render(request, "plan/abandonar_materia.html", context)
 
-
+#No se usa esto
 def parcial(request, id_parcial):
     parcial = get_object_or_404(Parcial, pk=id_parcial)
     return render(request, "plan/detallado.html", {"alumno" : parcial})
@@ -190,3 +190,8 @@ def logout(request):
     auth.logout(request)
     return render(request, "plan/logout.html")
 
+
+#TODO: listar materias por anios
+def materias(request):
+    return render(request, "plan/materias.html")
+    
