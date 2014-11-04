@@ -26,6 +26,9 @@
     <div class="materia" id="tercero">
         <div class="list-group">
             <a class="list-group-item list-group-item-info active">Tercero</a>
+            {% for m in materias %}
+            <a href="{{m.nombre|slugify}}" class="list-group-item">{{m}}</a>
+            {% endfor %}
         </div>
     </div>
 </div>

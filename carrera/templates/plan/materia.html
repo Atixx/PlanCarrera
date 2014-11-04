@@ -1,0 +1,15 @@
+{%extends "format.html" %}
+
+{%block cabezera %} {{mat}} {% endblock cabezera %}
+
+{% block contenido %}
+
+<p>
+Nombre: {{mat.nombre}}</br>
+Cuatrimestre: {{mat.cuatrimestre}}</br>
+Profesor: {{mat.profesor}}</br>
+Correlativas: {{mat.correlativas}}</br>
+</p>
+
+<p><a href="/plan/materias/">Regresar<a/></p>
+{% endblock contenido %}

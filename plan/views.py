@@ -6,6 +6,7 @@ from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from django.template.defaultfilters import slugify
 
 # Create your views here.
 def home(request):
@@ -192,6 +193,15 @@ def logout(request):
 
 
 #TODO: listar materias por anios
-def materias(request):
-    return render(request, "plan/materias.html")
+def lista_materias(request):
+    mat = []
+    for m in Materia.objects.all():
+        mat.append(m)
+    context = { "materias" : mat }
+    return render(request, "plan/lista_materias.html", context)
     
+
+def materia(request, nombre_materia):
+    nombre_materia = nombre_materia.replace("-" ," ")
+    materia = get_object_or_404(Materia, nombre__iexact = nombre_materia)
+    return render(request, "plan/materia.html", {"mat": materia})

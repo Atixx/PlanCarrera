@@ -12,6 +12,7 @@ urlpatterns = patterns ('',
     url(r'^ayuda/$', views.ayuda, name="ayuda"),
     url(r'^alumno/$', views.alumno, name="alumno"),
     url(r'^logout/$', views.logout, name="logout"),
-    url(r'^materias/$', views.materias, name="materias"),
+    url(r'^materias/(?P<nombre_materia>[\w\d-]+)$', views.materia, name="materia"), #arreglar esto para que me tome guiones!
+    url(r'^materias/$', views.lista_materias, name="materias"),
     
 )
