@@ -10,12 +10,13 @@ body
     /*float:left;*/
     margin: inherit;
     margin-top:0px;
-    
+    position:relative;
 }
 
 #contenido_chico
 {
     float: left;
+    margin-bottom:15px;
 }
 
 .wrapper
@@ -25,13 +26,11 @@ body
     border-style: solid;
     border-width: 2px;
     border-radius:10px;
-    height:500px;
+    height:550px;
     width:90%;
     margin:5% 5% 5% 4%;
-    padding-left: 2%
-    /*float: left;*/
-    position: fixed;
-    /*overflow-y: scroll;*/
+    padding-left: 2%;    
+    position: absolute;
     overflow-y: auto;
     overflow-x: hidden;
     
@@ -53,11 +52,12 @@ body
 
 .footer
 {
-  margin-bottom:-50px;
+  bottom: -10px;
+  width: 100%;
   background-color:#f0f0f0;
   height: 50px;
   border: solid black 2px;
-  float:bottom;
+  position:fixed;
 }
 
 .user
