@@ -2,7 +2,7 @@
 {
     border: 1px black solid;
     border-radius: 5px;
-    max-width:250px;
+    width:215px;
     position:relative;
     display:inline-block;
     background-color:#A60000;
@@ -11,17 +11,17 @@
 
 #anio
 {
-    background-color:#19ED0E;
-    width:90%;
+    /*background-color:#19ED0E;*/
+    /*width:90%;*/
     height:auto;
     display: inline-block;
     position:relative;
     /*float:center;*/
-    padding:15px 15px 15px 35px;
+    padding:5px 5px 5px 10px;
     margin-top:5px;
     margin-right:auto;
     margin-bottom:5px;
-    margin-left:50px;
+    margin-left:5px;
     
 }
 
