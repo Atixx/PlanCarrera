@@ -201,11 +201,10 @@ def lista_materias(request):
     return render(request, "plan/lista_materias.html", context)
     
 def arbol_materias(request):
-    mat = []
-    for m in Materia.objects.all():
-        mat.append(m)
+    mat = {}
+    #Crear un diccionario de cada materia con su estado como atributo EJ: {"programacion" : 'FI', "Org" : 'LI', "Mate1" : 'CU'} etc.. 
     context = { "materias" : mat }
-    return render(request, "plan/arbol.html", context)    
+    return render(request, "plan/arbolMaterias.html", context)    
     
 
 def materia(request, nombre_materia):

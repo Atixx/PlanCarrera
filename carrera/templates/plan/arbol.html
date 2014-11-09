@@ -6,34 +6,33 @@
 {% block titulo %} Arbol Materias {% endblock titulo %}
 {% block cabezera %} Lic. en Sistemas {% endblock cabezera %}
 {% block contenido %}
-
+<h3 class="tituloAnio">Primer Año!</h3>
 <div id="anio">
-    <h3 class="tituloAnio">Primer Año!</h3>
     <table>
     <tr>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-primary active">Programacion</a> 
+                <a class="list-group-item list-group-item-{% block programacion %}{% endblock %}">Programacion</a> 
             </div>
         </td>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-danger active">Organizacion de PC</a> 
+                <a class="list-group-item list-group-item-{% block org %}{% endblock %}">Organizacion de PC</a>
             </div>
         </td>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-warning active">Matematica 1</a> 
+                <a class="list-group-item list-group-item-{% block mate1 %}{% endblock %}">Matematica 1</a> 
             </div>
         </td>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-success active">Expresion de Problemas y Algoritmos</a> 
+                <a class="list-group-item list-group-item-{% block algoritmos %}{% endblock %}">Expresion de Problemas y Algoritmos</a> 
             </div>
         </td>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-success active">Introduccion al Pensamiento Cientifico</a> 
+                <a class="list-group-item list-group-item-{% block ipc %}{% endblock %}">Introduccion al Pensamiento Cientifico</a> 
             </div>
         </td>                        
     </tr>
@@ -42,47 +41,47 @@
         </td>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-success active">Arquitectura de PC</a> 
+                <a class="list-group-item list-group-item-{% block arquitectura %}{% endblock %}">Arquitectura de PC</a> 
             </div>
         </td>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-success active">Matematica 2</a> 
+                <a class="list-group-item list-group-item-{% block matematica_2 %}{% endblock %}">Matematica 2</a> 
             </div>
         </td>        
     </tr>   
     </table>
 </div>
 
+<h3 class="tituloAnio">Segundo Año!</h3>
 <div id="anio">
-    <h3 class="tituloAnio">Segundo Año!</h3>
     <table>
     <tr>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-success active">Ingenieria de Software 1</a> 
+                <a class="list-group-item list-group-item-{% block is2 %}{% endblock %}">Ingenieria de Software 1</a> 
             </div> 
         </td>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-success active">Intro a Sistemas Operativos</a> 
+                <a class="list-group-item list-group-item-{% block iso %}{% endblock %}">Intro a Sistemas Operativos</a> 
             </div>
         </td>        
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-success active">Algoritmos y Estructura de Datos</a> 
+                <a class="list-group-item list-group-item-{% block ayed %}{% endblock %}">Algoritmos y Estructura de Datos</a> 
             </div>
         </td>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-success active">Matematica 3</a> 
+                <a class="list-group-item list-group-item-{% block matematica_3 %}{% endblock %}">Matematica 3</a> 
             </div>
         </td>                                         
     </tr>
     <tr>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-success active">Intro a Bases de Datos</a> 
+                <a class="list-group-item list-group-item-{% block ibd %}{% endblock %}">Intro a Bases de Datos</a> 
             </div>        
         </td>
         <td>
@@ -91,29 +90,29 @@
         </td>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-success active">Probabilidad y Estadisticas</a> 
+                <a class="list-group-item list-group-item-{% block probabilidad_Y_Estadistica %}{% endblock %}">Probabilidad y Estadisticas</a> 
             </div>
         </td>        
     </tr>
     <tr>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-success active">Orientacion a Objetos 1</a> 
+                <a class="list-group-item list-group-item-{% block objetos1 %}{% endblock %}">Orientacion a Objetos 1</a> 
             </div>
         </td>  
     </tr>
     <tr>
         <td>
             <div class="materia">
-                <a class="list-group-item list-group-item-success active">Seminario de Lenguajes</a> 
+                <a class="list-group-item list-group-item-{% block seminario_de_lenguajes %}{% endblock %}">Seminario de Lenguajes</a> 
             </div>
         </td>      
     </tr>   
     </table>
 </div>
 
+<h3 class="tituloAnio">Tercer Año!</h3>
 <div id="anio">
-    <h3 class="tituloAnio">Tercer Año!</h3>
     <!---
     Programación Concurrente
 - Ingeniería de Software 2
@@ -180,8 +179,8 @@
     </table>
 </div>
 
+<h3 class="tituloAnio">Cuarto Año!</h3>
 <div id="anio">
-    <h3 class="tituloAnio">Cuarto Año!</h3>
     <!---
 - Ingeniería de Software 3
 - Bases de Datos 2
@@ -257,8 +256,8 @@ Colaborativo</a>
     </table>
 </div>
 
+<h3 class="tituloAnio">Quinto Año!</h3>
 <div id="anio">
-    <h3 class="tituloAnio">Quinto Año!</h3>
 <!---
  Política y Gestión de la Ciencia
 - 	Aspectos legales y Profesionales de Informática
