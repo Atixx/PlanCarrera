@@ -200,6 +200,13 @@ def lista_materias(request):
     context = { "materias" : mat }
     return render(request, "plan/lista_materias.html", context)
     
+def arbol_materias(request):
+    mat = []
+    for m in Materia.objects.all():
+        mat.append(m)
+    context = { "materias" : mat }
+    return render(request, "plan/arbol.html", context)    
+    
 
 def materia(request, nombre_materia):
     nombre_materia = nombre_materia.replace("-" ," ")

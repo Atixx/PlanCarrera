@@ -14,16 +14,29 @@ class Profesor(models.Model):
 class Materia(models.Model):
     PRIMERO = 'PR'
     SEGUNDO = 'SE'
+    TERCERO = 'TE'
+    CUARTO = 'CU'
+    QUINTO = 'QU'
     ANUAL = 'AN'
     OPCION_CUATRI = (
         (PRIMERO, 'Primero'),
         (SEGUNDO, 'Segundo'),
         (ANUAL, 'Anual'),
     )
+    OPCION_ANIO = (
+        (PRIMERO, 'Primero'),
+        (SEGUNDO, 'Segundo'),
+        (TERCERO, 'Tercero'),
+        (CUARTO, 'Cuarto'),
+        (QUINTO, 'Quinto'),
+    )
     nombre = models.CharField(max_length=100)
     cuatrimestre = models.CharField(max_length=2,
                                     choices=OPCION_CUATRI,
                                     default=PRIMERO)
+    anio = models.CharField(max_length=2,
+                            choices=OPCION_ANIO,
+                            default=PRIMERO)
     profesor = models.ManyToManyField(Profesor)
     correlativas = models.ManyToManyField("Materia", blank=True);
                                         

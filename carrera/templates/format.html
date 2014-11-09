@@ -17,7 +17,7 @@
        <script src= "{% static "carrera/js/bootstrap.min.js" %}"></script>
        <script src= "{% static "carrera/js/bootstrap-select.min.js" %}"></script>
        <script src= "{% static "carrera/js/carrera.js" %}"></script>
-       
+       {% block scripts %}{% endblock scripts %}
        
     </head>
 <body>
@@ -53,6 +53,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="/plan/ayuda">Ayuda</a></li>
+                    <li><a href="/plan/materias/arbol">Arbol<a/></li>
                     <li class="divider"></li>
                     <li><a href="http://www.unla.edu.ar" target="_blank">sitio oficial UNLa</a></li>
                     <li><a href="http://www.unla.edu.ar/sistemas/sls"
