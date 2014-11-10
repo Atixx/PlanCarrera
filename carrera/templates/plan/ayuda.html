@@ -1,17 +1,37 @@
 {% extends "format.html" %}
 {% block titulo %} Ayuda: PlanCarrera {% endblock %}
+
+
 {% block contenido %}
 
 <h2>PlanCarrera</h2>
+
+<ol class="breadcrumb">
+  <li><a href="#">Ayuda</a></li>
+  <li><a href="#">Usuario</a></li>
+  <li class="active">Data</li>
+</ol>
+
 <h3>El assistente para mantenerse al dia con el progresso de la carrera en la UNLa</h3>
 <h4>{% block nombre_seccion %}Contenido{%endblock%}</h4>
-<ol>
+<ul class="list-group">
     {% block tabla_contenido %}
-    <li>Usuario</li>
-    <li>Materias</li>
-    <li>Examenes</li>
+    <li class="list-group-item">Usuario</li>
+    <li class="list-group-item" id="materia-li">Materias
+    <div id="materias" class="hidden">
+        <ul>
+            <li>Cada alumno se puede anotar en las materias segun su orden de correlatividad</li>
+            <li>Las materias se consideran de dos formas: <em>Cuatrimestrales</em> y <em>Anuales</em></li>
+            <li><strong>Cuatrimestrales</strong>: deben tener un parcial aprobado para regular</li>
+            <li><strong>Anuales</strong>: deben tener tres parciales aprobados para regular</li>
+            <li>Una materia aprobada es la que tiene un final aprobado</li>
+        </ul>
+    </div>
+    </li>
+    <li class="list-group-item">Examenes</li>
     {% endblock tabla_contenido %}
-</ol>
+</ul>
+
 
 {% if link %}
 <a href="{{link}}">Regresar</a> <!-- mejorar el link para regresar un nivel -->
