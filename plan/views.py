@@ -1,10 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from plan.models import Parcial, EstadoMateria, Materia
+from plan.models import Parcial, EstadoMateria, Materia, Profesor
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
+from funciones.verificarmateria import estadoMateria
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
+from django.template.defaultfilters import slugify
 
 # Create your views here.
 def home(request):
@@ -12,7 +15,8 @@ def home(request):
         #PRUEBO SI MANTIENE LA SESION
         #yalogeado="1"
         #return render(request, "plan/detallado.html",{"yalogeado" : "1"} )
-        return alumno(request, request.user.username)
+        #return alumno(request, request.user.username)
+        return index(request)
     seleccion=request.GET.get('reg','')
     regerror=""
     if request.method == "POST":
@@ -44,7 +48,7 @@ def home(request):
                     #Datos Validos, hacer logeo
                     usuario = auth.authenticate(username=u2,password=pl)
                     auth.login(request, usuario)
-                    return alumno(request, usuario)
+                    return home(request)
                     #return render(request, "plan/detallado.html")
                 else:
                     regerror="Password Invalida"
@@ -58,13 +62,35 @@ def home(request):
     return render(request, "plan/home.html",{"reg" : seleccion,"regerror":regerror})
                   
 def index(request):
-    lista_alumnos = User.objects.all()
-    lista_parciales = Parcial.objects.all()
-    context = {"lista_alumnos" : lista_alumnos , "lista_parciales" : lista_parciales}
+    #lista_alumnos = User.objects.all()
+    #lista_parciales = Parcial.objects.all()
+    #context = {"lista_alumnos" : lista_alumnos , "lista_parciales" : lista_parciales}
+    alumno = User.objects.get(pk=request.user.id)
+    tot = Materia.objects.count()
+    if tot != 0:
+    
+        reg = EstadoMateria.objects.filter(alumno_id = alumno.id , estado = 'RE').count()
+        regperc = reg*100/tot
+        com = EstadoMateria.objects.filter(alumno_id = alumno.id , estado = 'FI').count() 
+        comperc = com*100/tot
+        cur = EstadoMateria.objects.filter(alumno_id = alumno.id , estado = 'CU').count()
+        curperc = cur*100/tot
+    
+    context = {
+        "alumno" : alumno,
+        "reg" : reg,
+        "regperc" : regperc,
+        "com" : com,
+        "comperc" : comperc,
+        "cur" : cur, 
+        "curperc" : curperc,
+        "tot" : tot
+    }
     return render(request, "plan/index.html", context)
 
-def alumno(request, usuario):
-    alumno = get_object_or_404(User, username = usuario)
+@login_required
+def alumno(request):
+    alumno = get_object_or_404(User, pk=request.user.id)
     if EstadoMateria.objects.filter(alumno_id = alumno.id).exists():
         mat = EstadoMateria.objects.filter(alumno_id = alumno.id)
         libre = mat.filter(estado = 'LB')
@@ -78,88 +104,114 @@ def alumno(request, usuario):
         completa = None
        
     return render(request, "plan/alumno.html", {"alumno" : alumno, "libre" : libre, "en_curso" : en_curso, "aprobada" : aprobada, "completa" : completa})
-
+    
+    
+@login_required
 def anotarse_materia(request):
-    if request.user.is_authenticated():
-        if request.method == 'POST':
-            nombreMateria = request.POST.get('materia', '')
+    if request.method == 'POST':
+        nombreMateria = request.POST.get('materia', '')
+        try:
+            existe = EstadoMateria.objects.get(materia__nombre__exact = nombreMateria, alumno__id = request.user.id)
+            existe.estado = 'CU'
+            existe.save()
+            msg = "Se ha inscripto en la materia: "+nombreMateria+" , que la curse con exito!"
+        except ObjectDoesNotExist:    
             try:
-                existe = EstadoMateria.objects.get(materia__nombre__exact = nombreMateria, alumno__id = request.user.id)
-                existe.estado = 'CU'
-                existe.save()
+                estadonuevo = EstadoMateria( materia =  Materia.objects.get(nombre__exact = nombreMateria), alumno = User.objects.get(pk=request.user.id), estado = 'CU')
                 msg = "Se ha inscripto en la materia: "+nombreMateria+" , que la curse con exito!"
-            except ObjectDoesNotExist:    
-                try:
-                    estadonuevo = EstadoMateria( materia =  Materia.objects.get(nombre__exact = nombreMateria), alumno = User.objects.get(pk=request.user.id), estado = 'CU')
-                    msg = "Se ha inscripto en la materia: "+nombreMateria+" , que la curse con exito!"
-                    estadonuevo.save()
-                except:
-                    msg = "No ha seleccionado ninguna materia, debe elejir una!!!"
-            return render(request, "plan/anotarse_materia.html", {"msg" : msg})
-        else:
-            enabled = []
-            disabled = []
-            n=0
-            m=0
-            for l in Materia.objects.select_related().all(): #TODO: Hacer funcional las busquedas (usar archivo .py con funciones)
-                n=0 #nueva materia
-                m=0
-                if not (l.correlativas.all().exists()): #si no tiene correlativas
-                    if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists(): #existe el algun estado
-                        if (EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id).estado == 'LB'):# Y ese estado es libre
-                           enabled.append(l) #agrega 
-                    else: #no tiene estado, no la curso (puede anotarse)
-                        enabled.append(l)
-                else: #si SI tiene correlativas
-                    for c in l.correlativas.all():#nueva correlativa
-                        n+=1 #bandera de correlativa existente (la materia la tiene)
-                        if not (EstadoMateria.objects.filter(materia__nombre = c.nombre, alumno_id = request.user.id).exists()): #si la correlativa no existe en Estado, no fue cursada
-                            disabled.append(l)
-                        else:
-                            estado = EstadoMateria.objects.get(materia__nombre = c.nombre, alumno_id = request.user.id)
-                            if (estado.estado == 'RE') or (estado.estado == 'FI'):
-                                m+= 1 #bandera de correlativa aprobada
-                            else:
-                                disabled.append(l)
-                    if (m==n):  
-                        if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists(): #existe algun estado
-                           if (EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id).estado == 'LB'):# Y ese estado es libre
-                               enabled.append(l) #agrega 
-                        else: #no tiene estado, no la curso (puede anotarse)
-                          enabled.append(l)
-            context = {"enabled" : enabled, "disabled" : disabled}
-            return render(request, "plan/anotarse_materia.html", context)
+                estadonuevo.save()
+            except:
+                msg = "No ha seleccionado ninguna materia, debe elejir una!!!"
+        return render(request, "plan/anotarse_materia.html", {"msg" : msg})
     else:
-        return redirect("/")
+        enabled = []
+        disabled = []
+        for l in Materia.objects.select_related().all():
+            estado = estadoMateria(l, request.user)
+            if estado == "disponible":
+                enabled.append(l)
+            elif estado == "deshabilitada":
+                disabled.append(l)    
+        context = {"enabled" : enabled, "disabled" : disabled}
+        return render(request, "plan/anotarse_materia.html", context)
 
 
+@login_required
 def abandonar_materia(request):
-    if request.user.is_authenticated():
-        #TODO: Chequear si hay materias en curso (msg de error sino), mostrarlas, cambiar su estado de CU a LB
-        if request.method == 'POST':
-            nombreMateria = request.POST.get('materia', '')
-            try:
-                libre = EstadoMateria.objects.get(materia__nombre = nombreMateria, alumno_id = request.user.id)
-                libre.estado = 'LB'
-                libre.save()
-                Parcial.objects.filter(materia__nombre = nombreMateria, alumno_id = request.user.id).delete()
-                msg = "Ha quedado libre de "+nombreMateria+" suerte en el resto de la cursada."
-            except ObjectDoesNotExist:
-                msg = "usted debe seleccionar una materia para abandonar."
-                
-            return render(request, "plan/abandonar_materia.html", { "msg" : msg })
-        else:
-            mat = []
-            for m in EstadoMateria.objects.filter(alumno_id = request.user.id, estado = 'CU'):
-                mat.append(m.materia)
-            context = { "materias" : mat }
-            return render(request, "plan/abandonar_materia.html", context)
+    #TODO: Chequear si hay materias en curso (msg de error sino), mostrarlas, cambiar su estado de CU a LB
+    if request.method == 'POST':
+        nombreMateria = request.POST.get('materia', '')
+        try:
+            libre = EstadoMateria.objects.get(materia__nombre = nombreMateria, alumno_id = request.user.id)
+            libre.estado = 'LB'
+            libre.save()
+            Parcial.objects.filter(materia__nombre = nombreMateria, alumno_id = request.user.id).delete()
+            msg = "Ha quedado libre de "+nombreMateria+" suerte en el resto de la cursada."
+        except ObjectDoesNotExist:
+            msg = "usted debe seleccionar una materia para abandonar."
+            
+        return render(request, "plan/abandonar_materia.html", { "msg" : msg })
     else:
-        return redirect("/")
+        mat = []
+        for m in EstadoMateria.objects.filter(alumno_id = request.user.id, estado = 'CU'):
+            mat.append(m.materia)
+        context = { "materias" : mat }
+        return render(request, "plan/abandonar_materia.html", context)
 
+#No se usa esto
 def parcial(request, id_parcial):
     parcial = get_object_or_404(Parcial, pk=id_parcial)
     return render(request, "plan/detallado.html", {"alumno" : parcial})
     
 def ayuda(request):
     return render(request, "plan/ayuda.html")    
+
+#TODO: Fijarse si hara falta hacer un flush, o algun otro paso mas??
+def logout(request): 
+    auth.logout(request)
+    return render(request, "plan/logout.html")
+
+
+#TODO: listar materias por anios
+def lista_materias(request):
+    mat = []
+    for m in Materia.objects.all():
+        mat.append(m)
+    context = { "materias" : mat }
+    return render(request, "plan/lista_materias.html", context)
+    
+def arbol_materias(request):
+    mat = {}
+    if request.user.is_authenticated():
+        css = { "cursando" : 'danger active', #lo que representa cada estado en css
+                 "regularizada" : 'warning active', 
+                 "completa" : 'success active', 
+                 "disponible" : ' active'
+                } 
+        
+        mat = {}
+        for m in Materia.objects.select_related().all():
+           estado = estadoMateria(m, request.user)  #retorna "desabilitada" "cursando", "regularizada", "completa", "disponible"
+           if not(estado == "desabilitada"):
+            mat[m.nombre.lower().replace(" ","")] = css[estado]
+        
+    context = { "materias" : mat }
+    
+    return render(request, "plan/arbolMaterias.html", context)      
+      
+
+def materia(request, nombre_materia):
+    nombre_materia = nombre_materia.replace("-" ," ")
+    materia = get_object_or_404(Materia, nombre__iexact = nombre_materia)
+    profesor = materia.profesor.all()#Profesor.objects.filter(materia__nombre = nombre_materia)
+    correlativas = materia.correlativas.all()
+    context = {"mat": materia, "profesor" : profesor, "correlativas" : correlativas}
+    if request.user.is_authenticated(): #datos solo disponibles a logged
+        context["auth"] = True;
+        if EstadoMateria.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():
+            context["estado"] = EstadoMateria.objects.get(materia__nombre = materia.nombre, alumno_id = request.user.id).estado
+        if Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():
+            context["parciales"] = Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id)
+    else: #datos disponibles solo a NO logged
+        context["auth"] = False;
+    return render(request, "plan/materia.html", context)

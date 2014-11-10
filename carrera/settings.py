@@ -93,3 +93,6 @@ os.path.join(os.path.dirname(__file__), 'static').replace('\\','/'),
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
 )
+
+
+LOGIN_URL = '/'

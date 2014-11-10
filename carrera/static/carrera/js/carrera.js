@@ -5,7 +5,15 @@ $(document).ready( function()
     $("#materias").toggle();
     $("#materias").attr("class", "show");
   });
+    
+  $(".materia").click(function()
+  {
+    $(this).fadeToggle("slow",function()
+    {
+        $(this).fadeToggle("slow");
+    });
+  });
+
   
   
 }); 
-

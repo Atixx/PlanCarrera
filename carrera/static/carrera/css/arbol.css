@@ -1,0 +1,39 @@
+.materia
+{
+    border: 1px black solid;
+    border-radius: 5px;
+    width:215px;
+    position:relative;
+    display:inline-block;
+    background-color:#A60000;
+    /*padding-bottom:0px;*/
+}
+
+#anio
+{
+    /*background-color:#19ED0E;*/
+    /*width:90%;*/
+    height:auto;
+    display: inline-block;
+    position:relative;
+    /*float:center;*/
+    padding:5px 5px 5px 10px;
+    margin-top:5px;
+    margin-right:auto;
+    margin-bottom:5px;
+    margin-left:5px;
+    
+}
+
+.tituloAnio
+{
+    margin-top:0;
+    text-align:center;
+    font-family:cursive;
+}
+
+table, th, td 
+{
+    padding:3px;
+    text-align:center;
+}

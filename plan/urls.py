@@ -10,5 +10,10 @@ urlpatterns = patterns ('',
     url(r'^(?P<id_parcial>\d+)/parcial/$', views.parcial, name="parcial"),
     url(r'^abandonar-materia/$', views.abandonar_materia, name="abandonar-materia"),
     url(r'^ayuda/$', views.ayuda, name="ayuda"),
+    url(r'^alumno/$', views.alumno, name="alumno"),
+    url(r'^logout/$', views.logout, name="logout"),
+    url(r'^materias/arbol$', views.arbol_materias, name="arbol"),
+    url(r'^materias/(?P<nombre_materia>[\w\d-]+)$', views.materia, name="materia"),
+    url(r'^materias/$', views.lista_materias, name="materias"),
     
 )

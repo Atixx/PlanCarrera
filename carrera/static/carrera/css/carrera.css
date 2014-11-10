@@ -3,6 +3,21 @@ body
     /*padding: 10px;
     padding-top: 75px;*/
     background-color:#A60000;
+    overflow:hidden;
+}
+
+.contenido
+{
+    /*float:left;*/
+    margin: inherit;
+    margin-top:0px;
+    position:relative;
+}
+
+#contenido_chico
+{
+    float: left;
+    margin-bottom:15px;
 }
 
 .wrapper
@@ -13,9 +28,16 @@ body
     border-width: 2px;
     border-radius:10px;
     height:500px;
-    width:90%;
-    margin:5% 5% 5% 4%;
-    padding-left: 2%
+    max-width:90%;
+    margin-top: 5%;
+    margin-right: auto;
+    margin-bottom: 5%;
+    margin-left: auto;
+/*    margin:5% 5% 5% 4%;*/
+    padding-left: 2%;    
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
     
 }
 .navbar-nav
@@ -35,11 +57,11 @@ body
 
 .footer
 {
-  margin-bottom:-50px;
+  bottom: 0;
+  width: 100%;
   background-color:#f0f0f0;
   height: 50px;
   border: solid black 2px;
-  float:bottom;
 }
 
 .user
@@ -50,4 +72,31 @@ body
 #bottom
 {
     text-align:center;
+}
+
+#materias
+{
+    list-style-type:none;
+    width:25%
+}
+
+#promedio
+{
+    color: red;
+    font-family: Garamond;
+    font-size:38px;
+}
+
+.progress
+{
+    margin-right:50px;
+    height: 40px;
+}
+
+#cabezera
+{
+    text-align:center;
+    font-family: Times, Cursive;
+    font-size: 42px;
+    
 }

@@ -1,0 +1,53 @@
+{% extends "format.html" %}
+{% block links %}
+{% load staticfiles %}
+<link type = "text/css" href= "{% static "carrera/css/materias.css" %}" rel="stylesheet"></link>
+{% endblock links %}
+{% block titulo %}Licenciatura en Sistemas - UNLa{% endblock titulo %}
+{% block cabezera %}Las materias de Sistemas:{% endblock cabezera %}
+{% block contenido %}
+<div id="materias">
+    <div class="materia" id="primero">
+        <div class="list-group">
+            <a class="list-group-item list-group-item-success active">Primer Año</a>   
+            <a href="#" class="list-group-item disabled"><span class="badge">8</span>Matematica I</a>
+            <a href="#" class="list-group-item"><span class="badge">nota</span>Organizacion de PC</a>
+            <a href="#" class="list-group-item">Programacion</a>
+            <a href="#" class="list-group-item">Vestibulum at eros</a>
+        </div>       
+    </div>
+    <div class="materia" id="segundo">
+        <div class="list-group">
+            <a class="list-group-item list-group-item-warning active">Segundo Año</a>
+            <a href="#" class="list-group-item">Objetos I</a>
+            <a href="#" class="list-group-item">Matematica III</a>
+        </div>
+    </div>
+    <div class="materia" id="tercero">
+        <div class="list-group">
+            <a class="list-group-item list-group-item-info active">Tercer Año</a>
+            {% for m in materias %}
+            <a href="{{m.nombre|slugify}}" class="list-group-item">{{m}}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div id="materias">
+    <div class="materia" id="cuarto">
+        <div class="list-group">
+            <a class="list-group-item list-group-item-danger active">Cuarto Año</a>
+        </div>    
+    </div>
+    
+    <div class="materia" id="quinto">
+        <div class="list-group">
+            <a class="list-group-item active">Quinto Año</a>
+        </div>
+    </div>
+</div>
+
+</br>
+
+
+
+{% endblock contenido %}

@@ -7,7 +7,8 @@
         <link type = "text/css" href= "{% static "carrera/css/bootstrap-responsive.css" %}" rel="stylesheet"></link>
         <link type = "text/css" href= "{% static "carrera/css/normalize.css" %}" rel="stylesheet"></link>
         <link type = "text/css" href= "{% static "carrera/css/bootstrap-select.min.css" %}" rel="stylesheet"></link>
-        <link type = "text/css" rel="stylesheet" href= "{% static "carrera/css/carrera.css" %}"></link>  
+        <link type = "text/css" rel="stylesheet" href= "{% static "carrera/css/carrera.css" %}"></link>
+        {% block links %}{%endblock links%}  
         
         <title>{% block titulo %}Plan Carrera{% endblock %}</title>
         
@@ -16,7 +17,7 @@
        <script src= "{% static "carrera/js/bootstrap.min.js" %}"></script>
        <script src= "{% static "carrera/js/bootstrap-select.min.js" %}"></script>
        <script src= "{% static "carrera/js/carrera.js" %}"></script>
-       
+       {% block scripts %}{% endblock scripts %}
        
     </head>
 <body>
@@ -31,10 +32,13 @@
                 Materias <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
+            {% if user.is_authenticated %}  
+                    
                     <li><a href="/plan/nueva-materia">anotarse nueva materia</a></li>
                     <li><a href="/plan/abandonar-materia">abandonar materia</a></li>
                     <li class="divider"></li>
-                    <li><a href="#">listar materias</a></li>
+            {% endif %}
+                    <li><a href="/plan/materias">listar materias</a></li>
                 </ul>            
             </li>
             <li class="active dropdown">
@@ -52,30 +56,37 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="/plan/ayuda">Ayuda</a></li>
+                    <li><a href="/plan/materias/arbol">Arbol<a/></li>
                     <li class="divider"></li>
                     <li><a href="http://www.unla.edu.ar" target="_blank">sitio oficial UNLa</a></li>
                     <li><a href="http://www.unla.edu.ar/sistemas/sls"
                     target="_blank">sistemas UNLa</a></li>
                 </ul>            
-            </li>            
+            </li>
+            {% if user.is_authenticated %}            
             <li class="active dropdown"> 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                {% if request.user.username %}
-                    {{ request.user.username }}
-                {% else %}
-                    Usuario
-                {% endif %} <b class="caret"></b>
+                    {{ user.username }}
+                <b class="caret"></b>
                 <ul class="dropdown-menu">
-                    <li><a href="/admin">ver datos</a></li>
-                    <li class="divider"></li>
-                    <li><a href="/admin/logout">logout</a></li>
+                    <li><a href="/plan/alumno">ver datos</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/plan/logout">logout</a></li>
                 </ul>
             </li>
+            {% else %}
+            <li class="active"><a href="/?reg=0">Login</a></li>
+            {% endif %}
         </ul>
 </nav> 
 <div class="wrapper">
-         <h1>{% block cabezera %}{% endblock %}</h1>
-         <div class="contenido">{% block contenido %}{% endblock %} <!--- Arreglar que el contenido extienda el DIV --->
+         <h3 id="cabezera">{% block cabezera %}{% endblock %}</h3>
+         
+         <div class="contenido">
+             <div id="contenido_chico">
+                 {% block contenidochico %}{% endblock contenidochico %}<!-- para barras que necesiten ser cortas -->
+             </div>
+             {% block contenido %}{% endblock %} <!--- Arreglar que el contenido extienda el DIV --->
          </div>
 </div>
 </body>

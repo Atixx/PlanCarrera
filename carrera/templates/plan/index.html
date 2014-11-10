@@ -1,12 +1,34 @@
 {% extends "format.html" %}
-{% block titulo %} Index!! {% endblock %}
+{% block titulo %} Plan Carrera: {{alumno.username}}{% endblock %}
 
-{% block cabezera %} Funciono el index! {% endblock %}
-
-<h1> Funciono el index! </h1>
-
+{% block cabezera %} Hola {{alumno.first_name}}{% endblock %}
 {% block contenido %}
 
-{{ context }}
+<div class="progress">
+<a href="/plan/materias/arbol">   
+    <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: {{comperc}}%">
+      <span class="sr-only">35% Complete (success)</span>
+    </div>
+    <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: {{regperc}}%">
+      <span class="sr-only">20% Complete (warning)</span>
+    </div>
+    <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: {{curperc}}%">
+      <span class="sr-only">10% Complete (danger)</span>
+    </div>
+</a> 
+</div>
+
+
+<h4>Materias</h4>
+<ul id="materias" class="list-group">
+    <li><span class="list-group-item list-group-item-success">Aprobadas: {{com}} - {{comperc}}%</span></li>
+    <li><span class="list-group-item list-group-item-warning">Regularizadas: {{reg}} - {{regperc}}%</span></li>
+    <li><span class="list-group-item list-group-item-danger">En Curso: {{cur}} - {{curperc}}%</span></li>
+    <li><span class="list-group-item list-group-item-default">Totales: {{tot}}</span></li>
+</ul>
+
+<h3>Promedio cursada: <span id="promedio">7</span><h3>
 
 {% endblock %}
+
+{% block contenidochico %}{% endblock %}
