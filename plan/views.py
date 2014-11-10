@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from plan.models import Parcial, EstadoMateria, Materia, Profesor
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
+from funciones.verificarmateria import estadoMateria
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
@@ -125,36 +126,15 @@ def anotarse_materia(request):
     else:
         enabled = []
         disabled = []
-        n=0
-        m=0
-        for l in Materia.objects.select_related().all(): #TODO: Hacer funcional las busquedas (usar archivo .py con funciones)
-            n=0 #nueva materia
-            m=0
-            if not (l.correlativas.all().exists()): #si no tiene correlativas
-                if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists(): #existe el algun estado
-                    if (EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id).estado == 'LB'):# Y ese estado es libre
-                       enabled.append(l) #agrega 
-                else: #no tiene estado, no la curso (puede anotarse)
-                    enabled.append(l)
-            else: #si SI tiene correlativas
-                for c in l.correlativas.all():#nueva correlativa
-                    n+=1 #bandera de correlativa existente (la materia la tiene)
-                    if not (EstadoMateria.objects.filter(materia__nombre = c.nombre, alumno_id = request.user.id).exists()): #si la correlativa no existe en Estado, no fue cursada
-                        disabled.append(l)
-                    else:
-                        estado = EstadoMateria.objects.get(materia__nombre = c.nombre, alumno_id = request.user.id)
-                        if (estado.estado == 'RE') or (estado.estado == 'FI'):
-                            m+= 1 #bandera de correlativa aprobada
-                        else:
-                            disabled.append(l)
-                if (m==n):  
-                    if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists(): #existe algun estado
-                       if (EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id).estado == 'LB'):# Y ese estado es libre
-                           enabled.append(l) #agrega 
-                    else: #no tiene estado, no la curso (puede anotarse)
-                      enabled.append(l)
+        for l in Materia.objects.select_related().all():
+            estado = estadoMateria(l, request.user)
+            if estado == "disponible":
+                enabled.append(l)
+            elif estado == "deshabilitada":
+                disabled.append(l)    
         context = {"enabled" : enabled, "disabled" : disabled}
         return render(request, "plan/anotarse_materia.html", context)
+
 
 @login_required
 def abandonar_materia(request):
@@ -202,10 +182,23 @@ def lista_materias(request):
     
 def arbol_materias(request):
     mat = {}
-    #Crear un diccionario de cada materia con su estado como atributo EJ: {"programacion" : 'FI', "Org" : 'LI', "Mate1" : 'CU'} etc.. 
+    if request.user.is_authenticated():
+        css = { "cursando" : 'danger active', #lo que representa cada estado en css
+                 "regularizada" : 'warning active', 
+                 "completa" : 'success active', 
+                 "disponible" : ' active'
+                } 
+        
+        mat = {}
+        for m in Materia.objects.select_related().all():
+           estado = estadoMateria(m, request.user)  #retorna "desabilitada" "cursando", "regularizada", "completa", "disponible"
+           if not(estado == "desabilitada"):
+            mat[m.nombre.lower().replace(" ","")] = css[estado]
+        
     context = { "materias" : mat }
-    return render(request, "plan/arbolMaterias.html", context)    
     
+    return render(request, "plan/arbolMaterias.html", context)      
+      
 
 def materia(request, nombre_materia):
     nombre_materia = nombre_materia.replace("-" ," ")

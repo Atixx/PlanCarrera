@@ -32,9 +32,12 @@
                 Materias <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
+            {% if user.is_authenticated %}  
+                    
                     <li><a href="/plan/nueva-materia">anotarse nueva materia</a></li>
                     <li><a href="/plan/abandonar-materia">abandonar materia</a></li>
                     <li class="divider"></li>
+            {% endif %}
                     <li><a href="/plan/materias">listar materias</a></li>
                 </ul>            
             </li>
@@ -59,20 +62,21 @@
                     <li><a href="http://www.unla.edu.ar/sistemas/sls"
                     target="_blank">sistemas UNLa</a></li>
                 </ul>            
-            </li>            
+            </li>
+            {% if user.is_authenticated %}            
             <li class="active dropdown"> 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                {% if request.user.username %}
-                    {{ request.user.username }}
-                {% else %}
-                    Usuario
-                {% endif %} <b class="caret"></b>
+                    {{ user.username }}
+                <b class="caret"></b>
                 <ul class="dropdown-menu">
                     <li><a href="/plan/alumno">ver datos</a></li>
-                    <li class="divider"></li>
-                    <li><a href="/plan/logout">logout</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/plan/logout">logout</a></li>
                 </ul>
             </li>
+            {% else %}
+            <li class="active"><a href="/?reg=0">Login</a></li>
+            {% endif %}
         </ul>
 </nav> 
 <div class="wrapper">

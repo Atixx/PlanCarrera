@@ -1,18 +1,20 @@
 {% extends "plan/arbol.html" %}
 
-{% block programacion %}success active{% endblock %}
-{% block org %}warning active{% endblock %}"
-{% block mate1 %}warning active{% endblock %}    
-{% block algoritmos %}danger active{% endblock %}           
-{% block ipc %}danger active{% endblock %}   
-{% block arquitectura %} active{% endblock %}
-{% block matematica_2 %} active{% endblock %}
-{% block is2 %}{% endblock %}
-{% block iso %}{% endblock %}
+
+{% block programacion %}{{materias.programacion}}{% endblock %}
+{% block org %}{{materias.orgdecomputadoras}}{% endblock %}
+{% block mate1 %}{{materias.matematica1}}{% endblock %}    
+{% block algoritmos %}{{materias.algoritmos}}{% endblock %}           
+{% block ipc %}{{materias.introduccionalpensamientocientifico{% endblock %}   
+{% block arquitectura %}{{materias.arqdepc}}{% endblock %}
+{% block matematica_2 %}{{materias.matematica2}}{% endblock %}
+{% block is1 %}{{materias.ingenieriadesoftwarei}}{% endblock %}
+{% block iso %}{{materias.introso}}{% endblock %}
 {% block ayed %}{% endblock %}
 {% block matematica_3 %}{% endblock %}
 {% block ibd %}{% endblock %}
 {% block probabilidad_Y_Estadistica %}{% endblock %}
-{% block objetos1 %}{% endblock %}
+{% block objetos1 %}{{materias.objetos1}}{% endblock %}
 {% block seminario_de_lenguajes %}{% endblock %}
 
+{# block contenidochico %}{{materias}}{%endblock#}
