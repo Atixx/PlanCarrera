@@ -1,0 +1,43 @@
+{%extends "format.html" %}
+
+{%block cabezera %} {{mat}} {% endblock cabezera %}
+
+{% block contenido %}
+
+<p>
+</br>Nombre: {{mat.nombre}}
+{% if auth  %}
+    </br>Estado: {{estado}}
+{% endif %}
+{% if profesor|length > 1 %}
+    </br>Profesores:{% for p in profesor %} {{p.nombre}}; {% endfor %}
+{% else %}
+    </br>Profesor: {{ profesor.0.nombre }}
+{% endif %}
+{% if correlativas %}
+    {% if correlativas|length > 1 %}
+    </br>Correlativas: {% for c in correlativas %} {{c.nombre}}; {% endfor %}
+    {% else %}
+    </br>Correlativa: {{correlativas.0.nombre}} 
+    {% endif %}
+{% else %}
+</br>Esta materia no tiene correlativas!
+{% endif %}
+{% if parciales %}
+    {% if parciales|length > 1 %}
+        <p>Parciales:</p></br>
+        {% for p in parciales %}
+           <span class="pacial">Rendido el {{parciales.0.fecha.day}} del {{parciales.0.fecha.month}} de{{parciales.0.fecha.year}}: NOTA: {{p.nota}}</span></br>
+        {% endfor %}
+    {% else %}
+        <p>Parcial:</p><span class="parcial">Rendido el {{parciales.0.fecha.day}} del {{parciales.0.fecha.month}} de {{parciales.0.fecha.year}} : NOTA: {{parciales.0.nota}}</span>
+    {% endif %}
+{% endif %}
+</p>
+
+
+<a href="/plan/materias/" class="btn btn-primary" role="button">Regresar<a/>
+{% if estado == 'CU' %}
+<a href="#" class="btn btn-danger" role="button">Abandonar<a/>
+{% endif %}
+{% endblock contenido %}

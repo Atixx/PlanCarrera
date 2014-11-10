@@ -5,15 +5,17 @@
 {% block contenido %}
 
 <div class="progress">
-  <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: {{comperc}}%">
-    <span class="sr-only">35% Complete (success)</span>
-  </div>
-  <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: {{regperc}}%">
-    <span class="sr-only">20% Complete (warning)</span>
-  </div>
-  <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: {{curperc}}%">
-    <span class="sr-only">10% Complete (danger)</span>
-  </div>
+<a href="/plan/materias/arbol">   
+    <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: {{comperc}}%">
+      <span class="sr-only">35% Complete (success)</span>
+    </div>
+    <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: {{regperc}}%">
+      <span class="sr-only">20% Complete (warning)</span>
+    </div>
+    <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: {{curperc}}%">
+      <span class="sr-only">10% Complete (danger)</span>
+    </div>
+</a> 
 </div>
 
 
@@ -28,3 +30,5 @@
 <h3>Promedio cursada: <span id="promedio">7</span><h3>
 
 {% endblock %}
+
+{% block contenidochico %}{% endblock %}

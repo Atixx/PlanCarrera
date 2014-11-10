@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from plan.models import Parcial, EstadoMateria, Materia
+from plan.models import Parcial, EstadoMateria, Materia, Profesor
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
+from funciones.verificarmateria import estadoMateria
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from django.template.defaultfilters import slugify
 
 # Create your views here.
 def home(request):
@@ -124,36 +126,15 @@ def anotarse_materia(request):
     else:
         enabled = []
         disabled = []
-        n=0
-        m=0
-        for l in Materia.objects.select_related().all(): #TODO: Hacer funcional las busquedas (usar archivo .py con funciones)
-            n=0 #nueva materia
-            m=0
-            if not (l.correlativas.all().exists()): #si no tiene correlativas
-                if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists(): #existe el algun estado
-                    if (EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id).estado == 'LB'):# Y ese estado es libre
-                       enabled.append(l) #agrega 
-                else: #no tiene estado, no la curso (puede anotarse)
-                    enabled.append(l)
-            else: #si SI tiene correlativas
-                for c in l.correlativas.all():#nueva correlativa
-                    n+=1 #bandera de correlativa existente (la materia la tiene)
-                    if not (EstadoMateria.objects.filter(materia__nombre = c.nombre, alumno_id = request.user.id).exists()): #si la correlativa no existe en Estado, no fue cursada
-                        disabled.append(l)
-                    else:
-                        estado = EstadoMateria.objects.get(materia__nombre = c.nombre, alumno_id = request.user.id)
-                        if (estado.estado == 'RE') or (estado.estado == 'FI'):
-                            m+= 1 #bandera de correlativa aprobada
-                        else:
-                            disabled.append(l)
-                if (m==n):  
-                    if EstadoMateria.objects.filter(materia__nombre = l.nombre, alumno_id = request.user.id).exists(): #existe algun estado
-                       if (EstadoMateria.objects.get(materia__nombre = l.nombre, alumno_id = request.user.id).estado == 'LB'):# Y ese estado es libre
-                           enabled.append(l) #agrega 
-                    else: #no tiene estado, no la curso (puede anotarse)
-                      enabled.append(l)
+        for l in Materia.objects.select_related().all():
+            estado = estadoMateria(l, request.user)
+            if estado == "disponible":
+                enabled.append(l)
+            elif estado == "deshabilitada":
+                disabled.append(l)    
         context = {"enabled" : enabled, "disabled" : disabled}
         return render(request, "plan/anotarse_materia.html", context)
+
 
 @login_required
 def abandonar_materia(request):
@@ -177,7 +158,7 @@ def abandonar_materia(request):
         context = { "materias" : mat }
         return render(request, "plan/abandonar_materia.html", context)
 
-
+#No se usa esto
 def parcial(request, id_parcial):
     parcial = get_object_or_404(Parcial, pk=id_parcial)
     return render(request, "plan/detallado.html", {"alumno" : parcial})
@@ -190,3 +171,47 @@ def logout(request):
     auth.logout(request)
     return render(request, "plan/logout.html")
 
+
+#TODO: listar materias por anios
+def lista_materias(request):
+    mat = []
+    for m in Materia.objects.all():
+        mat.append(m)
+    context = { "materias" : mat }
+    return render(request, "plan/lista_materias.html", context)
+    
+def arbol_materias(request):
+    mat = {}
+    if request.user.is_authenticated():
+        css = { "cursando" : 'danger active', #lo que representa cada estado en css
+                 "regularizada" : 'warning active', 
+                 "completa" : 'success active', 
+                 "disponible" : ' active'
+                } 
+        
+        mat = {}
+        for m in Materia.objects.select_related().all():
+           estado = estadoMateria(m, request.user)  #retorna "desabilitada" "cursando", "regularizada", "completa", "disponible"
+           if not(estado == "desabilitada"):
+            mat[m.nombre.lower().replace(" ","")] = css[estado]
+        
+    context = { "materias" : mat }
+    
+    return render(request, "plan/arbolMaterias.html", context)      
+      
+
+def materia(request, nombre_materia):
+    nombre_materia = nombre_materia.replace("-" ," ")
+    materia = get_object_or_404(Materia, nombre__iexact = nombre_materia)
+    profesor = materia.profesor.all()#Profesor.objects.filter(materia__nombre = nombre_materia)
+    correlativas = materia.correlativas.all()
+    context = {"mat": materia, "profesor" : profesor, "correlativas" : correlativas}
+    if request.user.is_authenticated(): #datos solo disponibles a logged
+        context["auth"] = True;
+        if EstadoMateria.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():
+            context["estado"] = EstadoMateria.objects.get(materia__nombre = materia.nombre, alumno_id = request.user.id).estado
+        if Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():
+            context["parciales"] = Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id)
+    else: #datos disponibles solo a NO logged
+        context["auth"] = False;
+    return render(request, "plan/materia.html", context)

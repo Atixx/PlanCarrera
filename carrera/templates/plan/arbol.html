@@ -1,0 +1,312 @@
+{% extends "format.html" %}
+{% block links %}
+{% load staticfiles %}
+<link type = "text/css" rel="stylesheet" href= "{% static "carrera/css/arbol.css" %}"></link>
+{% endblock links %}
+{% block titulo %} Arbol Materias {% endblock titulo %}
+{% block cabezera %} Lic. en Sistemas {% endblock cabezera %}
+{% block contenido %}
+<h3 class="tituloAnio">Primer Año</h3>
+<div id="anio">
+    <table>
+    <tr>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block programacion %}{% endblock %}">Programacion</a> 
+            </div>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block org %}{% endblock %}">Organizacion de PC</a>
+            </div>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block mate1 %}{% endblock %}">Matematica 1</a> 
+            </div>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block algoritmos %}{% endblock %}">Expresion de Problemas y Algoritmos</a> 
+            </div>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block ipc %}{% endblock %}">Introduccion al Pensamiento Cientifico</a> 
+            </div>
+        </td>                        
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block arquitectura %}{% endblock %}">Arquitectura de PC</a> 
+            </div>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block matematica_2 %}{% endblock %}">Matematica 2</a> 
+            </div>
+        </td>        
+    </tr>   
+    </table>
+</div>
+
+<h3 class="tituloAnio">Segundo Año</h3>
+<div id="anio">
+    <table>
+    <tr>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block is1 %}{% endblock %}">Ingenieria de Software 1</a> 
+            </div> 
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block iso %}{% endblock %}">Intro a Sistemas Operativos</a> 
+            </div>
+        </td>        
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block ayed %}{% endblock %}">Algoritmos y Estructura de Datos</a> 
+            </div>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block matematica_3 %}{% endblock %}">Matematica 3</a> 
+            </div>
+        </td>                                         
+    </tr>
+    <tr>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block ibd %}{% endblock %}">Intro a Bases de Datos</a> 
+            </div>        
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block probabilidad_Y_Estadistica %}{% endblock %}">Probabilidad y Estadisticas</a> 
+            </div>
+        </td>        
+    </tr>
+    <tr>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block objetos1 %}{% endblock %}">Orientacion a Objetos 1</a> 
+            </div>
+        </td>  
+    </tr>
+    <tr>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-{% block seminario_de_lenguajes %}{% endblock %}">Seminario de Lenguajes</a> 
+            </div>
+        </td>      
+    </tr>   
+    </table>
+</div>
+
+<h3 class="tituloAnio">Tercer Año</h3>
+<div id="anio">
+    <!---
+    Programación Concurrente
+- Ingeniería de Software 2
+- Orientación a Objetos 2
+- Sistemas y Organizaciones
+- Bases de Datos 1
+- Proyecto de Software
+- 	Conceptos y Paradigmas de Lenguajes de Programacion
+- Redes y Comunicaciones
+ --->
+    <table>
+    <tr>
+        <td>
+            <div class="materia">
+                 <a class="list-group-item">Programación Concurrente</a> 
+            </div> 
+        </td>
+        <td>
+            <div class="materia">
+                 <a class="list-group-item">Bases de Datos 1</a> 
+            </div>        
+        </td>        
+        <td>
+            <div class="materia">
+                 <a class="list-group-item">Ingeniería de Software 2</a> 
+            </div>
+        </td>        
+        <td>
+            <div class="materia">
+                 <a class="list-group-item">Orientación a Objetos 2</a> 
+            </div>
+        </td>
+        <td>
+            <div class="materia">
+                 <a class="list-group-item">Sistemas y Organizaciones</a> 
+            </div>
+        </td>                                  
+    </tr>
+    <tr>
+        <td>
+            <div class="materia">
+                 <a class="list-group-item">Conceptos y Paradigmas de Lenguajes de Programacion</a> 
+            </div>
+        </td>
+        <td>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item">Proyecto de Software</a> 
+            </div>
+        </td>        
+    </tr>
+    <tr>
+        <td>
+            <div class="materia">
+                 <a class="list-group-item">Redes y Comunicaciones</a> 
+            </div>
+        </td>  
+    </tr>
+    <tr>
+        <td>
+        </td>      
+    </tr>   
+    </table>
+</div>
+
+<h3 class="tituloAnio">Cuarto Año</h3>
+<div id="anio">
+    <!---
+- Ingeniería de Software 3
+- Bases de Datos 2
+- Fundamentos de Teoría de la Computación
+- Sistemas Operativos
+- 	Desarrollo de Software en Sistenas Distribuidos
+- Matemática Discreta
+- 	Optativa Área Arquitecturas, Sistemas perativos y Redes:
+  	- Diseños de Sistemas Embebidos
+- Optativa Área Algoritmos y Lenguajes:
+  	- Pruebas de Softwares
+  	- 	Espacios Virtuales de Trabajo
+Colaborativo
+ 
+    --->
+    <table>
+    <tr>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Ingeniería de Software 3</a> 
+            </div> 
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Bases de Datos 2</a> 
+            </div>
+        </td>        
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Fundamentos de Teoría de la Computación</a> 
+            </div>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Sistemas Operativos</a> 
+            </div>
+        </td>        
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Matemática Discreta</a> 
+            </div>
+        </td>                                    
+    </tr>
+    <tr>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Desarrollo de Software en Sistenas Distribuidos</a> 
+            </div>        
+        </td>
+        <td>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Espacios Virtuales de Trabajo
+Colaborativo</a> 
+            </div>        
+        </td>      
+    </tr>
+    <tr>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Diseños de Sistemas Embebidos</a> 
+            </div>
+        </td>  
+    </tr>
+    <tr>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Pruebas de Softwares</a> 
+            </div>
+        </td>      
+    </tr>   
+    </table>
+</div>
+
+<h3 class="tituloAnio">Quinto Año</h3>
+<div id="anio">
+<!---
+ Política y Gestión de la Ciencia
+- 	Aspectos legales y Profesionales de Informática
+- Nuevos Escenarios
+- 	Optativa Área Ingeniería de Software y Bases de Datos:
+  	- Tecnologías de Explotación de Información
+  	- Ingeniería de Software Empírica
+- 	Seminario de Trabajo Final de Licenciatura en Sistemas
+--->
+    <table>
+    <tr>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Política y Gestión de la Ciencia</a> 
+            </div>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Nuevos Escenarios</a> 
+            </div>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Tecnologías de Explotación de Información</a> 
+            </div>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Ingeniería de Software Empírica</a> 
+            </div>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Seminario de Trabajo Final de Licenciatura en Sistemas</a> 
+            </div>
+        </td>                        
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td>
+            <div class="materia">
+                <a class="list-group-item list-group-item-success active">Aspectos legales y Profesionales de Informática</a> 
+            </div>
+        </td>
+        <td>
+        </td>        
+    </tr>   
+    </table>
+</div>
+
+{% endblock contenido %}
