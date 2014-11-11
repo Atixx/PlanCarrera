@@ -1,8 +1,12 @@
 {% extends "format.html" %}
+{% block links %}
+{% load staticfiles %}
+<link type = "text/css" rel="stylesheet" href= "{% static "carrera/css/ayuda.css" %}"></link>
+{% endblock links %}
 {% block titulo %} Ayuda: PlanCarrera {% endblock %}
 
 
-{% block contenido %}
+{% block contenidochico %}
 
 <h2>PlanCarrera</h2>
 
@@ -13,12 +17,12 @@
 </ol>
 
 <h3>El assistente para mantenerse al dia con el progresso de la carrera en la UNLa</h3>
-<h4>{% block nombre_seccion %}Contenido{%endblock%}</h4>
+<h4>{% block nombre_seccion %}Seleccione una opcion para ver detalles{%endblock%}</h4>
 <ul class="list-group">
     {% block tabla_contenido %}
     <li class="list-group-item">Usuario</li>
     <li class="list-group-item" id="materia-li">Materias
-    <div id="materias" class="hidden">
+    <div class="detalles" id="contenido_materia" >
         <ul>
             <li>Cada alumno se puede anotar en las materias segun su orden de correlatividad</li>
             <li>Las materias se consideran de dos formas: <em>Cuatrimestrales</em> y <em>Anuales</em></li>
@@ -37,4 +41,4 @@
 <a href="{{link}}">Regresar</a> <!-- mejorar el link para regresar un nivel -->
 {% endif %}
 
-{% endblock contenido %}
+{% endblock contenidochico %}

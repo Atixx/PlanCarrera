@@ -2,10 +2,10 @@ $(document).ready( function()
 {
   $("#materia-li").click(function()
   {
-    $("#materias").toggle();
-    $("#materias").attr("class", "show");
+    $("#contenido_materia").slideToggle();
   });
-    
+
+  
   $(".materia").click(function()
   {
     $(this).fadeToggle("slow",function()
