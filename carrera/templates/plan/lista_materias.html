@@ -10,24 +10,30 @@
     <div class="materia" id="primero">
         <div class="list-group">
             <a class="list-group-item list-group-item-success active">Primer Año</a>   
-            <a href="#" class="list-group-item disabled"><span class="badge">8</span>Matematica I</a>
-            <a href="#" class="list-group-item"><span class="badge">nota</span>Organizacion de PC</a>
-            <a href="#" class="list-group-item">Programacion</a>
-            <a href="#" class="list-group-item">Vestibulum at eros</a>
+            {% for m in materias.PR %}
+            <a href="{{m.0.nombre|slugify}}" class="list-group-item">
+                <span class="badge">{% if m.1 %}{{m.1}}{% else %}{% endif %}</span>
+                {{m}}</a>
+            {% endfor %}
         </div>       
     </div>
     <div class="materia" id="segundo">
         <div class="list-group">
             <a class="list-group-item list-group-item-warning active">Segundo Año</a>
-            <a href="#" class="list-group-item">Objetos I</a>
-            <a href="#" class="list-group-item">Matematica III</a>
+            {% for m in materias.SE %}
+            <a href="{{m.0|slugify}}" class="list-group-item">
+                <span class="badge">{% if m.1 %}{{m.1}}{% else %}{% endif %}</span>
+                {{m.0}}</a>
+            {% endfor %}
         </div>
     </div>
     <div class="materia" id="tercero">
         <div class="list-group">
             <a class="list-group-item list-group-item-info active">Tercer Año</a>
-            {% for m in materias %}
-            <a href="{{m.nombre|slugify}}" class="list-group-item">{{m}}</a>
+            {% for m in materias.TE %}
+            <a href="{{m.0|slugify}}" class="list-group-item">
+                <span class="badge">{% if m.1 %}{{m.1}}{% else %}{% endif %}</span>
+                {{m.0}}</a>
             {% endfor %}
         </div>
     </div>
@@ -36,6 +42,10 @@
     <div class="materia" id="cuarto">
         <div class="list-group">
             <a class="list-group-item list-group-item-danger active">Cuarto Año</a>
+            <a href="#" class="list-group-item disabled"><span class="badge">8</span>Matematica I</a>
+            <a href="#" class="list-group-item"><span class="badge">nota</span>Organizacion de PC</a>
+            <a href="#" class="list-group-item">Programacion</a>
+            <a href="#" class="list-group-item">Vestibulum at eros</a>
         </div>    
     </div>
     

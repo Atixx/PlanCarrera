@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from plan.models import Parcial, EstadoMateria, Materia, Profesor
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
-from funciones.verificarmateria import estadoMateria
+from funciones.funcmaterias import estadoMateria, promedioMateria
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
@@ -173,10 +173,21 @@ def logout(request):
 
 
 #TODO: listar materias por anios
+
 def lista_materias(request):
-    mat = []
-    for m in Materia.objects.all():
-        mat.append(m)
+    primero = []
+    segundo = []
+    tercero = []
+    cuarto = []
+    quinto= []
+    mat = { "PR" : primero, #aca deberia cambiar segun el modelo de Materia y tambien en lista_materias.html
+            "SE" : segundo,
+            "TE" : tercero,
+            "CU" : cuarto,
+            "QU" : quinto
+        }
+    for m in Materia.objects.select_related().all():
+        mat[m.anio].append([m, promedioMateria(m, request.user)])
     context = { "materias" : mat }
     return render(request, "plan/lista_materias.html", context)
     
