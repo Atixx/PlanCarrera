@@ -56,7 +56,7 @@ def promedioMateria(materia, usuario):
         for p in Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = usuario.id):
             cantidad+= 1
             nota += p.nota
-        return nota/cantidad
+        #return nota/cantidad
     else:
         return null
 
