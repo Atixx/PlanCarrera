@@ -214,7 +214,7 @@ def arbol_materias(request):
 def materia(request, nombre_materia):
     nombre_materia = nombre_materia.replace("-" ," ")
     materia = get_object_or_404(Materia, nombre__iexact = nombre_materia)
-    profesor = materia.profesor.all()#Profesor.objects.filter(materia__nombre = nombre_materia)
+    profesor = materia.profesor.all() #Profesor.objects.filter(materia__nombre = nombre_materia)
     correlativas = materia.correlativas.all()
     context = {"mat": materia, "profesor" : profesor, "correlativas" : correlativas}
     if request.user.is_authenticated(): #datos solo disponibles a logged
@@ -225,4 +225,4 @@ def materia(request, nombre_materia):
             context["parciales"] = Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id)
     else: #datos disponibles solo a NO logged
         context["auth"] = False;
-    return render(request, "plan/materia.html", context)
+    return render(request, "plan/materiamodal.html", context)

@@ -1,0 +1,42 @@
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title">{{mat.nombre}}</h3>
+      </div>
+      <div class="modal-body">
+        <p>
+        {% if auth  %}
+        {% if estado %}
+            </br>Estado: {{estado}}
+        {% endif %}
+        {% endif %}
+        {% if profesor|length > 1 %}
+            </br>Profesores:{% for p in profesor %} {{p.nombre}}; {% endfor %}
+        {% else %}
+            </br>Profesor: {{ profesor.0.nombre }}
+        {% endif %}
+        {% if correlativas %}
+            {% if correlativas|length > 1 %}
+            </br>Correlativas: {% for c in correlativas %} {{c.nombre}}; {% endfor %}
+            {% else %}
+            </br>Correlativa: {{correlativas.0.nombre}} 
+            {% endif %}
+        {% endif %}
+        {% if parciales %}
+            {% if parciales|length > 1 %}
+                <p>Parciales:</p>
+                {% for p in parciales %}
+                   <span class="parcial" >NOTA: {{p.nota}} Rendido el {{parciales.0.fecha.day}} del {{parciales.0.fecha.month}} de {{parciales.0.fecha.year}}</span></br>
+                {% endfor %}
+            {% else %}
+                <p>Parcial:</p><span class="parcial">NOTA: {{parciales.0.nota}}; Rendido el {{parciales.0.fecha.day}} del {{parciales.0.fecha.month}} de {{parciales.0.fecha.year}}</span>
+            {% endif %}
+        {% endif %}
+        </p>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
