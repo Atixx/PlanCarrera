@@ -37,6 +37,7 @@ def home(request):
                     p = make_password(p)
                     nuevoalumno=User(username=u, password=p, first_name=n, last_name=a, email= e)
                     nuevoalumno.save()
+                    #login(request, nuevoalumno) #deberia logear al nuevo usuario
                 else:
                     regerror="Usuario Existente"
             seleccion="1"
