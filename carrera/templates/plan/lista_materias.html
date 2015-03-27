@@ -11,9 +11,9 @@
         <div class="list-group">
             <a class="list-group-item list-group-item-success active">Primer Año</a>   
             {% for m in materias.PR %}
-            <a href="{{m.0.nombre|slugify}}" class="list-group-item">
+            <a href="{{m.0.nombre|slugify}}" class="list-group-item" data-form="{{m.0.nombre|slugify}}">
                 <span class="badge">{% if m.1 %}{{m.1}}{% else %}{% endif %}</span>
-                {{m}}</a>
+                {{m.0}}</a>
             {% endfor %}
         </div>       
     </div>
@@ -21,7 +21,7 @@
         <div class="list-group">
             <a class="list-group-item list-group-item-warning active">Segundo Año</a>
             {% for m in materias.SE %}
-            <a href="{{m.0|slugify}}" class="list-group-item">
+            <a href="{{m.0|slugify}}" class="list-group-item" data-form="{{m.0|slugify}}">
                 <span class="badge">{% if m.1 %}{{m.1}}{% else %}{% endif %}</span>
                 {{m.0}}</a>
             {% endfor %}
@@ -57,7 +57,8 @@
 </div>
 
 </br>
-
-
+<div class="modal fade" id="muestra">
+{% include "plan/materiamodal.html" %}
+</div><!-- /.modal -->
 
 {% endblock contenido %}
