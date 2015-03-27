@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from plan.models import Parcial, EstadoMateria, Materia, Profesor
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
-from funciones.funcmaterias import estadoMateria, promedioMateria
+from funciones.funcmaterias import estadoMateria, promedioMateria, convertirEstado
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
@@ -211,7 +211,7 @@ def arbol_materias(request):
     return render(request, "plan/arbolMaterias.html", context)      
       
 
-def materia(request, nombre_materia):
+def materia(request, nombre_materia): #modal usa esto
     nombre_materia = nombre_materia.replace("-" ," ")
     materia = get_object_or_404(Materia, nombre__iexact = nombre_materia)
     profesor = materia.profesor.all() #Profesor.objects.filter(materia__nombre = nombre_materia)
@@ -219,8 +219,8 @@ def materia(request, nombre_materia):
     context = {"mat": materia, "profesor" : profesor, "correlativas" : correlativas}
     if request.user.is_authenticated(): #datos solo disponibles a logged
         context["auth"] = True;
-        if EstadoMateria.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():
-            context["estado"] = EstadoMateria.objects.get(materia__nombre = materia.nombre, alumno_id = request.user.id).estado
+        if EstadoMateria.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():         
+            context["estado"] = convertirEstado(EstadoMateria.objects.get(materia__nombre = materia.nombre, alumno_id = request.user.id).estado)
         if Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():
             context["parciales"] = Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id)
     else: #datos disponibles solo a NO logged

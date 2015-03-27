@@ -61,3 +61,12 @@ def promedioMateria(materia, usuario):
     else:
         return None
 
+
+def convertirEstado(estado):
+
+    estados = { 'LB' : 'Libre',
+                'CU' : 'En Curso',
+                'RE' : 'Final Adeudado',
+                'FI' : 'Completa'
+               }
+    return estados[estado]
