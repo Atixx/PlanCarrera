@@ -227,3 +227,32 @@ def materia(request, nombre_materia): #modal usa esto
     else: #datos disponibles solo a NO logged
         context["auth"] = False;
     return render(request, "plan/materiamodal.html", context)
+    
+    
+#TODO: Corroborar datos ingresados, Validar fecha, agregar examen a DB
+@login_required
+def anotarse_examen(request):
+    if request.method == 'POST':
+        nombreMateria = request.POST.get('materia','')
+        opcion = request.POST.get('opcion','')
+        fecha = request.POST.get('fecha','')
+        nota = request.POST.get('nota','')
+        alumno = request.user.id   
+        msg = "El boton funciona, gracias"
+        
+
+        context = { "msg" : msg, "nom" : nombreMateria, "opcion" : opcion, "fecha" : fecha, "nota" : nota, "alumno" : alumno}
+        return render(request, "plan/anotarse_examen.html", context)
+    else:
+        cursando = []
+        regular = []
+        for l in Materia.objects.select_related().all():
+            estado = estadoMateria(l, request.user)
+            if estado == "cursando":
+                cursando.append(l)
+            elif estado == "regularizada":
+                regular.append(l)    
+        context = {"cursando" : cursando, "regular" : regular}
+        return render(request, "plan/anotarse_examen.html", context)
+  
+    
