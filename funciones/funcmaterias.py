@@ -61,7 +61,7 @@ def promedioMateria(materia, usuario):
     else:
         return None
 
-
+#convierte el estado de una materia a uno legible para el usuario
 def convertirEstado(estado):
 
     estados = { 'LB' : 'Libre',
@@ -70,3 +70,28 @@ def convertirEstado(estado):
                 'FI' : 'Completa'
                }
     return estados[estado]
+    
+#recibe el id del usuario, 2 listas y las llena de las materias en curso y las regularizadas
+
+def materiasExamen(userId, cursando, regularizadas):
+    for l in Materia.objects.select_related().all():
+                estado = estadoMateria(l, userId)
+                if estado == "cursando":
+                    cursando.append(l)
+                elif estado == "regularizada":
+                    regularizadas.append(l)
+       
+#funciones para tirar ValueError
+
+def stringVacio(string):
+    if not string:
+        raise ValueError
+    else:
+        return string     
+    
+    
+def corroborarNota(nota):
+    if int(nota) >= 1 and int(nota) <= 10:
+        return int(nota)
+    else:
+        raise ValueError

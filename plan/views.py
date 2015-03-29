@@ -1,8 +1,9 @@
+from datetime import datetime
 from django.shortcuts import render, get_object_or_404, redirect
 from plan.models import Parcial, EstadoMateria, Materia, Profesor
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
-from funciones.funcmaterias import estadoMateria, promedioMateria, convertirEstado
+from funciones.funcmaterias import estadoMateria, promedioMateria, convertirEstado, materiasExamen, stringVacio, corroborarNota
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
@@ -229,29 +230,39 @@ def materia(request, nombre_materia): #modal usa esto
     return render(request, "plan/materiamodal.html", context)
     
     
-#TODO: Corroborar datos ingresados, hacer un parse a la fecha (con una funcion?), agregar examen a DB
+#TODO: agregar examen a DB
+#Menos importante: agregar <selected> a la materia seleccionada antes del error
 @login_required
 def anotarse_examen(request):
     if request.method == 'POST':
-        nombreMateria = request.POST.get('materia','')
-        opcion = request.POST.get('opcion','')
-        fecha = request.POST.get('fecha','')
-        nota = request.POST.get('nota','')
-        alumno = request.user.id   
-        msg = "El boton funciona, gracias"
+        try:
+            nombreMateria = stringVacio(request.POST.get('materia',''))
+            opcion = request.POST.get('opcion','')
+            fecha = datetime.strptime(request.POST.get('fecha',''), "%d/%m/%y").date
+            nota = corroborarNota(request.POST.get('nota',''))
+            alumno = request.user.id   
+            msg = "El boton funciona, gracias"
+            if opcion == "parcial":
+               if EstadoMateria.objects.get(materia__nombre__exact = nombreMateria, alumno_id = alumno).estado != 'CU':
+                raise ValueError(", no puede agregar un parcial a una materia que no esta cursando")   
+            context = { "msg" : msg, "nom" : nombreMateria, "opcion" : opcion, "fecha" : fecha, "nota" : nota, "alumno" : alumno}
         
-
-        context = { "msg" : msg, "nom" : nombreMateria, "opcion" : opcion, "fecha" : fecha, "nota" : nota, "alumno" : alumno}
+        except ValueError as e:
+            error = e.args[0]#"Corrobore los datos"+e.message
+            fecha = request.POST.get('fecha','')
+            nota = request.POST.get('nota','')
+            cursando = []
+            regular = []
+            materiasExamen(request.user, cursando, regular)
+            #if e.args[0]:
+             #   error += e.message
+            context = {"error" : error, "cursando": cursando, "regular" : regular, "fecha" : fecha, "nota" : nota}
         return render(request, "plan/anotarse_examen.html", context)
+        
     else:
         cursando = []
         regular = []
-        for l in Materia.objects.select_related().all():
-            estado = estadoMateria(l, request.user)
-            if estado == "cursando":
-                cursando.append(l)
-            elif estado == "regularizada":
-                regular.append(l)    
+        materiasExamen(request.user, cursando, regular)    
         context = {"cursando" : cursando, "regular" : regular}
         return render(request, "plan/anotarse_examen.html", context)
   
