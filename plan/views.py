@@ -229,7 +229,7 @@ def materia(request, nombre_materia): #modal usa esto
     return render(request, "plan/materiamodal.html", context)
     
     
-#TODO: Corroborar datos ingresados, Validar fecha, agregar examen a DB
+#TODO: Corroborar datos ingresados, hacer un parse a la fecha (con una funcion?), agregar examen a DB
 @login_required
 def anotarse_examen(request):
     if request.method == 'POST':
