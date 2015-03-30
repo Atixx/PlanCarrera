@@ -94,4 +94,4 @@ def corroborarNota(nota):
     if int(nota) >= 1 and int(nota) <= 10:
         return int(nota)
     else:
-        raise ValueError
+        raise ValueError('la nota tiene que ser entre 0 y 10')

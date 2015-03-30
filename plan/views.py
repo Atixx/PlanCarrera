@@ -240,18 +240,16 @@ def anotarse_examen(request):
             msg = "El boton funciona, gracias"
             if opcion == "parcial":
                if EstadoMateria.objects.get(materia__nombre__exact = nombreMateria, alumno_id = alumno).estado != 'CU':
-                raise ValueError(", no puede agregar un parcial a una materia que no esta cursando")   
+                raise ValueError("no puede agregar un parcial a una materia que solo adeuda final")   
             context = { "msg" : msg, "nom" : nombreMateria, "opcion" : opcion, "fecha" : fecha, "nota" : nota, "alumno" : alumno}
         
         except ValueError as e:
-            error = e.args[0]#"Corrobore los datos"+e.message
+            error = "Corrobore los datos, "+e.message
             fecha = request.POST.get('fecha','')
             nota = request.POST.get('nota','')
             cursando = []
             regular = []
             materiasExamen(request.user, cursando, regular)
-            #if e.args[0]:
-             #   error += e.message
             context = {"error" : error, "cursando": cursando, "regular" : regular, "fecha" : fecha, "nota" : nota}
         return render(request, "plan/anotarse_examen.html", context)
         
