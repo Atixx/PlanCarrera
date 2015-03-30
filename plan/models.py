@@ -43,14 +43,23 @@ class Materia(models.Model):
     def __unicode__(self):
         return self.nombre
         
-class Parcial(models.Model):
+class Examen(models.Model):
+    PARCIAL = 'PA'
+    FINAL = 'FI'
+    OPCIONES = (
+        (PARCIAL, 'Parcial'),
+        (FINAL, 'Final'),
+    )
     nota = models.DecimalField(max_digits=2, decimal_places=1)
     fecha = models.DateField('fecha rendido')
     alumno = models.ForeignKey(User)
     materia = models.ForeignKey(Materia)
+    opcion = models.CharField(max_length=2,
+                            choices = OPCIONES,
+                            default = PARCIAL)
     
     def __unicode__(self):
-        return '%s, %s: %s' %(self.materia, self.alumno, self.nota)
+        return '%s, %s: %s, %s' %(self.opcion, self.materia, self.alumno, self.nota)
     
 
 class EstadoMateria(models.Model):

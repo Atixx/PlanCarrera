@@ -8,7 +8,7 @@
 ################################################################################
 
 
-from plan.models import EstadoMateria, Materia, Parcial
+from plan.models import EstadoMateria, Materia, Examen
 from django.core.exceptions import ObjectDoesNotExist
 import math
 
@@ -51,10 +51,10 @@ def estadoMateria(materia, usuario):
 #funcion que recibe una materia y usuario
 #TODO: retorna el promedio de cursada chequeando los examenes, en caso de no existir, retorna ???
 def promedioMateria(materia, usuario):
-    if Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = usuario.id).exists():
+    if Examen.objects.filter(materia__nombre = materia.nombre, alumno_id = usuario.id).exists():
         nota = 0
         cantidad = 0
-        for p in Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = usuario.id):
+        for p in Examen.objects.filter(materia__nombre = materia.nombre, alumno_id = usuario.id):
             cantidad+= 1
             nota += p.nota
         return "{0:g}".format(math.ceil(nota/cantidad))

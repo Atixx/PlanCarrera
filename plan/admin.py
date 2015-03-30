@@ -12,5 +12,5 @@ class AlumnoAdmin(admin.ModelAdmin):
 
 admin.site.register(Materia)
 admin.site.register(Profesor)
-admin.site.register(Parcial)
+admin.site.register(Examen)
 admin.site.register(EstadoMateria)
