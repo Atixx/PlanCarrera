@@ -1,11 +1,22 @@
 $(document).ready( function()
 {
+<<<<<<< HEAD
   /*$(".materia").click(function()
+=======
+  $("#materia-li").click(function()
+  {
+    $("#contenido_materia").slideToggle();
+  });
+
+  
+  $(".materia").click(function()
+>>>>>>> ayuda
   {
     $(this).fadeToggle("slow",function()
     {
         $(this).fadeToggle("slow");
     });
+<<<<<<< HEAD
   });*/
   
   $(".list-group-item").click(function(ev) // for each edit materia url
@@ -22,6 +33,10 @@ $(document).ready( function()
    
   
   
+=======
+  });
+
+>>>>>>> ayuda
   
   
 }); 
