@@ -8,7 +8,7 @@
 ################################################################################
 
 
-from plan.models import EstadoMateria, Materia, Parcial
+from plan.models import EstadoMateria, Materia, Examen
 from django.core.exceptions import ObjectDoesNotExist
 import math
 
@@ -51,17 +51,17 @@ def estadoMateria(materia, usuario):
 #funcion que recibe una materia y usuario
 #TODO: retorna el promedio de cursada chequeando los examenes, en caso de no existir, retorna ???
 def promedioMateria(materia, usuario):
-    if Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = usuario.id).exists():
+    if Examen.objects.filter(materia__nombre = materia.nombre, alumno_id = usuario.id).exists():
         nota = 0
         cantidad = 0
-        for p in Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = usuario.id):
+        for p in Examen.objects.filter(materia__nombre = materia.nombre, alumno_id = usuario.id):
             cantidad+= 1
             nota += p.nota
         return "{0:g}".format(math.ceil(nota/cantidad))
     else:
         return None
 
-
+#convierte el estado de una materia a uno legible para el usuario
 def convertirEstado(estado):
 
     estados = { 'LB' : 'Libre',
@@ -70,3 +70,28 @@ def convertirEstado(estado):
                 'FI' : 'Completa'
                }
     return estados[estado]
+    
+#recibe el id del usuario, 2 listas y las llena de las materias en curso y las regularizadas
+
+def materiasExamen(userId, cursando, regularizadas):
+    for l in Materia.objects.select_related().all():
+                estado = estadoMateria(l, userId)
+                if estado == "cursando":
+                    cursando.append(l)
+                elif estado == "regularizada":
+                    regularizadas.append(l)
+       
+#funciones para tirar ValueError
+
+def stringVacio(string):
+    if not string:
+        raise ValueError
+    else:
+        return string     
+    
+    
+def corroborarNota(nota):
+    if int(nota) >= 1 and int(nota) <= 10:
+        return int(nota)
+    else:
+        raise ValueError('la nota tiene que ser entre 0 y 10')

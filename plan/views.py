@@ -1,8 +1,9 @@
+from datetime import datetime
 from django.shortcuts import render, get_object_or_404, redirect
-from plan.models import Parcial, EstadoMateria, Materia, Profesor
+from plan.models import Examen, EstadoMateria, Materia, Profesor
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
-from funciones.funcmaterias import estadoMateria, promedioMateria, convertirEstado
+from funciones.funcmaterias import estadoMateria, promedioMateria, convertirEstado, materiasExamen, stringVacio, corroborarNota
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
@@ -146,7 +147,7 @@ def abandonar_materia(request):
             libre = EstadoMateria.objects.get(materia__nombre = nombreMateria, alumno_id = request.user.id)
             libre.estado = 'LB'
             libre.save()
-            Parcial.objects.filter(materia__nombre = nombreMateria, alumno_id = request.user.id).delete()
+            Examen.objects.filter(materia__nombre = nombreMateria, alumno_id = request.user.id).delete() #TODO: cambiar que no borre finales
             msg = "Ha quedado libre de "+nombreMateria+" suerte en el resto de la cursada."
         except ObjectDoesNotExist:
             msg = "usted debe seleccionar una materia para abandonar."
@@ -159,10 +160,6 @@ def abandonar_materia(request):
         context = { "materias" : mat }
         return render(request, "plan/abandonar_materia.html", context)
 
-#No se usa esto
-def parcial(request, id_parcial):
-    parcial = get_object_or_404(Parcial, pk=id_parcial)
-    return render(request, "plan/detallado.html", {"alumno" : parcial})
     
 def ayuda(request):
     return render(request, "plan/ayuda.html")    
@@ -222,8 +219,45 @@ def materia(request, nombre_materia): #modal usa esto
         context["auth"] = True;
         if EstadoMateria.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():         
             context["estado"] = convertirEstado(EstadoMateria.objects.get(materia__nombre = materia.nombre, alumno_id = request.user.id).estado)
-        if Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():
-            context["parciales"] = Parcial.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id)
+        if Examen.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():
+            context["parciales"] = Examen.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id) #TODO: modificar a mostrar solo parciales
     else: #datos disponibles solo a NO logged
         context["auth"] = False;
     return render(request, "plan/materiamodal.html", context)
+    
+    
+#TODO: agregar examen a DB
+#Menos importante: agregar <selected> a la materia seleccionada antes del error
+@login_required
+def anotarse_examen(request):
+    if request.method == 'POST':
+        try:
+            nombreMateria = stringVacio(request.POST.get('materia',''))
+            opcion = request.POST.get('opcion','')
+            fecha = datetime.strptime(request.POST.get('fecha',''), "%d/%m/%y").date
+            nota = corroborarNota(request.POST.get('nota',''))
+            alumno = request.user.id   
+            msg = "El boton funciona, gracias"
+            if opcion == "parcial":
+               if EstadoMateria.objects.get(materia__nombre__exact = nombreMateria, alumno_id = alumno).estado != 'CU':
+                raise ValueError("no puede agregar un parcial a una materia que solo adeuda final")   
+            context = { "msg" : msg, "nom" : nombreMateria, "opcion" : opcion, "fecha" : fecha, "nota" : nota, "alumno" : alumno}
+        
+        except ValueError as e:
+            error = "Corrobore los datos, "+e.message
+            fecha = request.POST.get('fecha','')
+            nota = request.POST.get('nota','')
+            cursando = []
+            regular = []
+            materiasExamen(request.user, cursando, regular)
+            context = {"error" : error, "cursando": cursando, "regular" : regular, "fecha" : fecha, "nota" : nota}
+        return render(request, "plan/anotarse_examen.html", context)
+        
+    else:
+        cursando = []
+        regular = []
+        materiasExamen(request.user, cursando, regular)    
+        context = {"cursando" : cursando, "regular" : regular}
+        return render(request, "plan/anotarse_examen.html", context)
+  
+    
