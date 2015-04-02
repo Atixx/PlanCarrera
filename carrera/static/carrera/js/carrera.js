@@ -1,8 +1,6 @@
 $(document).ready( function()
 {
-<<<<<<< HEAD
-  /*$(".materia").click(function()
-=======
+  /*$(".materia").click(function()*/
   $("#materia-li").click(function()
   {
     $("#contenido_materia").slideToggle();
@@ -10,14 +8,12 @@ $(document).ready( function()
 
   
   $(".materia").click(function()
->>>>>>> ayuda
   {
     $(this).fadeToggle("slow",function()
     {
         $(this).fadeToggle("slow");
     });
-<<<<<<< HEAD
-  });*/
+  });
   
   $(".list-group-item").click(function(ev) // for each edit materia url
   { 
@@ -30,13 +26,8 @@ $(document).ready( function()
     return false; // prevent the click propagation
     
     });
-   
-  
-  
-=======
-  });
 
->>>>>>> ayuda
+
   
   
 }); 
