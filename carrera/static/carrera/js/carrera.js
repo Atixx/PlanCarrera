@@ -1,6 +1,6 @@
 $(document).ready( function()
 {
-  /*$(".materia").click(function()*/
+  /*$(".materia").click(function()
   $("#materia-li").click(function()
   {
     $("#contenido_materia").slideToggle();
@@ -13,7 +13,7 @@ $(document).ready( function()
     {
         $(this).fadeToggle("slow");
     });
-  });
+  });*/
   
   $(".list-group-item").click(function(ev) // for each edit materia url
   { 
