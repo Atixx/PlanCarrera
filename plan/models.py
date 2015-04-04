@@ -39,6 +39,7 @@ class Materia(models.Model):
                             default=PRIMERO)
     profesor = models.ManyToManyField(Profesor)
     correlativas = models.ManyToManyField("Materia", blank=True);
+    info = models.URLField(max_length=200)
                                         
     def __unicode__(self):
         return self.nombre
