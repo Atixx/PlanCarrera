@@ -17,5 +17,17 @@ Antes de trabajar:
     git commit -m "este mensaje explica que hice"
     git push https://github.com/<USER>/PlanCarrera
 
+
+
+Sync DB:
+
+    python manage.py dumpdata <your_app> > temp_data.json
+    python manage.py sqlclear <your_app> | python manage.py dbshell
+    python manage.py syncdb
+    python manage.py loaddata temp_data.json
+
+
+
+
   LPPG! :) (get or 404)
 
