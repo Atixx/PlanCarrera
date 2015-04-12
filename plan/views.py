@@ -264,9 +264,10 @@ def anotarse_examen(request):
 def consulta_examen(request):
 	lista_examen = []	
 	#if Examen.objects.filter(pub_date__year=2015).exists(): #prueba con fecha 2015. mejorar la implementacion
-	if Examen.objects.filter(fecha__range=(datetime(2008, 1, 1), datetime.now().date()), alumno_id = request.user.id).exists():
-		for i in Examen.objects.filter(fecha__range=(datetime(2008, 1, 1), datetime.now().date()), alumno_id = request.user.id):
-			lista_examen.append(i)# agregar al filtro, discirminar por user logueado.
+	if Examen.objects.filter(fecha__range=(datetime(2008, 1, 1), datetime.now().date()), alumno_id = request.user.id).exists():		
+		for i in Examen.objects.filter(fecha__range=(datetime(2008, 1, 1), datetime.now().date()), alumno_id = request.user.id).order_by('fecha'):
+			lista_examen.append(i) # agregar al filtro, discriminar por user logueado.   agregado
+		#lista_examen.sort(reverse=True)
 		context={"lista_examen" : lista_examen}
 	else:
 		no_hay="No se registran examenes a la fecha."
