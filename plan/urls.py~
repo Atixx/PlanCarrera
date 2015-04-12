@@ -15,6 +15,6 @@ urlpatterns = patterns ('',
     url(r'^materias/(?P<nombre_materia>[\w\d-]+)$', views.materia, name="materia"),
     url(r'^materias/$', views.lista_materias, name="materias"),
     url(r'^nuevo-examen/$', views.anotarse_examen, name="anotarse-examen"),
-	url(r'^consulta-examen/$', views.consulta_examen, name="consulta-examen"),
+	url(r'^consulta_examen/$', views.consulta_examen, name="consulta-examen"),
     
 )

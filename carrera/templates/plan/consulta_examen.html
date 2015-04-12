@@ -1,0 +1,43 @@
+{%extends "format.html" %}
+
+{%block cabezera %}Consulta de Examenes{% endblock cabezera %}
+
+{% block contenido %}
+	{%if no_hay%}<br><h3>{{no_hay}}<h3></br>{%endif%}
+		{%if lista_examen%}
+			<br><div style="text-align:center">
+				<table border="6px" style="margin: 0 auto;"><!--tabla con borde definido-->
+				<!--<table style="border-collapse:collapse;">-->
+					<thead>
+						<tr>
+							<th style="color:red" colspan="4">Examenes a la Fecha</th><!--encabezado que comienza la tabla y cubre todas las columnas con colspan-->
+						</tr>
+						<tr style="border-top:1px solid black;">
+							<th style="padding:5px;">
+								Fecha
+							</th>
+							<th style="padding:5px;border-left:1px solid black;">
+								Materia
+							</th>
+							<th style="padding:5px;border-left:1px solid black;">
+								Parcial(PA)/Final(FI)
+							</th>
+							<th style="padding:5px;border-left:1px solid black;">
+								Nota
+							</th>
+						</tr>
+					</thead>	
+					<tbody>
+						{%for i in lista_examen%}
+							<tr>
+								<td style="padding:5px;">{{i.fecha}}</td><!--celda-->
+								<td style="padding:5px;">{{i.materia.nombre}}</td>
+								<td style="padding:5px;">{{i.opcion}}</td>
+								<td><span style="color:blue;font-family:Comic Sans">{{i.nota}}</span></td>
+							</tr><!-- filas de la tabla-->
+						{%endfor%}
+					</tbody>
+				</table>
+			</div>
+	{%endif%}
+{% endblock contenido %}
