@@ -1,12 +1,11 @@
 $(document).ready( function()
 {
-  /*$(".materia").click(function()
   $("#materia-li").click(function()
   {
     $("#contenido_materia").slideToggle();
   });
 
-  
+  /*
   $(".materia").click(function()
   {
     $(this).fadeToggle("slow",function()
