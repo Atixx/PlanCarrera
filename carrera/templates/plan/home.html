@@ -6,7 +6,7 @@
 
 {% block contenidochico %}
 
-<form action="." method="GET">
+<form action="." method="POST">
     <div padding=15px class="form-group">
     <!--
 <label for="q">Search: </label>
@@ -40,7 +40,7 @@
             <FONT COLOR="RED">*{{regerror}}</font>
         {% endif %}
         {% endifequal %}        
-        {% if reg == "1" %}
+        {% if reg == "1" and registroOk == False %}
         <div class="form-group">
             <label for="usuario">Usuario</label>
             <input type="text" class="form-control" id="usuario" autofocus placeholder="Usuario" name="user" required minlength="5" maxlength="20" />
@@ -78,6 +78,14 @@
             <button type="submit" class="btn btn-default">Registrarse</button>
         </div>
         {% endif %}
+	<!--Limpia y redirecciona si esta logueado-->
+	{% if registroOk == True %}
+		<FONT COLOR="RED">Registro Exitoso, será redireccionado en 5 segundos.</font>
+		<p>Presione <a href="/">aqui</a> para acceder inmediatamente</p>
+		<script>
+		    setTimeout(window.location="http://localhost:8000", 5000);
+		</script>
+	{% endif %}
     </div>
   {% endif %}	
 </form>

@@ -4,9 +4,9 @@
 
 {% block cabezera %} Bienvenido al inicio {% endblock %}
 
-{% block contenido %}
+{% block contenidochico %}
 
-<form action="." method="GET">
+<form action="." method="POST">
     <div padding=15px class="form-group">
     <!--
 <label for="q">Search: </label>
@@ -22,7 +22,7 @@
     
   {% if reg %}
   <div id="segundaParte">
-        <h2>Segunda Parte::</h2>
+        <h3>Ingrese sus datos</h3>
      
         {% ifequal reg "0" %}
 	<div class="form-group">
@@ -36,8 +36,11 @@
         <div style=padding-top:15px>
             <button type="submit" class="btn btn-default">Ingresar!</button>
         </div>
+	{% if regerror != "" %}
+            <FONT COLOR="RED">*{{regerror}}</font>
+        {% endif %}
         {% endifequal %}        
-        {% if reg == "1" %}
+        {% if reg == "1" and registroOk == False %}
         <div class="form-group">
             <label for="usuario">Usuario</label>
             <input type="text" class="form-control" id="usuario" autofocus placeholder="Usuario" name="user" required minlength="5" maxlength="20" />
@@ -75,7 +78,14 @@
             <button type="submit" class="btn btn-default">Registrarse</button>
         </div>
         {% endif %}
+	<!--Limpia y redirecciona si esta logueado-->
+	{% if registroOk == True %}
+		<FONT COLOR="RED">Registro Exitoso, será redireccionado en 5 segundos.</font>
+		<script>
+		    setTimeout(window.location="http://localhost:8000", 5000);
+		</script>
+	{% endif %}
     </div>
   {% endif %}	
 </form>
-{% endblock %}
+{% endblock contenidochico %}

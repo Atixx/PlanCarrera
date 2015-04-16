@@ -9,16 +9,15 @@ from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
+from django.contrib.auth import authenticate
 
 # Create your views here.
 def home(request):
+    registroOk = False
     if request.user.is_authenticated():
         #PRUEBO SI MANTIENE LA SESION
-        #yalogeado="1"
-        #return render(request, "plan/detallado.html",{"yalogeado" : "1"} )
-        #return alumno(request, request.user.username)
         return index(request)
-    seleccion=request.GET.get('reg','')
+    seleccion=request.POST.get('reg','')
     regerror=""
     if request.method == "POST":
         p=request.POST.get('passwd','')
@@ -38,7 +37,10 @@ def home(request):
                     p = make_password(p)
                     nuevoalumno=User(username=u, password=p, first_name=n, last_name=a, email= e)
                     nuevoalumno.save()
-                    #login(request, nuevoalumno) #deberia logear al nuevo usuario
+                    registroOk = True
+                    #logear al nuevo usuario
+                    nuevoalumno = authenticate(username=u, password=datos["passwd"])
+                    auth.login(request, nuevoalumno)
                 else:
                     regerror="Usuario Existente"
             seleccion="1"
@@ -61,7 +63,7 @@ def home(request):
         #LOGEO
         
         
-    return render(request, "plan/home.html",{"reg" : seleccion,"regerror":regerror})
+    return render(request, "plan/home.html",{"reg" : seleccion,"regerror":regerror, "registroOk":registroOk})
                   
 def index(request):
     #lista_alumnos = User.objects.all()
