@@ -10,6 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 from django.contrib.auth import authenticate
+from funciones.RecuperarCredenciales import *
 
 # Create your views here.
 def home(request):
@@ -28,6 +29,7 @@ def home(request):
         e=request.POST.get('email','')
         u2=request.POST.get('userlog','')
         pl=request.POST.get('passwdlog','')
+        recucreden=request.POST.get('recucreden','')
         #Valida REGISTRO
         if u:
             datos={"user":u,"passwd":p,"repasswd":p2,"name":n,"lastname":a,"email":e}
@@ -58,10 +60,12 @@ def home(request):
                     regerror="Password Invalida"
             else:
                 regerror="El usuario no existe"
-
-
-        #LOGEO
-        
+        #Recuperar credenciales.
+        if recucreden:
+            if recucreden == 1:
+                RecuperarPassword(request)
+            #elif recucreden == 0:
+                #RecuperarUsuario(request)
         
     return render(request, "plan/home.html",{"reg" : seleccion,"regerror":regerror, "registroOk":registroOk})
                   

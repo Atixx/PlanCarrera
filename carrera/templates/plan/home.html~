@@ -18,9 +18,8 @@
     <button type="submit" id="reg0" class="btn btn-primary" name="reg" value="0">Ingresar!</button>
     </div>
 </form>
+ {% if reg %}
 <form class="form-horizontal" action="." method="POST">
-    
-  {% if reg %}
   <div id="segundaParte">
         <h3>Ingrese sus datos</h3>
      
@@ -39,7 +38,15 @@
 	{% if regerror != "" %}
             <FONT COLOR="RED">*{{regerror}}</font>
         {% endif %}
-        {% endifequal %}        
+</form>
+<form class="form-horizontal" action="." method="POST">
+	<div style=padding-top:15px>
+	<button type="submit" class="btn btn-link" name="recucreden" value="1">¿Olvidaste Contraseña?</button>
+	<button type="submit" class="btn btn-link" name="recucreden" value="0">¿Olvidaste tu usuario?</button>
+	</div>
+</form>
+       {% endifequal %}     
+<form class="form-horizontal" action="." method="POST"> 
         {% if reg == "1" and registroOk == False %}
         <div class="form-group">
             <label for="usuario">Usuario</label>
@@ -81,6 +88,7 @@
 	<!--Limpia y redirecciona si esta logueado-->
 	{% if registroOk == True %}
 		<FONT COLOR="RED">Registro Exitoso, será redireccionado en 5 segundos.</font>
+		<p>Presione <a href="/">aqui</a> para acceder inmediatamente</p>
 		<script>
 		    setTimeout(window.location="http://localhost:8000", 5000);
 		</script>
