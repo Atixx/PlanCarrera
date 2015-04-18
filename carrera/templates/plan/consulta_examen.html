@@ -2,29 +2,33 @@
 
 {% block links %}
 {% load staticfiles %}
-<link type = "text/css" href= "{% static "carrera/css/examenes.css" %}" rel="stylesheet"></link>
+<link type = "text/css" href= "{% static "carrera/css/examenes.css" %}" rel="stylesheet"></link> <!--- descomentar esto para poder usar el CSS especifico --->
 {% endblock links %}
+{% block scripts %}
+{%load staticfiles %}
+<script src= "{% static "carrera/js/jquery.tablesorter.min.js" %}"></script>
+{% endblock scripts %}
 {%block cabezera %}Consulta de Examenes{% endblock cabezera %}
 
 {% block contenido %}
 	{%if no_hay%}<br/><h3>{{no_hay}}<h3><br>{%endif%}
 		{%if lista_examen%}
 			<br/><div id="centro">
-				<table border="6px" style="margin: 0 auto;"><!--tabla con borde definido-->
+				<table id="examenes" class="table table-condensed table tablesorter"><!--- border="6px" style="margin: 0 auto;"><!--tabla con borde definido-->
 				<!--<table style="border-collapse:collapse;">-->
 					<thead>
+						<!--- <tr>
+							<th id="tablaCol" colspan="4">Examenes a la Fecha</th><!--encabezado que comienza la tabla y cubre todas las columnas con colspan
+						</tr> --->
 						<tr>
-							<th id="tablaCol" colspan="4">Examenes a la Fecha</th><!--encabezado que comienza la tabla y cubre todas las columnas con colspan-->
-						</tr>
-						<tr style="border-top:1px solid black;">
-							<th class="datos">
+							<th class="datos cabezera">
 								Fecha
 							</th>
 							<th class="datos cabezera">
 								Materia
 							</th>
 							<th class="datos cabezera">
-								Parcial(PA)/Final(FI)
+								Parcial/Final
 							</th>
 							<th class="datos cabezera">
 								Nota
@@ -33,7 +37,7 @@
 					</thead>	
 					<tbody>
 						{%for i in lista_examen%}
-							<tr>
+							<tr class={%if i.nota < 4%}"danger"{%elif i.nota > 7%}"success"{%else%}"warning"{%endif%}>
 								<td class="datos">{{i.fecha}}</td><!--celda-->
 								<td class="datos">{{i.materia.nombre}}</td>
 								<td class="datos">{{i.opcion}}</td>

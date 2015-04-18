@@ -71,6 +71,11 @@ def convertirEstado(estado):
                }
     return estados[estado]
     
+def convertirExamen(examen):
+    opcion = { 'FI' : 'Final', 'PA' : 'Parcial' }
+    return opcion[examen.opcion]
+    
+    
 #recibe el id del usuario, 2 listas y las llena de las materias en curso y las regularizadas
 
 def materiasExamen(userId, cursando, regularizadas):

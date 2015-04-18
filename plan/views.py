@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from plan.models import Examen, EstadoMateria, Materia, Profesor
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
-from funciones.funcmaterias import estadoMateria, promedioMateria, convertirEstado, materiasExamen, stringVacio, corroborarNota
+from funciones.funcmaterias import estadoMateria, promedioMateria, convertirEstado, materiasExamen, stringVacio, corroborarNota, convertirExamen
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
@@ -262,16 +262,18 @@ def anotarse_examen(request):
 
 @login_required
 def consulta_examen(request):
-	lista_examen = []	
-	#if Examen.objects.filter(pub_date__year=2015).exists(): #prueba con fecha 2015. mejorar la implementacion
-	if Examen.objects.filter(fecha__range=(datetime(2008, 1, 1), datetime.now().date()), alumno_id = request.user.id).exists():		
-		for i in Examen.objects.filter(fecha__range=(datetime(2008, 1, 1), datetime.now().date()), alumno_id = request.user.id).order_by('fecha'):
-			lista_examen.append(i) # agregar al filtro, discriminar por user logueado.   agregado
-		#lista_examen.sort(reverse=True)
-		context={"lista_examen" : lista_examen}
-	else:
-		no_hay="No se registran examenes a la fecha."
-		context={"no_hay" : no_hay}
-	return render(request,"plan/consulta_examen.html", context)
+    lista_examen = []	
+    #if Examen.objects.filter(pub_date__year=2015).exists(): #prueba con fecha 2015. mejorar la implementacion
+    if Examen.objects.filter(fecha__range=(datetime(2008, 1, 1), datetime.now().date()), alumno_id = request.user.id).exists():		
+        for i in Examen.objects.filter(fecha__range=(datetime(2008, 1, 1), datetime.now().date()), alumno_id = request.user.id).order_by('fecha'):
+            lista_examen.append(i) # agregar al filtro, discriminar por user logueado.   agregado
+        context={"lista_examen" : lista_examen}
+        #lista_examen.sort(reverse=True)
+        for e in lista_examen:
+            e.opcion = convertirExamen(e)
+    else:
+        no_hay="No se registran examenes a la fecha."
+        context={"no_hay" : no_hay}
+    return render(request,"plan/consulta_examen.html", context)
 	
  

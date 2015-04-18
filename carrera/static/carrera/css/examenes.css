@@ -1,4 +1,4 @@
-#centro
+/*#centro
 {
    text-align:center;
 }
@@ -17,14 +17,16 @@
 {
     padding:5px;
 }
-
-.cabezera
+*/
+.cabezera:hover
 {
-    border-left:1px solid black;
+    color: #3071a9;
 }
-
+/*
 #nota
 {
     color:blue;
     font-family:Comic Sans;
 }
+*/
+
