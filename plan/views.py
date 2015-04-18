@@ -77,6 +77,7 @@ def index(request):
         comperc = com*100/tot
         cur = EstadoMateria.objects.filter(alumno_id = alumno.id , estado = 'CU').count()
         curperc = cur*100/tot
+        #promedio = promedioCursada(alumno)
     
     context = {
         "alumno" : alumno,
@@ -86,7 +87,8 @@ def index(request):
         "comperc" : comperc,
         "cur" : cur, 
         "curperc" : curperc,
-        "tot" : tot
+        "tot" : tot #,"promedio" : promedio
+        
     }
     return render(request, "plan/index.html", context)
 
