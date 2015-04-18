@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from plan.models import Examen, EstadoMateria, Materia, Profesor
 from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
-from funciones.funcmaterias import estadoMateria, promedioMateria, convertirEstado, materiasExamen, stringVacio, corroborarNota
+from funciones.funcmaterias import *
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
@@ -77,7 +77,7 @@ def index(request):
         comperc = com*100/tot
         cur = EstadoMateria.objects.filter(alumno_id = alumno.id , estado = 'CU').count()
         curperc = cur*100/tot
-        #promedio = promedioCursada(alumno)
+        promedio = promedioCursada(alumno)
     
     context = {
         "alumno" : alumno,
@@ -87,7 +87,8 @@ def index(request):
         "comperc" : comperc,
         "cur" : cur, 
         "curperc" : curperc,
-        "tot" : tot #,"promedio" : promedio
+        "tot" : tot,
+        "promedio" : promedio
         
     }
     return render(request, "plan/index.html", context)

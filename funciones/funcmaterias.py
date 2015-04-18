@@ -121,7 +121,15 @@ def corroborarNota(nota):
     else:
         raise ValueError('la nota tiene que ser entre 0 y 10')
 
-def promedioCursada(alumno):#TODO
-    finales = []
-    
-                
+def promedioCursada(usuario):#TODO
+    promedio = 0
+    materias = []
+    for m in Materia.objects.all():
+        promedio = promedioMateria(m, usuario)
+        if (promedio):
+            materias.append(float(promedio))
+    if (len(materias)):
+        promedio = "{0:g}".format(math.ceil(sum(materias)/len(materias)))
+    #if (promedio == None):
+    #    promedio = ''
+    return promedio
