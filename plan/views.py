@@ -2,7 +2,8 @@ from datetime import datetime
 from django.shortcuts import render, get_object_or_404, redirect
 from plan.models import Examen, EstadoMateria, Materia, Profesor
 from django.contrib.auth.models import User
-from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
+from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd,\
+    correoexiste
 from funciones.funcmaterias import estadoMateria, promedioMateria, convertirEstado, materiasExamen, stringVacio, corroborarNota
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
@@ -10,7 +11,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 from django.contrib.auth import authenticate
-from funciones.RecuperarCredenciales import *
+from funciones.RecuperarCredenciales import RecuperarPassword
+from urllib2 import HTTPRedirectHandler
+from django.http.response import HttpResponseRedirect
 
 # Create your views here.
 def home(request):
@@ -29,7 +32,6 @@ def home(request):
         e=request.POST.get('email','')
         u2=request.POST.get('userlog','')
         pl=request.POST.get('passwdlog','')
-        recucreden=request.POST.get('recucreden','')
         #Valida REGISTRO
         if u:
             datos={"user":u,"passwd":p,"repasswd":p2,"name":n,"lastname":a,"email":e}
@@ -60,13 +62,7 @@ def home(request):
                     regerror="Password Invalida"
             else:
                 regerror="El usuario no existe"
-        #Recuperar credenciales.
-        if recucreden:
-            if recucreden == 1:
-                RecuperarPassword(request)
-            #elif recucreden == 0:
-                #RecuperarUsuario(request)
-        
+         
     return render(request, "plan/home.html",{"reg" : seleccion,"regerror":regerror, "registroOk":registroOk})
                   
 def index(request):
@@ -266,4 +262,13 @@ def anotarse_examen(request):
         context = {"cursando" : cursando, "regular" : regular}
         return render(request, "plan/anotarse_examen.html", context)
   
+def recpass (request):
     
+    if request.method == "POST":
+        correo=request.POST.get('recemail','')
+        if correo != "name@example.com":
+            if correoexiste(correo) == True:
+                RecuperarPassword(correo)
+
+    return render(request, "plan/recupasswd.html")
+

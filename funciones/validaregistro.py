@@ -39,3 +39,9 @@ def validarpasswd(datos):
         encontrado = True
     return (encontrado)
 
+def correoexiste(correo):
+    Encontrado = False
+    if User.objects.filter(email=correo):
+        Encontrado = True
+    return(Encontrado)
+

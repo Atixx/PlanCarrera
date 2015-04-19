@@ -41,8 +41,8 @@
 </form>
 <form class="form-horizontal" action="." method="POST">
 	<div style=padding-top:15px>
-	<button type="submit" class="btn btn-link" name="recucreden" value="1">¿Olvidaste Contraseña?</button>
-	<button type="submit" class="btn btn-link" name="recucreden" value="0">¿Olvidaste tu usuario?</button>
+<a href="plan/rp">¿Olvidaste Contraseña?</a>
+<a href="plan/ru">¿Olvidaste tu usuario?</a>
 	</div>
 </form>
        {% endifequal %}     

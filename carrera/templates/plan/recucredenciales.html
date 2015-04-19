@@ -1,0 +1,26 @@
+{% extends "format.html" %}
+
+{% block titulo %}Plan Carrera {% endblock %}
+
+{% block cabezera %} Recuperar Credenciales {% endblock %}
+
+{% block contenido %} {% endblock %}
+{% block contenidochico %} 
+
+        <h3>Ingrese su e-mail</h3>
+
+<form class="form-horizontal" action="." method="POST">
+        <div id="form-group">
+            <label for="email">E-Mail</label>
+            <input type="email" class="form-control" id="email" name="email"  value="name@example.com" required />
+        </div>
+        <div style=padding-top:15px>
+            <button type="submit" class="btn btn-success">Recuperar!!</button>
+        </div>
+	{% if regerror != "" %}
+            <FONT COLOR="RED">*{{regerror}}</font>
+        {% endif %}
+</form>
+{% endblock %}
+
+
