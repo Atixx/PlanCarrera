@@ -11,7 +11,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 from django.contrib.auth import authenticate
-from funciones.RecuperarCredenciales import RecuperarPassword
+from funciones.RecuperarCredenciales import RecuperarPassword,\
+    DesencriptarUserID
 from urllib2 import HTTPRedirectHandler
 from django.http.response import HttpResponseRedirect
 
@@ -264,11 +265,39 @@ def anotarse_examen(request):
   
 def recpass (request):
     
+    mensj=""
     if request.method == "POST":
         correo=request.POST.get('recemail','')
         if correo != "name@example.com":
             if correoexiste(correo) == True:
                 RecuperarPassword(correo)
+                mensj="Revise el correo suministrado y siga las instrucciones"
+            else:
+                mensj="El correo ingresado no se encuentra registrado en nuestra base"            
+    context = {"mensj":mensj}
+    
+    return render(request, "plan/recupasswd.html", context)
 
-    return render(request, "plan/recupasswd.html")
-
+def restablecer (request):
+    
+    regerror = ""
+    encrypUserID = request.GET.get('AA','')
+    if encrypUserID != "":
+        UserID = DesencriptarUserID(encrypUserID)
+        usuario = User.objects.get(id=UserID)
+        context = {"usuario":usuario, "userid":UserID}
+    if request.method == "POST":
+        p=request.POST.get('passwd','')
+        p2=request.POST.get('repasswd','')
+        usuario=request.POST.get('usuario','')
+        if p != p2:
+            regerror="passnoigual"  
+            context = {"usuario":usuario, "regerror":regerror}
+        else:
+            u = User.objects.get(username=usuario)
+            p = make_password(p)
+            u.password = p
+            u.save()
+            regerror = "ok"
+            context = {"regerror":regerror}
+    return render(request, "plan/restablecer.html", context)
