@@ -274,4 +274,12 @@ def consulta_examen(request):
 		context={"no_hay" : no_hay}
 	return render(request,"plan/consulta_examen.html", context)
 	
- 
+@login_required
+def editar_datos(request):
+	if request.method=='POST':
+		alumno.first_name=request.POST.get('nombre', '')
+		alumno.last_name=request.POST.get('apellido','')
+		alumno.email=request.POST.get('email','')
+		alumno.password=request.POST.get('pswd', '')
+	return alumno(request)
+

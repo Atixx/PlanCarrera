@@ -4,7 +4,7 @@
     {% block cabezera %} Hola {{ alumno.first_name }} {% endblock %}
     
     {% block contenido %}
-<!--
+
 	<ul><br>
 		<li>Usuario: {{alumno.username}}</li><br>
 		<li>Nombre: {{alumno.last_name}}</li><br>
@@ -12,8 +12,6 @@
 		<li>Email: {{alumno.email}}</li><br>
 	</ul>
 
-	<button type="submit" class="btn btn-success" name="reg" value="1">Editar datos</button>
--->
     {% if libre or en_curso or aprobada or completa %}
         {% if libre %}
         <h3>Materias libres</h3>
