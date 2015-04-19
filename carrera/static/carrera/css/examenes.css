@@ -1,0 +1,32 @@
+/*#centro
+{
+   text-align:center;
+}
+
+#tablaCol
+{
+    color:red;
+}
+
+#cabezera
+{
+    border-top:1px solid black;
+}
+
+.datos
+{
+    padding:5px;
+}
+*/
+.cabezera:hover
+{
+    color: #3071a9;
+}
+/*
+#nota
+{
+    color:blue;
+    font-family:Comic Sans;
+}
+*/
+
