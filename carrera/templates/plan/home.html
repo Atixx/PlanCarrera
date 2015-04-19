@@ -75,10 +75,10 @@
             <label for="email">E-Mail</label>
             <input type="email" class="form-control" id="email" name="email"  value="name@example.com" required />
         </div>
-            {% if regerror != "Usuario Existente" and regerror != "" and regerror != "passnoigual"%}
+            {% if regerror != "Usuario o Email Existente" and regerror != "" and regerror != "passnoigual"%}
             	<FONT COLOR="RED">*Campo {{regerror}} vacio</font>
             {% endif %}
-            {% if regerror == "Usuario Existente" %}
+            {% if regerror == "Usuario o Email Existente" %}
                 <FONT COLOR="RED">*{{regerror}}</font>
             {% endif %}
         <div style=padding-top:15px>

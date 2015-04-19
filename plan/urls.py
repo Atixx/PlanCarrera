@@ -15,6 +15,7 @@ urlpatterns = patterns ('',
     url(r'^materias/$', views.lista_materias, name="materias"),
     url(r'^nuevo-examen/$', views.anotarse_examen, name="anotarse-examen"),
     url(r'^rp/$', views.recpass, name ="recpass"),
+    url(r'^ru/$', views.recuser, name ="recuser"),
     url(r'^recuperar/$', views.restablecer, name ="recuperar"),
     
 )

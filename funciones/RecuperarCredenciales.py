@@ -8,8 +8,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import base64
 
 def RecuperarPassword(correo):
-    '''Vamos a hacer una prueba de envio por correo, si eso no funca
-    todo esto es inutil
+    '''Enviamos el ID del usuario por email, encriptado para ser usado luego
+    por un get y recuperar la contrasenia
     '''
     u=User.objects.get(email=correo)
     createidcode="UserID:"+ str(u.id)
@@ -27,4 +27,16 @@ def DesencriptarUserID(UserEncrypt):
     UserID = UserID[1]
         
     return (UserID)
+
+def RecuperarUsuario(correo):
+
+    u=User.objects.get(email=correo)
+    usuario=u.username
+    createidcode="UserID:"+ str(u.id)
+    idcode="AA="+base64.standard_b64encode(createidcode)
+    url= "http://localhost:8000/plan/recuperar?"+idcode
+    send_mail('Plan Carrera: Recuperar Usuario', 'Su usuario es: '
+              +usuario +'. Si no recuerda su clave de acceso puede cambiarla siguiendo este link: '
+              +url, 'gestion.plancarrera@gmail.com', [correo], fail_silently=False)
     
+    return ()

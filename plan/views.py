@@ -11,8 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 from django.contrib.auth import authenticate
-from funciones.RecuperarCredenciales import RecuperarPassword,\
-    DesencriptarUserID
+from funciones.RecuperarCredenciales import RecuperarPassword, RecuperarUsuario, DesencriptarUserID
 from urllib2 import HTTPRedirectHandler
 from django.http.response import HttpResponseRedirect
 
@@ -38,7 +37,7 @@ def home(request):
             datos={"user":u,"passwd":p,"repasswd":p2,"name":n,"lastname":a,"email":e}
             regerror = validacampo(datos)
             if regerror == "":
-                if usuarioexistente(u) == False:
+                if usuarioexistente(u) == False and correoexiste(e)== False:
                     p = make_password(p)
                     nuevoalumno=User(username=u, password=p, first_name=n, last_name=a, email= e)
                     nuevoalumno.save()
@@ -47,7 +46,7 @@ def home(request):
                     nuevoalumno = authenticate(username=u, password=datos["passwd"])
                     auth.login(request, nuevoalumno)
                 else:
-                    regerror="Usuario Existente"
+                    regerror="Usuario o Email Existente"
             seleccion="1"
         if u2:
             datos={"user":u2,"passwd":pl}
@@ -271,6 +270,21 @@ def recpass (request):
         if correo != "name@example.com":
             if correoexiste(correo) == True:
                 RecuperarPassword(correo)
+                mensj="Revise el correo suministrado y siga las instrucciones"
+            else:
+                mensj="El correo ingresado no se encuentra registrado en nuestra base"            
+    context = {"mensj":mensj}
+    
+    return render(request, "plan/recupasswd.html", context)
+
+def recuser (request):
+    
+    mensj=""
+    if request.method == "POST":
+        correo=request.POST.get('recemail','')
+        if correo != "name@example.com":
+            if correoexiste(correo) == True:
+                RecuperarUsuario(correo)
                 mensj="Revise el correo suministrado y siga las instrucciones"
             else:
                 mensj="El correo ingresado no se encuentra registrado en nuestra base"            
