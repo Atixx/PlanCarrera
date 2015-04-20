@@ -1,0 +1,42 @@
+{% extends "format.html" %}
+
+{% block titulo %}Plan Carrera {% endblock %}
+
+{% block cabezera %} Recuperar Credenciales {% endblock %}
+
+{% block contenido %} {% endblock %}
+{% block contenidochico %} 
+
+        <h3>Restableciendo clave de ingreso</h3>
+
+ 	{% if regerror == "ok" %}
+	<FONT COLOR="RED">Clave modificada con exito, será redireccionado en 5 segundos.</font>
+	<p>Presione <a href="/">aqui</a> para acceder inmediatamente</p>
+	<script>
+		setTimeout(window.location="/", 5000);
+	</script>
+	{% endif %}		
+
+ 	{% if regerror != "ok" %}
+<form class="form-horizontal" action="." method="POST">
+ 	<input type="hidden" name="usuario" value="{{usuario}}"> 
+	    <label for="user">Usuario: {{usuario}}</label>
+	    <div class="form-group">
+            <label for="pass">Contraseña</label>
+            <input type="password" class="form-control" id="pass" placeholder="Contraseña" name="passwd" required />
+
+              <label for="rpt">Repita Contraseña</label>
+              <input type="password" class="form-control" id="rpt" placeholder="Repita Contraseña" name="repasswd" required />
+        </div>
+            {% if regerror == "passnoigual" %}
+              <FONT COLOR="RED">*Las contraseñas no coinciden</font>
+            {% endif %}
+        <div style=padding-top:15px>
+            <button type="submit" class="btn btn-success">Restablecer</button>
+        </div>
+
+</form>
+	{% endif %}
+{% endblock %}
+
+
