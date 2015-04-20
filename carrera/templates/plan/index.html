@@ -27,7 +27,7 @@
     <li><span class="list-group-item list-group-item-default">Totales: {{tot}}</span></li>
 </ul>
 
-<h3>Promedio cursada: <span id="promedio">7</span><h3>
+{% if promedio %}<h3>Promedio cursada: <span id="promedio">{{promedio}}</span><h3>{% endif %}
 
 {% endblock %}
 

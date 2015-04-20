@@ -48,19 +48,44 @@ def estadoMateria(materia, usuario):
             return estados['LB']
             
             
-#funcion que recibe una materia y usuario
-#TODO: retorna el promedio de cursada chequeando los examenes, en caso de no existir, retorna ???
-def promedioMateria(materia, usuario):
-    if Examen.objects.filter(materia__nombre = materia.nombre, alumno_id = usuario.id).exists():
+            
+#funciones que reciben una materia y usuario
+#TODO: retorna el promedio de cursada chequeando los examenes, en caso de no existir, retorna ???            
+def promedioParciales(materia, usuario):
+    if Examen.objects.filter(materia__nombre = materia.nombre, opcion = 'PA', alumno_id = usuario.id).exists():
         nota = 0
         cantidad = 0
-        for p in Examen.objects.filter(materia__nombre = materia.nombre, alumno_id = usuario.id):
+        for e in Examen.objects.filter(materia__nombre = materia.nombre,opcion = 'PA', alumno_id = usuario.id):
             cantidad+= 1
-            nota += p.nota
-        return "{0:g}".format(math.ceil(nota/cantidad))
+            nota += e.nota
+        return (nota/cantidad)
     else:
         return None
 
+def promedioFinales(materia, usuario):      
+    if Examen.objects.filter(materia__nombre = materia.nombre, opcion = 'FI', alumno_id = usuario.id).exists():
+        nota = 0
+        cantidad = 0
+        for e in Examen.objects.filter(materia__nombre = materia.nombre,opcion = 'FI', alumno_id = usuario.id):
+            cantidad+= 1
+            nota+= e.nota
+        return (nota/cantidad)
+    else:
+        return None  
+             
+def promedioMateria(materia, usuario):
+    retval = None
+    parciales = promedioParciales(materia, usuario)
+    finales = promedioFinales(materia, usuario)
+    if (parciales):
+        if (finales):
+            retval = "{0:g}".format(math.ceil((parciales+finales)/2))
+        else:
+            retval = "{0:g}".format(math.ceil(parciales))
+    elif (finales):
+        retval = "{0:g}".format(math.ceil(finales))
+    return retval
+##### fin funciones promedio
 #convierte el estado de una materia a uno legible para el usuario
 def convertirEstado(estado):
 
@@ -70,6 +95,11 @@ def convertirEstado(estado):
                 'FI' : 'Completa'
                }
     return estados[estado]
+    
+def convertirExamen(examen):
+    opcion = { 'FI' : 'Final', 'PA' : 'Parcial' }
+    return opcion[examen.opcion]
+    
     
 #recibe el id del usuario, 2 listas y las llena de las materias en curso y las regularizadas
 
@@ -95,3 +125,16 @@ def corroborarNota(nota):
         return int(nota)
     else:
         raise ValueError('la nota tiene que ser entre 0 y 10')
+
+def promedioCursada(usuario):#TODO
+    promedio = 0
+    materias = []
+    for m in Materia.objects.all():
+        promedio = promedioMateria(m, usuario)
+        if (promedio):
+            materias.append(float(promedio))
+    if (len(materias)):
+        promedio = "{0:g}".format(math.ceil(sum(materias)/len(materias)))
+    #if (promedio == None):
+    #    promedio = ''
+    return promedio
