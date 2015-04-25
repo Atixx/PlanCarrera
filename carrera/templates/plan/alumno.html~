@@ -1,17 +1,20 @@
 {%extends "format.html" %}
 
 {% block titulo %} {{ alumno.last_name }}, {{alumno.first_name}} {% endblock %}
-    {% block cabezera %} Hola {{ alumno.first_name }} {% endblock %}
+    {% block cabezera %} Datos del usuario {% endblock %}
     
     {% block contenido %}
-
+	
 	<ul><br>
 		<li>Usuario: {{alumno.username}}</li><br>
-		<li>Nombre: {{alumno.last_name}}</li><br>
-		<li>Apellido: {{alumno.first_name}}</li><br>
+		<li>Nombre: {{alumno.first_name}}</li><br>
+		<li>Apellido: {{alumno.last_name}}</li><br>
 		<li>Email: {{alumno.email}}</li><br>
 	</ul>
 
+	<button type="submit" class="btn btn-success" id="esteboton" action="/plan/editar-datos">Editar datos</button>
+	<h3><a id="esteboton" href="/plan/alumno">Click ACA!</a></h3>
+<!--
     {% if libre or en_curso or aprobada or completa %}
         {% if libre %}
         <h3>Materias libres</h3>
@@ -53,6 +56,10 @@
     {% else %}
     <h3>No se anoto a ninguna materia, seria un buen lugar para empezar...</h3>   
     {% endif %}
+    -->
+    <div class="modal fade" id="muestra">
+    {% include "plan/datosmodal.html" %}
+    </div><!-- /.modal -->
     
     {% endblock %}
 

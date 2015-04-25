@@ -37,6 +37,7 @@
 <div style=padding-top:15px>
             <button type="submit" class="btn btn-default">Confirmar</button>
         </div>
+<h3><a id="esteboton" href="/plan/alumno">Click ACA!</a></h3>
 <div class="form-group">
     </div>
 </form>

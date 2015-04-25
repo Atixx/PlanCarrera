@@ -93,19 +93,19 @@ def index(request):
 @login_required
 def alumno(request):
     alumno = get_object_or_404(User, pk=request.user.id)
-    if EstadoMateria.objects.filter(alumno_id = alumno.id).exists():
-        mat = EstadoMateria.objects.filter(alumno_id = alumno.id)
-        libre = mat.filter(estado = 'LB')
-        en_curso = mat.filter(estado = 'CU')
-        aprobada = mat.filter(estado = 'RE')
-        completa = mat.filter(estado = 'FI')
-    else:
-        libre = None
-        en_curso = None
-        aprobada = None
-        completa = None
-       
-    return render(request, "plan/alumno.html", {"alumno" : alumno, "libre" : libre, "en_curso" : en_curso, "aprobada" : aprobada, "completa" : completa})
+#    if EstadoMateria.objects.filter(alumno_id = alumno.id).exists():
+#        mat = EstadoMateria.objects.filter(alumno_id = alumno.id)
+#        libre = mat.filter(estado = 'LB')
+#        en_curso = mat.filter(estado = 'CU')
+#        aprobada = mat.filter(estado = 'RE')
+#        completa = mat.filter(estado = 'FI')
+#    else:
+#        libre = None
+#        en_curso = None
+#        aprobada = None
+#        completa = None
+    return render(request, "plan/alumno.html",  {"alumno" : alumno})
+#    return render(request, "plan/alumno.html", {"alumno" : alumno, "libre" : libre, "en_curso" : en_curso, "aprobada" : aprobada, "completa" : completa})
     
     
 @login_required
@@ -278,12 +278,16 @@ def consulta_examen(request):
 	
 @login_required
 def editar_datos(request):
-    #if request.method == 'POST':
-        #muchas cosas con los datos
-    
-    #else:
-    alumno = []
-    alumno.append(request.user.first_name)
-    alumno.append(request.user.last_name)
-    alumno.append(request.user.email)
-    return render(request, "plan/datosmodal.html", {"alumno" : alumno})
+    if request.method == 'POST':
+	alumno = get_object_or_404(User, pk=request.user.id)
+        alumno.first_name = request.POST.get('name', '')
+	alumno.last_name = request.POST.get('last', '')
+	alumno.email = request.POST.get('email', '')
+	alumno.save()
+	return render(request, "plan/alumno.html",{"alumno" : alumno})
+    else:
+    	alumno = []
+	alumno.append(request.user.first_name)
+	alumno.append(request.user.last_name)
+	alumno.append(request.user.email)
+    	return render(request, "plan/datosmodal.html", {"alumno" : alumno})
