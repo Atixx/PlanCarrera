@@ -12,8 +12,7 @@
 		<li>Email: {{alumno.email}}</li><br>
 	</ul>
 
-	<button type="submit" class="btn btn-success" id="esteboton" action="/plan/editar-datos">Editar datos</button>
-	<h3><a id="esteboton" href="/plan/editar-datos">Click ACA!</a></h3>
+	<button type="submit" class="btn btn-success muestraModal" data-form="/plan/editar-datos">Editar datos</button>
 
     {% if libre or en_curso or aprobada or completa %}
         {% if libre %}

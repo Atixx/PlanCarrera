@@ -26,11 +26,8 @@ $(document).ready( function()
     
     });
 
-    $("#examenes").tablesorter(); 
-
-
   
-    $("#esteboton").click(function(ev) // for each edit materia url
+    $(".muestraModal").click(function(ev) // for each edit materia url
   { 
     ev.preventDefault(); // prevent navigation
     var url = $(this).data("form"); // get the contact form url
@@ -42,5 +39,6 @@ $(document).ready( function()
     
     });
   
-  
+  $("#examenes").tablesorter(); 
+
 }); 
