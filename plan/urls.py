@@ -16,5 +16,6 @@ urlpatterns = patterns ('',
     url(r'^materias/$', views.lista_materias, name="materias"),
     url(r'^nuevo-examen/$', views.anotarse_examen, name="anotarse-examen"),
 	url(r'^consulta-examen/$', views.consulta_examen, name="consulta-examen"),
+	url(r'^editar-datos/$', views.editar_datos, name="editar-datos"),
     
 )

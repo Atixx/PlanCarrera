@@ -278,10 +278,12 @@ def consulta_examen(request):
 	
 @login_required
 def editar_datos(request):
-	if request.method=='POST':
-		alumno.first_name=request.POST.get('nombre', '')
-		alumno.last_name=request.POST.get('apellido','')
-		alumno.email=request.POST.get('email','')
-		alumno.password=request.POST.get('pswd', '')
-	return alumno(request)
-
+    #if request.method == 'POST':
+        #muchas cosas con los datos
+    
+    #else:
+    alumno = []
+    alumno.append(request.user.first_name)
+    alumno.append(request.user.last_name)
+    alumno.append(request.user.email)
+    return render(request, "plan/datosmodal.html", {"alumno" : alumno})
