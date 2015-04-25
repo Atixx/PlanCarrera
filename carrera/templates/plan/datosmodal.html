@@ -1,8 +1,15 @@
-</form>
-<form class="form-horizontal" action="." method="POST">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title">{{mat.nombre}}</h3>
+      </div>
+      <div class="modal-body">
+        <p>
+        <form class="form-horizontal" action="." method="POST">
     
   
-  <div id="EditarDatos">
+         <div id="EditarDatos">
         <h3>Editar Datos</h3>
         
         <div id="form-group">
@@ -16,7 +23,7 @@
         <div id="form-group">
             <label for="email">E-Mail</label>
             <input type="email" class="form-control" id="email" name="name@example.com" value={{alumno.2}}  required />
-        </div>
+        <!---</div>
 
         
             <label for="pass">Contraseña</label>
@@ -33,3 +40,10 @@
 <div class="form-group">
     </div>
 </form>
+        </p>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
