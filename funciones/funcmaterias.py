@@ -100,7 +100,6 @@ def convertirExamen(examen):
     opcion = { 'FI' : 'Final', 'PA' : 'Parcial' }
     return opcion[examen.opcion]
     
-    
 #recibe el id del usuario, 2 listas y las llena de las materias en curso y las regularizadas
 
 def materiasExamen(userId, cursando, regularizadas):
@@ -138,3 +137,11 @@ def promedioCursada(usuario):#TODO
     #if (promedio == None):
     #    promedio = ''
     return promedio
+
+#Definimos el proximo estado de la materia
+#Puede ser  el estado actual, sirve para evaluar la condicion de la materia
+#.. frente a ls modificaciones de examenes. Si es  cumple con ciertas condiciones
+# cambia el estado y la almacena en la base (Maxi).
+def EvaluarEstadoMateria(examen):
+    estadoFuturo = ""
+    return estadoFuturo
