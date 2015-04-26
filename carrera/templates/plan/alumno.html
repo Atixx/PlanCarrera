@@ -5,11 +5,11 @@
     
     {% block contenido %}
 
-	<ul><br>
-		<li>Usuario: {{alumno.username}}</li><br>
-		<li>Nombre: {{alumno.first_name}}</li><br>
-		<li>Apellido: {{alumno.last_name}}</li><br>
-		<li>Email: {{alumno.email}}</li><br>
+	<ul><br/>
+		<li>Usuario: {{alumno.username}}</li><br/>
+		<li>Nombre: {{alumno.first_name}}</li><br/>
+		<li>Apellido: {{alumno.last_name}}</li><br/>
+		<li>Email: {{alumno.email}}</li><br/>
 	</ul>
 
 	<button type="submit" class="btn btn-success muestraModal" data-form="/plan/editar-datos">Editar datos</button>
@@ -56,9 +56,9 @@
     <h3>No se anoto a ninguna materia, seria un buen lugar para empezar...</h3>   
     {% endif %}
     -->
-    <div class="modal fade" id="muestra">
+<div class="modal fade" id="muestra">
     {% include "plan/datosmodal.html" %}
-    </div><!-- /.modal -->
+</div><!-- /.modal -->
     
-    {% endblock %}
+    {% endblock contenido %}
 
