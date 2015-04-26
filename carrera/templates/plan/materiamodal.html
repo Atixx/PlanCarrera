@@ -7,15 +7,15 @@
       <div class="modal-body">
         <p>
         {% if auth  %}
-        {% if estado %}
-            </br>Estado: {{estado}}
-        {% endif %}
+		    {% if estado %}
+		        </br>Estado: {{estado}}
+		    {% endif %}
         {% endif %}
         {% if profesor|length > 1 %}
             </br>Profesores:{% for p in profesor %} {{p.nombre}}; {% endfor %}
         {% else %}
             </br>Profesor: {{ profesor.0.nombre }}
-        {% endif %}
+        {% endif %}		
         {% if correlativas %}
             {% if correlativas|length > 1 %}
             </br>Correlativas: {% for c in correlativas %} {{c.nombre}}; {% endfor %}
@@ -23,6 +23,9 @@
             </br>Correlativa: {{correlativas.0.nombre}} 
             {% endif %}
         {% endif %}
+		{% if mat.info != "" %}			
+			</br><a href= " {{mat.info}} ">Acerca de la Materia</a>
+		{% endif %}
         {% if parciales %}
             {% if parciales|length > 1 %}
                 <p>Parciales:</p>
@@ -32,7 +35,7 @@
             {% else %}
                 <p>Parcial:</p><span class="parcial">NOTA: {{parciales.0.nota}}; Rendido el {{parciales.0.fecha.day}} del {{parciales.0.fecha.month}} de {{parciales.0.fecha.year}}</span>
             {% endif %}
-        {% endif %}
+        {% endif %}			
         </p>        
       </div>
       <div class="modal-footer">

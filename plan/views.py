@@ -225,7 +225,7 @@ def materia(request, nombre_materia): #modal usa esto
         if EstadoMateria.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():         
             context["estado"] = convertirEstado(EstadoMateria.objects.get(materia__nombre = materia.nombre, alumno_id = request.user.id).estado)
         if Examen.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id).exists():
-            context["parciales"] = Examen.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id) #TODO: modificar a mostrar solo parciales
+            context["parciales"] = Examen.objects.filter(materia__nombre = materia.nombre, alumno_id = request.user.id,opcion = 'PA') #TODO: modificar a mostrar solo parciales (MODIFICADO)
     else: #datos disponibles solo a NO logged
         context["auth"] = False;
     return render(request, "plan/materiamodal.html", context)
@@ -324,7 +324,7 @@ def consulta_examen(request):
     lista_examen = []	
     #if Examen.objects.filter(pub_date__year=2015).exists(): #prueba con fecha 2015. mejorar la implementacion
     if Examen.objects.filter(fecha__range=(datetime(2008, 1, 1), datetime.now().date()), alumno_id = request.user.id).exists():		
-        for i in Examen.objects.filter(fecha__range=(datetime(2008, 1, 1), datetime.now().date()), alumno_id = request.user.id).order_by('fecha'):
+        for i in Examen.objects.filter(fecha__range=(datetime(2008, 1, 1), datetime.now().date()), alumno_id = request.user.id).order_by('-fecha'):
             lista_examen.append(i) # agregar al filtro, discriminar por user logueado.   agregado
         context={"lista_examen" : lista_examen}
         #lista_examen.sort(reverse=True)
