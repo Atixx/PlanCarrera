@@ -1,7 +1,7 @@
 {%extends "format.html" %}
 
 {% block titulo %} {{ alumno.last_name }}, {{alumno.first_name}} {% endblock %}
-    {% block cabezera %} {{alumno.username}} {% endblock %}
+    {% block cabezera %} Datos del usuario {% endblock %}
     
     {% block contenido %}
 
