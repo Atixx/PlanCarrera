@@ -23,17 +23,27 @@
             </br>Correlativa: {{correlativas.0.nombre}} 
             {% endif %}
         {% endif %}
-		{% if mat.info != "" %}			
+		{% if mat.info %}
 			</br><a href= " {{mat.info}} ">Acerca de la Materia</a>
 		{% endif %}
         {% if parciales %}
             {% if parciales|length > 1 %}
-                <p>Parciales:</p>
+                <p></br>PARCIALES:</p>
                 {% for p in parciales %}
-                   <span class="parcial" >NOTA: {{p.nota}} Rendido el {{parciales.0.fecha.day}} del {{parciales.0.fecha.month}} de {{parciales.0.fecha.year}}</span></br>
+                   <span class="parcial" >NOTA: {{p.nota}} Rendido el {{parciales.0.fecha.day}}/{{parciales.0.fecha.month}}/{{parciales.0.fecha.year}}</span></br>
                 {% endfor %}
             {% else %}
-                <p>Parcial:</p><span class="parcial">NOTA: {{parciales.0.nota}}; Rendido el {{parciales.0.fecha.day}} del {{parciales.0.fecha.month}} de {{parciales.0.fecha.year}}</span>
+                <p></br>PARCIAL:</p><span class="parcial">NOTA: {{parciales.0.nota}}; Rendido el {{parciales.0.fecha.day}}/{{parciales.0.fecha.month}}/{{parciales.0.fecha.year}}</span>
+            {% endif %}
+        {% endif %}
+        {% if finales %}
+            {% if finales|length > 1 %}
+                <p></br>FINALES:</p>
+                {% for f in finales %}
+                    <span class="final" >NOTA: {{p.nota}} Rendido el {{finales.0.fecha.day}}/{{finales.0.fecha.month}}/{{finales.0.fecha.year}}</span></br>
+                {% endfor %}
+            {% else %}
+                <p></br>FINAL:</p><span class="final">NOTA: {{finales.0.nota}}; Rendido el {{finales.0.fecha.day}}/{{finales.0.fecha.month}}/{{finales.0.fecha.year}}</span>
             {% endif %}
         {% endif %}			
         </p>        
