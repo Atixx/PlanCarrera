@@ -11,7 +11,10 @@
   
         <div id="EditarDatos">
             <h3>Editar Datos</h3>
-            
+            <div id="form-group">
+                <label for="usuario">Usuario</label>
+                <input type="text" class="form-control" id="usuario" value= {{alumno.3}} name=usuario disabled/>
+            </div>
             <div id="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" class="form-control" id="nombre" value={{alumno.0}} name=name required />
@@ -26,15 +29,6 @@
             </div> <!-- /.form-group -->
         </div> <!-- /.EditarDatos -->
 
-        <!---
-            <label for="pass">Contraseña</label>
-            <input type="password" class="form-control" id="pass" placeholder="Ingrese contraseña" name="passwd" required />
-        </div>
-        <!--<div id="form-group">
-              <label for="rpt">Repita Contraseña</label>
-              <input type="password" class="form-control" id="rpt" value="Repita Contraseña" name="repasswd" required />
-        </div>
-            -->
         </div>
         <div class="form-group">
 

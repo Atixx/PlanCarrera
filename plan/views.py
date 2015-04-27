@@ -271,8 +271,10 @@ def consulta_examen(request):
 	
 @login_required
 def editar_datos(request):
-   	alumno = []
-	alumno.append(request.user.first_name)
-	alumno.append(request.user.last_name)
-	alumno.append(request.user.email)
-    	return render(request, "plan/datosmodal.html", {"alumno" : alumno})
+    alumno = []
+    alumno.append(request.user.first_name)
+    alumno.append(request.user.last_name)
+    alumno.append(request.user.email)
+    alumno.append(request.user.username)
+    return render(request, "plan/datosmodal.html", {"alumno" : alumno})
+
