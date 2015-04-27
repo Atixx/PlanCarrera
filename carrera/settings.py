@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'plan',
+    
 )
 
 MIDDLEWARE_CLASSES = (
@@ -96,3 +97,15 @@ TEMPLATE_DIRS = (
 
 
 LOGIN_URL = '/'
+
+#Configuracion de envio de E-mail
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Host for sending e-mail.
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'gestion.plancarrera@gmail.com'
+EMAIL_HOST_PASSWORD = 'PlanCarrera'
+EMAIL_PORT = 587
+

@@ -2,23 +2,26 @@ from datetime import datetime
 from django.shortcuts import render, get_object_or_404, redirect
 from plan.models import Examen, EstadoMateria, Materia, Profesor
 from django.contrib.auth.models import User
-from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd
-from funciones.funcmaterias import estadoMateria, promedioMateria, convertirEstado, materiasExamen, stringVacio, corroborarNota, convertirExamen
+from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd,\
+    correoexiste
+from funciones.funcmaterias import *
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
+from django.contrib.auth import authenticate
+from funciones.RecuperarCredenciales import RecuperarPassword, RecuperarUsuario, DesencriptarUserID
+from urllib2 import HTTPRedirectHandler
+from django.http.response import HttpResponseRedirect
 
 # Create your views here.
 def home(request):
+    registroOk = False
     if request.user.is_authenticated():
         #PRUEBO SI MANTIENE LA SESION
-        #yalogeado="1"
-        #return render(request, "plan/detallado.html",{"yalogeado" : "1"} )
-        #return alumno(request, request.user.username)
         return index(request)
-    seleccion=request.GET.get('reg','')
+    seleccion=request.POST.get('reg','')
     regerror=""
     if request.method == "POST":
         p=request.POST.get('passwd','')
@@ -34,13 +37,16 @@ def home(request):
             datos={"user":u,"passwd":p,"repasswd":p2,"name":n,"lastname":a,"email":e}
             regerror = validacampo(datos)
             if regerror == "":
-                if usuarioexistente(u) == False:
+                if usuarioexistente(u) == False and correoexiste(e)== False:
                     p = make_password(p)
                     nuevoalumno=User(username=u, password=p, first_name=n, last_name=a, email= e)
                     nuevoalumno.save()
-                    #login(request, nuevoalumno) #deberia logear al nuevo usuario
+                    registroOk = True
+                    #logear al nuevo usuario
+                    nuevoalumno = authenticate(username=u, password=datos["passwd"])
+                    auth.login(request, nuevoalumno)
                 else:
-                    regerror="Usuario Existente"
+                    regerror="Usuario o Email Existente"
             seleccion="1"
         if u2:
             datos={"user":u2,"passwd":pl}
@@ -56,12 +62,8 @@ def home(request):
                     regerror="Password Invalida"
             else:
                 regerror="El usuario no existe"
-
-
-        #LOGEO
-        
-        
-    return render(request, "plan/home.html",{"reg" : seleccion,"regerror":regerror})
+         
+    return render(request, "plan/home.html",{"reg" : seleccion,"regerror":regerror, "registroOk":registroOk})
                   
 def index(request):
     #lista_alumnos = User.objects.all()
@@ -77,6 +79,7 @@ def index(request):
         comperc = com*100/tot
         cur = EstadoMateria.objects.filter(alumno_id = alumno.id , estado = 'CU').count()
         curperc = cur*100/tot
+        promedio = promedioCursada(alumno)
     
     context = {
         "alumno" : alumno,
@@ -86,7 +89,9 @@ def index(request):
         "comperc" : comperc,
         "cur" : cur, 
         "curperc" : curperc,
-        "tot" : tot
+        "tot" : tot,
+        "promedio" : promedio
+        
     }
     return render(request, "plan/index.html", context)
 
@@ -252,6 +257,60 @@ def anotarse_examen(request):
         materiasExamen(request.user, cursando, regular)    
         context = {"cursando" : cursando, "regular" : regular}
         return render(request, "plan/anotarse_examen.html", context)
+  
+def recpass (request):
+    
+    mensj=""
+    if request.method == "POST":
+        correo=request.POST.get('recemail','')
+        if correo != "name@example.com":
+            if correoexiste(correo) == True:
+                RecuperarPassword(correo)
+                mensj="Revise el correo suministrado y siga las instrucciones"
+            else:
+                mensj="El correo ingresado no se encuentra registrado en nuestra base"            
+    context = {"mensj":mensj}
+    
+    return render(request, "plan/recupasswd.html", context)
+
+def recuser (request):
+    
+    mensj=""
+    if request.method == "POST":
+        correo=request.POST.get('recemail','')
+        if correo != "name@example.com":
+            if correoexiste(correo) == True:
+                RecuperarUsuario(correo)
+                mensj="Revise el correo suministrado y siga las instrucciones"
+            else:
+                mensj="El correo ingresado no se encuentra registrado en nuestra base"            
+    context = {"mensj":mensj}
+    
+    return render(request, "plan/recupasswd.html", context)
+
+def restablecer (request):
+    
+    regerror = ""
+    encrypUserID = request.GET.get('AA','')
+    if encrypUserID != "":
+        UserID = DesencriptarUserID(encrypUserID)
+        usuario = User.objects.get(id=UserID)
+        context = {"usuario":usuario, "userid":UserID}
+    if request.method == "POST":
+        p=request.POST.get('passwd','')
+        p2=request.POST.get('repasswd','')
+        usuario=request.POST.get('usuario','')
+        if p != p2:
+            regerror="passnoigual"  
+            context = {"usuario":usuario, "regerror":regerror}
+        else:
+            u = User.objects.get(username=usuario)
+            p = make_password(p)
+            u.password = p
+            u.save()
+            regerror = "ok"
+            context = {"regerror":regerror}
+    return render(request, "plan/restablecer.html", context)
 
 @login_required
 def consulta_examen(request):
@@ -277,4 +336,3 @@ def editar_datos(request):
     alumno.append(request.user.email)
     alumno.append(request.user.username)
     return render(request, "plan/datosmodal.html", {"alumno" : alumno})
-
