@@ -1,0 +1,50 @@
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title">{{mat.nombre}}</h3>
+      </div>
+      <div class="modal-body">
+        <p>
+        <form class="form-horizontal" action="." method="POST">
+    
+  
+         <div id="EditarDatos">
+        <h3>Editar Datos</h3>
+        
+        <div id="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" class="form-control" id="nombre" value={{alumno.0}} name=name required />
+        </div>
+        <div id="form-group">
+            <label for="apellido">Apellido</label>
+            <input type="text" class="form-control" id="apellido" value={{alumno.1}} name=last required />
+        </div>
+        <div id="form-group">
+            <label for="email">E-Mail</label>
+            <input type="email" class="form-control" id="email" name=email value={{alumno.2}}  required />
+        <!---</div>
+
+        
+            <label for="pass">Contraseña</label>
+            <input type="password" class="form-control" id="pass" placeholder="Ingrese contraseña" name="passwd" required />
+        </div>
+        <!--<div id="form-group">
+              <label for="rpt">Repita Contraseña</label>
+              <input type="password" class="form-control" id="rpt" value="Repita Contraseña" name="repasswd" required />
+        </div>
+            -->
+<div style=padding-top:15px>
+            <button type="submit" class="btn btn-default">Confirmar</button>
+        </div>
+<h3><a id="esteboton" href="/plan/alumno">Click ACA!</a></h3>
+<div class="form-group">
+    </div>
+</form>
+        </p>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->

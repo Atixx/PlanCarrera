@@ -18,5 +18,6 @@ urlpatterns = patterns ('',
     url(r'^ru/$', views.recuser, name ="recuser"),
     url(r'^recuperar/$', views.restablecer, name ="recuperar"),
 	url(r'^consulta-examen/$', views.consulta_examen, name="consulta-examen"),
+	url(r'^editar-datos/$', views.editar_datos, name="editar-datos"),
     
 )
