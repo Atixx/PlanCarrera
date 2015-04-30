@@ -242,7 +242,7 @@ def anotarse_examen(request):
             fecha = datetime.strptime(request.POST.get('fecha',''), "%d/%m/%Y") #.date
             nota = corroborarNota(request.POST.get('nota',''))
             alumno = request.user.id   
-            msg = "El boton funciona, gracias"
+            msg = "Se registro el examen, gracias"
             fechaDB = fecha.strftime("%Y-%m-%d")
             #fechaDB = fecha.isoformat()
             if opcion == "PA":
