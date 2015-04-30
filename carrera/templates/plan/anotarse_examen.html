@@ -5,11 +5,9 @@
 
 {% block contenido %}
 {% if msg %}
-<h3>{{msg}}</h3>
-{{nom}}
-{{opcion}}
-{{fecha}}
-{{nota}}
+<h3>{{msg}} {{opcion}}:</h3>
+<p>Materia: <em>{{nom}}</em> Fecha: {{fecha}} Nota: <b>{{nota}}</b>
+</p>
 <h5><a href=".">Ingresar otro examen!</a><h5>
 {% elif cursando or regular or error %}
 <h2>Ingrese los datos del examen:</h2>
@@ -34,11 +32,11 @@
         </br>
         <h5>Seleccione una opcion</h5>
         <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-warning active">
-                <input type="radio" name="opcion" value="PA"> Parcial
+            <label class="btn btn-warning">
+                <input type="radio" name="opcion"  value="PA"> Parcial
             </label>
             <label class="btn btn-danger">
-                <input type="radio" name="opcion" value="FI"> Final
+                <input type="radio" name="opcion" required value="FI"> Final
             </label>
             <div class="input-group">
               <input type="text" class="form-control" name="nota" required placeholder="Nota" {% if nota %} value="{{nota}}" {% endif %}>

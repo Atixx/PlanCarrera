@@ -246,7 +246,7 @@ def anotarse_examen(request):
             fecha = datetime.strptime(request.POST.get('fecha',''), "%d/%m/%Y") #.date
             nota = corroborarNota(request.POST.get('nota',''))
             alumno = request.user.id   
-            msg = "Se registro el examen, gracias"
+            msg = "Se registro el siguiente"
             fechaDB = fecha.strftime("%Y-%m-%d")
             #fechaDB = fecha.isoformat()
             if opcion == "PA":
@@ -265,9 +265,9 @@ def anotarse_examen(request):
                                 materia= Materia.objects.get(nombre= nombreMateria),
                                 opcion= opcion)
                 examen.save()
-            
+            opcion = convertirExamen(examen)
             EvaluarEstadoMateria(request, Materia.objects.get(nombre= nombreMateria))
-            context = { "msg" : msg, "nom" : nombreMateria, "opcion" : opcion, "fecha" : fecha, "nota" : nota, "alumno" : alumno}
+            context = { "msg" : msg, "nom" : nombreMateria, "opcion" : opcion.lower(), "fecha" : fecha.date, "nota" : nota, "alumno" : alumno}
         
         except ValueError as e:
             error = "Corrobore los datos, "+e.message
