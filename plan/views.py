@@ -243,13 +243,30 @@ def anotarse_examen(request):
         try:
             nombreMateria = stringVacio(request.POST.get('materia',''))
             opcion = request.POST.get('opcion','')
-            fecha = datetime.strptime(request.POST.get('fecha',''), "%d/%m/%y").date
+            fecha = datetime.strptime(request.POST.get('fecha',''), "%d/%m/%Y") #.date
             nota = corroborarNota(request.POST.get('nota',''))
             alumno = request.user.id   
-            msg = "El boton funciona, gracias"
-            if opcion == "parcial":
-               if EstadoMateria.objects.get(materia__nombre__exact = nombreMateria, alumno_id = alumno).estado != 'CU':
-                raise ValueError("no puede agregar un parcial a una materia que solo adeuda final")   
+            msg = "Se registro el examen, gracias"
+            fechaDB = fecha.strftime("%Y-%m-%d")
+            #fechaDB = fecha.isoformat()
+            if opcion == "PA":
+                if EstadoMateria.objects.get(materia__nombre__exact = nombreMateria, alumno_id = alumno).estado != 'CU':
+                    raise ValueError("no puede agregar un parcial a una materia que solo adeuda final")   
+            #Si puede cargar parcial, Guardo la informacion y revaluo el estado de la materia para el alumno
+                else:
+                    examen = Examen(nota=nota, fecha= fechaDB,
+                                    alumno= User.objects.get(id=alumno),
+                                    materia= Materia.objects.get(nombre= nombreMateria),
+                                    opcion= opcion)
+                    examen.save()
+            if opcion == "FI": 
+                examen = Examen(nota=nota, fecha= fechaDB,
+                                alumno= User.objects.get(id=alumno),
+                                materia= Materia.objects.get(nombre= nombreMateria),
+                                opcion= opcion)
+                examen.save()
+            
+            EvaluarEstadoMateria(request, Materia.objects.get(nombre= nombreMateria))
             context = { "msg" : msg, "nom" : nombreMateria, "opcion" : opcion, "fecha" : fecha, "nota" : nota, "alumno" : alumno}
         
         except ValueError as e:

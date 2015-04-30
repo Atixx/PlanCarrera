@@ -35,10 +35,10 @@
         <h5>Seleccione una opcion</h5>
         <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-warning active">
-                <input type="radio" name="opcion" value="parcial"  checked> Parcial
+                <input type="radio" name="opcion" value="PA"> Parcial
             </label>
             <label class="btn btn-danger">
-                <input type="radio" name="opcion" value="final"> Final
+                <input type="radio" name="opcion" value="FI"> Final
             </label>
             <div class="input-group">
               <input type="text" class="form-control" name="nota" required placeholder="Nota" {% if nota %} value="{{nota}}" {% endif %}>
@@ -47,7 +47,7 @@
         </br>
         <h5>Fecha rendido</h5>
         <div class="input-group">
-            <input type="text" class="form-control" name="fecha" required placeholder="dd/mm/aa" {% if fecha %} value="{{fecha}}" {% endif %}>
+            <input type="text" class="form-control" name="fecha" required placeholder="dd/mm/aaaa" {% if fecha %} value="{{fecha}}" {% endif %}>
         </div>           
             {% if error %}<h6><font color="red">*{{error}}</font></h6> {% endif %}
         </br>

@@ -100,7 +100,6 @@ def convertirExamen(examen):
     opcion = { 'FI' : 'Final', 'PA' : 'Parcial' }
     return opcion[examen.opcion]
     
-    
 #recibe el id del usuario, 2 listas y las llena de las materias en curso y las regularizadas
 
 def materiasExamen(userId, cursando, regularizadas):
@@ -138,3 +137,29 @@ def promedioCursada(usuario):#TODO
     #if (promedio == None):
     #    promedio = ''
     return promedio
+
+#Definimos el proximo estado de la materia
+#Puede ser  el estado actual, sirve para evaluar la condicion de la materia
+#.. frente a ls modificaciones de examenes. Si es  cumple con ciertas condiciones
+# cambia el estado y la almacena en la base (Maxi).
+def EvaluarEstadoMateria(request, materia): #Recibe objeto Materia y evalua estado
+    
+    cantParciales = Examen.objects.filter(materia_id = materia).filter(alumno_id = request.user).filter(opcion = 'PA').filter( nota__gt = 4).count()
+    #Examen.objects.filter(materia_id = materia.id, alumno_id = request.user.id(), opcion = 'PA', nota__gt = 4).count()
+    hayFinal = Examen.objects.filter(materia_id = materia).filter(alumno_id = request.user).filter(opcion = 'FI').filter( nota__gt = 4).count()
+    #Condiciones -- REgulada = (1 parcial aprobado si es Cuatri, 3 apro si es Anual)
+    # FInal si se aprobo final
+    if cantParciales > 1:
+        materiaEstado = EstadoMateria.objects.get(materia = materia.id, alumno = request.user.id)
+        materiaEstado.estado = 'RE'
+        materiaEstado.save()
+    else:
+        materiaEstado = EstadoMateria.objects.get(materia = materia.id, alumno = request.user.id)
+        materiaEstado.estado = 'CU' #Esto es por si se borra parciales y se llama (OJO QUE NO SIEMPRE SERA 
+                            #.. CURSANDO, por lo que se tendra que evaluar otra solucion en mejoras)
+        materiaEstado.save()
+    if hayFinal:
+        materiaEstado = EstadoMateria.objects.get(materia = materia.id, alumno = request.user.id)
+        materiaEstado.estado = 'FI'
+        materiaEstado.save()
+    return ()
