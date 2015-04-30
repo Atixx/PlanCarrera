@@ -255,12 +255,14 @@ def anotarse_examen(request):
                                     materia= Materia.objects.get(nombre= nombreMateria),
                                     opcion= opcion)
                     examen.save()
-            if opcion == "FI": #Verificar que el estado de la materia se lo permita
+            if opcion == "FI": 
                 examen = Examen(nota=nota, fecha= fechaDB,
                                 alumno= User.objects.get(id=alumno),
                                 materia= Materia.objects.get(nombre= nombreMateria),
                                 opcion= opcion)
                 examen.save()
+            
+            EvaluarEstadoMateria(request, Materia.objects.get(nombre= nombreMateria))
             context = { "msg" : msg, "nom" : nombreMateria, "opcion" : opcion, "fecha" : fecha, "nota" : nota, "alumno" : alumno}
         
         except ValueError as e:
