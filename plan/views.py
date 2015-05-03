@@ -118,10 +118,10 @@ def anotarse_materia(request):
         except ObjectDoesNotExist:    
             try:
                 estadonuevo = EstadoMateria( materia =  Materia.objects.get(nombre__exact = nombreMateria), alumno = User.objects.get(pk=request.user.id), estado = 'CU')
-                msg = "Se ha inscripto en la materia: "+nombreMateria+" , que la curse con exito!"
+                msg = "Se ha inscripto en la materia: "+nombreMateria+". Exitos!"
                 estadonuevo.save()
             except:
-                msg = "No ha seleccionado ninguna materia, debe elejir una!!!"
+                msg = "Debe seleccionar la materia en la que desea anotarse."
         return render(request, "plan/anotarse_materia.html", {"msg" : msg})
     else:
         enabled = []
@@ -146,9 +146,9 @@ def abandonar_materia(request):
             libre.estado = 'LB'
             libre.save()
             Examen.objects.filter(materia__nombre = nombreMateria, alumno_id = request.user.id).delete() #TODO: cambiar que no borre finales
-            msg = "Ha quedado libre de "+nombreMateria+" suerte en el resto de la cursada."
+            msg = "Ha quedado libre de "+nombreMateria+"."
         except ObjectDoesNotExist:
-            msg = "usted debe seleccionar una materia para abandonar."
+            msg = "Debe seleccionar la materia que desea abandonar."
             
         return render(request, "plan/abandonar_materia.html", { "msg" : msg })
     else:

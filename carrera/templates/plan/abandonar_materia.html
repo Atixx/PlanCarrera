@@ -6,10 +6,10 @@
 {% block contenido %}
 {% if msg %}
 <h3>{{msg}}</h3>
-<h5><a href=".">Elejir otra para abandonar!</a><h5>
+<h5><a href=".">Abandonar otra materia!</a><h5>
 {% elif materias %}
-<h2>Seleccione la materia</h2>
-<h6>Usted abandonara la cursada de la siguiente materia</h6>
+<h2>Abandonar materia</h2>
+<h5>Seleccione la materia que desea dejar de cursar.</h5>
 <br/>
 <div>
     <form class="form-horizontal" action="." method="POST">
@@ -20,11 +20,11 @@
             {%endfor%}   
         </select>
         
-        <button type="submit" class="btn btn-success">Quedar libre!</button>
+        <button type="submit" class="btn btn-success">Abandonar</button>
     </form>
 </div>
 {% else %}
-<h3>No hay materias para abandonar, esta seguro que esta cursando algo?</h3>
+<h3>Usted no esta inscripto en ninguna materia actualmente.</h3>
 {% endif %}
 
 {% endblock %}
