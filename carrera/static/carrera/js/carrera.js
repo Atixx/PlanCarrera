@@ -5,6 +5,15 @@ $(document).ready( function()
     $("#contenido_materia").slideToggle();
   });
 
+  $("#usuario-li").click(function()
+  {
+    $("#contenido_usuario").slideToggle();
+  });
+
+  $("#examen-li").click(function()
+  {
+    $("#contenido_examen").slideToggle();
+  });
   /*
   $(".materia").click(function()
   {

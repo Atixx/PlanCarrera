@@ -10,7 +10,7 @@
 </p>
 <h5><a href=".">Ingresar otro examen!</a><h5>
 {% elif cursando or regular or error %}
-<h2>Ingrese los datos del examen:</h2>
+<h2>Agregar un nuevo examen</h2>
 <br/>
 <div>
     <h5>Seleccione la materia</h5>
@@ -39,7 +39,7 @@
                 <input type="radio" name="opcion" required value="FI"> Final
             </label>
             <div class="input-group">
-              <input type="text" class="form-control" name="nota" required placeholder="Nota" {% if nota %} value="{{nota}}" {% endif %}>
+              <input style="margin-left:15px"type="text" class="form-control" name="nota" required placeholder="Nota" {% if nota %} value="{{nota}}" {% endif %}>
             </div><!-- /input-group -->
         </div>
         </br>
@@ -56,7 +56,7 @@
 </div>
 
 {% else %}
-<h3>No quedaron materias</h3>
+<h3>Usted no tiene materias activas. Inscribase en la que desee para ingresar examenes.</h3>
 {% endif %}
 
 {% endblock %}

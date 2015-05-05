@@ -5,35 +5,59 @@
 {% endblock links %}
 {% block titulo %} Ayuda: PlanCarrera {% endblock %}
 
-
 {% block contenidochico %}
 
-<h2>PlanCarrera</h2>
-
-<ol class="breadcrumb">
+<h2>PlanCarrera: Preguntas Frecuentes</h2>
+<!-- <ol class="breadcrumb">
   <li><a href="#">Ayuda</a></li>
   <li><a href="#">Usuario</a></li>
   <li class="active">Data</li>
   <li><a href="#">Acerca de PlanCarrera</a></li>
-</ol>
+</ol>  -->
 
-<h3>¡El asistente para mantenerse al dia con el progresso de la carrera Sistemas en la UNLa!</h3>
-<h4>{% block nombre_seccion %}Seleccione una opcion para ver detalles{%endblock%}</h4>
+<h3>{% block nombre_seccion %}Seleccione una categoría para desplegar la información {%endblock%}</h3>
 <ul class="list-group">
     {% block tabla_contenido %}
-    <li class="list-group-item">Usuario</li>
-    <li class="list-group-item" id="materia-li">Materias
-    <div class="detalles" id="contenido_materia" >
+    <li class="list-group-item" id="usuario-li">Usuario
+    <div class="detalles" id="contenido_usuario" >
         <ul>
-            <li>Cada alumno se puede anotar en las materias segun su orden de correlatividad</li>
-            <li>Las materias se consideran de dos formas: <em>Cuatrimestrales</em> y <em>Anuales</em></li>
-            <li><strong>Cuatrimestrales</strong>: deben tener un parcial aprobado para regular</li>
-            <li><strong>Anuales</strong>: deben tener tres parciales aprobados para regular</li>
-            <li>Una materia aprobada es la que tiene un final aprobado</li>
+            <br/><li>¿Cómo modifico mi usuario?<br/>
+            El nombre del usuario no es modificable.<br/><br/></li>
+            <li>Mi nombre / apellido tiene un error ¿Como modifico mis datos?<br/>
+            Desde el menú superior de la página seleccione el recuadro con su nombre de usuario y luego 'ver datos'. Desde allí podrá corroborar sus datos personales. Presione el botón 'Editar datos', modifique los que necesite y presione 'Confirmar'.<br/><br/></li>
+            <li>Deseo usar otro e-mail como contacto ¿Puedo modificarlo?<br/>
+            Si, se puede modificar. Desde el menú superior de la página seleccione el recuadro con su nombre de usuario y luego 'ver datos'. Presione el botón 'Editar datos', modifique el e-mail y presione 'Confirmar'.<br/></li>
         </ul>
     </div>
     </li>
-    <li class="list-group-item">Examenes</li>
+    <li class="list-group-item" id="materia-li">Materias
+    <div class="detalles" id="contenido_materia" >
+        <ul>
+        <br/><li>¿Cómo me anoto a cursar una materia?<br/>
+        Desde el menú superior de la página seleccione 'Materias' y luego 'anotarse nueva materia'. Va a poder desplegar una lista con todas las materias que aún no cursó. Seleccione la que va a cursar y  presione el botón 'Anotarse'.<br/> 
+        Solo podrá anotarse a cursar una materia en caso de que tenga sus correlativas regularizadas. <br/><br/></li>
+        <li>¿Cómo regularizo una materia?<br/>
+        Se consideran dos tipos de materias, cuatrimestrales y anuales.<br/>
+        <strong>Cuatrimestrales:</strong> Debe tener  un parcial para  considerarla como regularizada.<br/>
+        <strong>Anual:</strong> Debe tener tres parciales aprobados para considerarla regularizada.<br/><br/></li>
+        <li>¿Cómo apruebo una materia?<br/>
+        Las materias aprobadas son aquellas que tienen el correspondiente final aprobado. Para anotarte en un final debes ir a 'Examenes'.<br/><br/></li>
+        <li>Dejé de cursar una materia y no la regularice. ¿Cómo me doy de baja en esa materia?<br/>
+        Desde el menú superior de la página seleccione 'Materias' y luego 'abandonar materia'. Va a poder desplegar una lista con todas las materias que esta cursando. Seleccione la que deseada y  presione el botón 'Quedar libre'. </li>
+        </ul>
+    </div>
+    </li>
+    <li class="list-group-item" id="examen-li">Examenes
+    <div class="detalles" id="contenido_examen">
+        <ul>
+            <br/><li>¿Cómo ingreso un parcial / final?<br/>
+            Desde el menú superior de la página seleccione 'Examenes' y luego 'Agregar'. Va a poder desplegar una lista con todas las materias que este cursando o haya regularizado. Seleccione la que va a rendir, luego presione 'Parcial'/'Final' segun corresponda y agregue la nota que haya obtenido. Ingrese la fecha en la que rindio el examen y finalmente presione el botón 'Ingresar'.<br/>
+            Para ingresar un examen, ya sea parcial o final,  debe estar cursando la materia. Los examenes no pueden eliminarse ni modificarse.<br/><br/></li>
+            <li>¿Cómo veo los parciales / finales que rendí?<br/>
+            Desde el menú superior de la página seleccione 'Materias' y luego 'Consulta'. Desde allí podrá ver todos los parciales y finales que haya rendido ordenados cronologicamente (del mas reciente al mas lejano). Podra reordenar la lista  según el concepto que usted desee haciendo click sobre el nombre de la columna. Por ej. haciendo click sobre la palabra 'Nota' ordenará los examenes de acuerdo al resultado que haya tenido (notas más altas arriba y más bajas abajo o viceversa).</li>
+        </ul>          
+    </div>    
+    </li>
     {% endblock tabla_contenido %}
 </ul>
 

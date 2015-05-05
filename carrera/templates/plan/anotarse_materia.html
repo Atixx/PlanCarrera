@@ -8,8 +8,8 @@
 <h3>{{msg}}</h3>
 <h5><a href=".">Anotarme en otra!</a><h5>
 {% elif enabled or disabled %}
-<h2>Elija la materia</h2>
-<h6>Usted se anotara en la siguiente materia</h6>
+<h2>Anotarse en una nueva materia</h2>
+<h5>Seleccione la materia en la que desea inscribirse</h5>
 <br/>
 <div>
     <form class="form-horizontal" action="." method="POST">
@@ -32,7 +32,8 @@
     </form>
 </div>
 {% else %}
-<h3>No quedaron materias, casi terminas o que onda??</h3>
+<h3>¡Felicitaciones!</h3>
+<h4>Ya no le queda ninguna materia para cursar.</h4>
 {% endif %}
 
 {% endblock %}
