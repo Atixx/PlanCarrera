@@ -144,9 +144,9 @@ def promedioCursada(usuario):#TODO
 # cambia el estado y la almacena en la base (Maxi).
 def EvaluarEstadoMateria(request, materia): #Recibe objeto Materia y evalua estado
     
-    cantParciales = Examen.objects.filter(materia_id = materia).filter(alumno_id = request.user).filter(opcion = 'PA').filter( nota__gt = 4).count()
+    cantParciales = Examen.objects.filter(materia_id = materia).filter(alumno_id = request.user).filter(opcion = 'PA').filter( nota__gte = 4).count()
     #Examen.objects.filter(materia_id = materia.id, alumno_id = request.user.id(), opcion = 'PA', nota__gt = 4).count()
-    hayFinal = Examen.objects.filter(materia_id = materia).filter(alumno_id = request.user).filter(opcion = 'FI').filter( nota__gt = 4).count()
+    hayFinal = Examen.objects.filter(materia_id = materia).filter(alumno_id = request.user).filter(opcion = 'FI').filter( nota__gte = 4).count()
     #Condiciones -- REgulada = (1 parcial aprobado si es Cuatri, 3 apro si es Anual)
     # FInal si se aprobo final
     if cantParciales > 1:
