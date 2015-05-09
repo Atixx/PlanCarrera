@@ -34,11 +34,12 @@
                 <ul class="dropdown-menu">
             {% if user.is_authenticated %}  
                     
-                    <li><a href="/plan/nueva-materia">anotarse nueva materia</a></li>
-                    <li><a href="/plan/abandonar-materia">abandonar materia</a></li>
+                    <li><a href="/plan/nueva-materia">Anotarse nueva materia</a></li>
+                    <li><a href="/plan/abandonar-materia">Abandonar materia</a></li>
                     <li class="divider"></li>
             {% endif %}
-                    <li><a href="/plan/materias">listar materias</a></li>
+                    <li><a href="/plan/materias">Listar materias</a></li>
+                    <li><a href="/plan/materias/arbol">Arbol</a></li>
                 </ul>            
             </li>
             <li class="active dropdown">
@@ -56,11 +57,10 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="/plan/ayuda">Ayuda</a></li>
-                    <li><a href="/plan/materias/arbol">Arbol<a/></li>
                     <li class="divider"></li>
-                    <li><a href="http://www.unla.edu.ar" target="_blank">sitio oficial UNLa</a></li>
+                    <li><a href="http://www.unla.edu.ar" target="_blank">Sitio oficial UNLa</a></li>
                     <li><a href="http://www.unla.edu.ar/sistemas/sls"
-                    target="_blank">sistemas UNLa</a></li>
+                    target="_blank">Sistemas UNLa</a></li>
                 </ul>            
             </li>
             {% if user.is_authenticated %}            
@@ -69,9 +69,9 @@
                     {{ user.username }}
                 <b class="caret"></b>
                 <ul class="dropdown-menu">
-                    <li><a href="/plan/alumno">ver datos</a></li>
+                    <li><a href="/plan/alumno">Ver datos</a></li>
                         <li class="divider"></li>
-                        <li><a href="/plan/logout">logout</a></li>
+                        <li><a href="/plan/logout">Logout</a></li>
                 </ul>
             </li>
             {% else %}
