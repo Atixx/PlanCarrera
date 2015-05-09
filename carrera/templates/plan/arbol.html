@@ -4,11 +4,13 @@
 <link type = "text/css" rel="stylesheet" href= "{% static "carrera/css/arbol.css" %}"></link>
 {% endblock links %}
 {% block scripts %}
+{% include "plan/arbolscript.html" %}
 <script src= "{% static "carrera/js/arbol.js" %}"></script>
 {% endblock scripts %}
 {% block titulo %} Arbol Materias {% endblock titulo %}
 {% block cabezera %} Lic. en Sistemas {% endblock cabezera %}
 {% block contenido %}
+<span id="alert">{{estados}}</span>
 <h3 class="tituloAnio">Primer Año</h3>
 <div id="anio">
     <table>
