@@ -192,7 +192,7 @@ def lista_materias(request):
 def arbol_materias(request):
     mat = {}
     estadoMaterias = mark_safe(serializers.serialize("json", EstadoMateria.objects.all()))
-    materias = mark_safe(serializers.serialize("json", Materia.objects.all()))
+    materiasJson = mark_safe(serializers.serialize("json", Materia.objects.all()))
     if request.user.is_authenticated():
         css = { "cursando" : 'danger active', #lo que representa cada estado en css
                  "regularizada" : 'warning active', 
@@ -206,7 +206,7 @@ def arbol_materias(request):
            if not(estado == "desabilitada"):
             mat[m.nombre.lower().replace(" ","")] = css[estado]
         
-    context = { "materias" : mat, "estados" : estadoMaterias }
+    context = { "materias" : mat, "estados" : estadoMaterias, "matJson" : materiasJson }
     
     return render(request, "plan/arbolMaterias.html", context)      
       
