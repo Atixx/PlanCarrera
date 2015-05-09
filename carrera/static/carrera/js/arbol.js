@@ -9,11 +9,23 @@ $(document).ready( function()
       });
     });
     
+    
+    //TODO:jQuery que reconozca el Objeto segun el div que se clickeo
    
-    $('#alert').click(function ()
+    $('.list-group-item').click(function ()
     {
-        alert(estados[0].fields.estado);
+        alert(materias[$(this).text()].estado);
+        
     });
+    
+    //TODO funcion de traduccion de estados a "disabled", "disponible", "completa"
+    //LB, CU, RE, FI
+    
+    function traduccionEstado(estado)
+    {
+        var estados = { 'LB' : 'disponible', 'CU' : 'disponible', 'RE' : 'completa', 'FI' : 'completa'};
+        return estados[estado];
+    }
 
 
     function materia(pk, nombre, correlativas)
@@ -39,9 +51,44 @@ $(document).ready( function()
     
     for (var i=0; i < estados.length; i++)
     {
-        todasLasMaterias[(estados[i].fields.materia - 1 )].estado = estados[i].fields.estado;
+        todasLasMaterias[(estados[i].fields.materia - 1 )].estado = traduccionEstado(estados[i].fields.estado);
     }
-
+    
+    for (var i=0; i < todasLasMaterias.length; i++)
+    {   
+        materias[todasLasMaterias[i].nombre] = todasLasMaterias[i];
+    }    
+    var css = { "cursando" : 'danger active', "regularizada" : 'warning active', "completa" : 'success active', "disponible" : ' active'} 
+        
+/*
+    function calcularPagina()
+    {
+        //agarrar cada materia y verificar si tiene estado
+        for (m in todasLasMaterias) 
+        {
+            
+        }
+        //si lo tiene: lo demuestra por CSS
+        //si no lo tiene, chequea correlativas -> si fueron cumplidas: demuestra por CSS
+        // si no, no toca
+    
+    
+    }
+          
+*/            
+            
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
    
 });
