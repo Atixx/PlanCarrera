@@ -1,4 +1,8 @@
 {%extends "format.html" %}
+{% load staticfiles %}
+{% block scripts %}
+<script src= "{% static "carrera/js/carrera.js" %}"></script>
+{% endblock scripts %}
 
 {% block titulo %} {{ alumno.last_name }}, {{alumno.first_name}} {% endblock %}
     {% block cabezera %} {{alumno.username}} {% endblock %}
