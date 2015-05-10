@@ -15,6 +15,15 @@ $(document).ready( function()
     $("#contenido_examen").slideToggle();
   });
   
+  $(".materia").click(function()
+  {
+    $(this).fadeToggle("slow",function()
+    {
+        $(this).fadeToggle("slow");
+    });
+  });
+  
+  
   $(".list-group-item").click(function(ev) // for each edit materia url
   { 
     ev.preventDefault(); // prevent navigation

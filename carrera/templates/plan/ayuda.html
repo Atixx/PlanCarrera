@@ -1,8 +1,11 @@
 {% extends "format.html" %}
-{% block links %}
 {% load staticfiles %}
+{% block links %}
 <link type = "text/css" rel="stylesheet" href= "{% static "carrera/css/ayuda.css" %}"></link>
 {% endblock links %}
+{% block scripts %}
+<script src= "{% static "carrera/js/carrera.js" %}"></script>
+{% endblock scripts %}
 {% block titulo %} Ayuda: PlanCarrera {% endblock %}
 
 {% block contenidochico %}
