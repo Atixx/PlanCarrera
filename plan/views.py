@@ -190,25 +190,12 @@ def lista_materias(request):
     return render(request, "plan/lista_materias.html", context)
     
 def arbol_materias(request):
-    mat = {}
     estadoMaterias = mark_safe(serializers.serialize("json", EstadoMateria.objects.all()))
     materiasJson = mark_safe(serializers.serialize("json", Materia.objects.all()))
-    if request.user.is_authenticated():
-        css = { "cursando" : 'danger active', #lo que representa cada estado en css
-                 "regularizada" : 'warning active', 
-                 "completa" : 'success active', 
-                 "disponible" : ' active'
-                } 
-        
-        mat = {}
-        for m in Materia.objects.select_related().all():
-           estado = estadoMateria(m, request.user)  #retorna "desabilitada" "cursando", "regularizada", "completa", "disponible"
-           if not(estado == "desabilitada"):
-            mat[m.nombre.lower().replace(" ","")] = css[estado]
-        
-    context = { "materias" : mat, "estados" : estadoMaterias, "matJson" : materiasJson }
+
+    context = {"estados" : estadoMaterias, "matJson" : materiasJson }
     
-    return render(request, "plan/arbolMaterias.html", context)      
+    return render(request, "plan/arbol.html", context)      
       
 
 def materia(request, nombre_materia): #modal usa esto
