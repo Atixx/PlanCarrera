@@ -62,7 +62,7 @@ $(document).ready( function()
        
     function funcCss (input)
     {
-        var css = { "cursando" : 'list-group-item-danger active', "regularizada" : 'list-group-item-warning active', "completa" : 'list-group-item-success active', "disponible" : ' active'} 
+        var css = { "cursando" : 'list-group-item-danger active', "regularizada" : 'list-group-item-warning active', "completa" : 'list-group-item-success active', "disponible" : ' active', "libre" : ' active'} 
         return css[input];
     }   
         
@@ -70,15 +70,37 @@ $(document).ready( function()
     {
         for (m in materias) 
         {
-            if (materias[m].estado != undefined)
+            if (materias[m].estado != undefined) //si tiene estado, lo tomo
             {
-                var css = funcCss(materias[m].estado);
-                $( "a:contains('" + m + "')").addClass(css); 
+                $( "a:contains('" + m + "')").addClass(funcCss(materias[m].estado)); 
+            }
+            else 
+            {
+                if(materias[m].correlativas.length > 0) 
+                {
+                    var flag = true;
+                    var corr = materias[m].correlativas;
+                    for (var i=0; i < materias[m].correlativas.length; i++)
+                    {
+                        if (corr[i].estado == "cursando" || corr[i].estado == "regularizada" || corr[i].estado == undefined)
+                        {
+                            flag = false;
+                        }
+                        
+                    }
+                    if (flag)
+                    {
+                        materias[m].estado = "disponible"
+                        $( "a:contains('" + m + "')").addClass(funcCss(materias[m].estado));
+                    }
+                }
+                else  //no tiene estado, pero no tiene correlativas lo agrego             
+                {
+                    materias[m].estado = "disponible"
+                    $( "a:contains('" + m + "')").addClass(funcCss(materias[m].estado));
+                }
             }
         }
-        //si lo tiene: lo demuestra por CSS
-        //si no lo tiene, chequea correlativas -> si fueron cumplidas: demuestra por CSS
-        // si no, no toca
     }
 
     calcularPagina();   
