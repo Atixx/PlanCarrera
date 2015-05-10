@@ -71,7 +71,7 @@ $(document).ready( function()
        
     function funcCss (input)
     {
-        var css = { "cursando" : 'list-group-item-danger active', "regularizada" : 'list-group-item-warning active', "completa" : 'list-group-item-success active', "disponible" : ' active', "libre" : ' active'} 
+        var css = { "cursando" : 'list-group-item-danger active', "regularizada" : 'list-group-item-warning active', "completa" : 'list-group-item-success active', "disponible" : ' active', "libre" : ' active', "undefined" : ' active'} 
         return css[input];
     }   
         
@@ -81,7 +81,8 @@ $(document).ready( function()
         {
             if (materias[m].estado != undefined) //si tiene estado, lo tomo
             {
-                $( "a:contains('" + m + "')").addClass(funcCss(materias[m].estado)); 
+                $( "a:contains('" + m + "')").addClass(funcCss(materias[m].estado));
+                 
             }
             else 
             {
@@ -91,17 +92,21 @@ $(document).ready( function()
                     var corr = materias[m].correlativas;
                     for (var i=0; i < materias[m].correlativas.length; i++)
                     {
-                        if (corr[i].estado == "cursando" || corr[i].estado == "regularizada" || corr[i].estado == undefined)
+                        if (corr[i].estado == undefined || corr[i].estado == "libre" || corr[i].estado == "disponible" || corr[i].estado == "cursando") 
                         {
                             flag = false;
                         }
                         
                     }
-                    if (flag)
+                    if (flag) //Todos las correlativas estan aprobadas
                     {
                         materias[m].estado = "disponible"
                         $( "a:contains('" + m + "')").addClass(funcCss(materias[m].estado));
                     }
+                    /*else //no estan aprobadas, le saco la clase
+                    {
+                        $( "a:contains('" + m + "')").removeClass(funcCss(materias[m].estado));
+                    }*/
                 }
                 else  //no tiene estado, pero no tiene correlativas lo agrego             
                 {
@@ -111,6 +116,7 @@ $(document).ready( function()
             }
         }
     }
+    
 
     calcularPagina();   
     
