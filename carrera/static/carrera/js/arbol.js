@@ -14,7 +14,7 @@ $(document).ready( function()
    
     $('.list-group-item').click(function ()
     {
-        alert(materias[$(this).text()].estado);
+        alert(materias[$(this).text()].nombre);
         
     });
     
@@ -23,7 +23,7 @@ $(document).ready( function()
     
     function traduccionEstado(estado)
     {
-        var estados = { 'LB' : 'disponible', 'CU' : 'disponible', 'RE' : 'completa', 'FI' : 'completa'};
+        var estados = { 'LB' : 'libre', 'CU' : 'cursando', 'RE' : 'regularizada', 'FI' : 'completa'};
         return estados[estado];
     }
 
@@ -58,35 +58,30 @@ $(document).ready( function()
     {   
         materias[todasLasMaterias[i].nombre] = todasLasMaterias[i];
     }    
-    var css = { "cursando" : 'danger active', "regularizada" : 'warning active', "completa" : 'success active', "disponible" : ' active'} 
+    //var css = { "cursando" : 'danger active', "regularizada" : 'warning active', "completa" : 'success active', "disponible" : ' active'} 
+       
+    function funcCss (input)
+    {
+        var css = { "cursando" : 'list-group-item-danger active', "regularizada" : 'list-group-item-warning active', "completa" : 'list-group-item-success active', "disponible" : ' active'} 
+        return css[input];
+    }   
         
-/*
     function calcularPagina()
     {
-        //agarrar cada materia y verificar si tiene estado
-        for (m in todasLasMaterias) 
+        for (m in materias) 
         {
-            
+            if (materias[m].estado != undefined)
+            {
+                var css = funcCss(materias[m].estado);
+                $( "a:contains('" + m + "')").addClass(css); 
+            }
         }
         //si lo tiene: lo demuestra por CSS
         //si no lo tiene, chequea correlativas -> si fueron cumplidas: demuestra por CSS
         // si no, no toca
-    
-    
     }
-          
-*/            
-            
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    calcularPagina();   
     
     
     
