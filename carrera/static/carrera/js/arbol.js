@@ -2,21 +2,25 @@ $(document).ready( function()
 {
 
 
-    $('.list-group-item').click(function () {
+    $(' .list-group-item').click(function () {
       var classes = ['list-group-item list-group-item-danger active','list-group-item list-group-item-warning active', 'list-group-item list-group-item-success active', 'list-group-item list-group-item active'];
+      var nuevaClase;
       $(this).each(function(){
-        this.className = classes[($.inArray(this.className, classes)+1)%classes.length];
+        nuevaClase = classes[($.inArray(this.className, classes)+1)%classes.length]
+        this.className = nuevaClase;//classes[($.inArray(this.className, classes)+1)%classes.length];
       });
+      materias[materias[$(this).text()].nombre].estado = CssAEstado(nuevaClase);
+      calcularPagina();
     });
     
     
     //TODO:jQuery que reconozca el Objeto segun el div que se clickeo
    
-    $('.list-group-item').click(function ()
+    /*$('.list-group-item').click(function ()
     {
         alert(materias[$(this).text()].nombre);
         
-    });
+    });*/
     
     //TODO funcion de traduccion de estados a "disabled", "disponible", "completa"
     //LB, CU, RE, FI
@@ -26,6 +30,12 @@ $(document).ready( function()
         var estados = { 'LB' : 'libre', 'CU' : 'cursando', 'RE' : 'regularizada', 'FI' : 'completa'};
         return estados[estado];
     }
+    
+    function CssAEstado(input)
+    {
+        var css = {'list-group-item list-group-item-danger active' : "cursando",'list-group-item list-group-item-warning active' : "regularizada", 'list-group-item list-group-item-success active' : "completa",'list-group-item list-group-item active' : "disponible"} 
+        return css[input];
+    }  
 
 
     function materia(pk, nombre, correlativas)
@@ -58,7 +68,6 @@ $(document).ready( function()
     {   
         materias[todasLasMaterias[i].nombre] = todasLasMaterias[i];
     }    
-    //var css = { "cursando" : 'danger active', "regularizada" : 'warning active', "completa" : 'success active', "disponible" : ' active'} 
        
     function funcCss (input)
     {
@@ -66,7 +75,7 @@ $(document).ready( function()
         return css[input];
     }   
         
-    function calcularPagina()
+    function calcularPagina() //FUNCIONA
     {
         for (m in materias) 
         {
