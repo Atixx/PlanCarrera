@@ -120,8 +120,8 @@ def stringVacio(string):
     
     
 def corroborarNota(nota):
-    if int(nota) >= 1 and int(nota) <= 10:
-        return int(nota)
+    if float(nota) >= 1 and float(nota) <= 10:
+        return float(nota)
     else:
         raise ValueError('la nota tiene que ser entre 0 y 10')
 
