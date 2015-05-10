@@ -5,8 +5,10 @@ from django.contrib.auth.models import User
 from funciones.validaregistro import validacampo, usuarioexistente, validarpasswd,\
     correoexiste
 from funciones.funcmaterias import *
+from django.utils.safestring import mark_safe
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
+from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
@@ -188,23 +190,12 @@ def lista_materias(request):
     return render(request, "plan/lista_materias.html", context)
     
 def arbol_materias(request):
-    mat = {}
-    if request.user.is_authenticated():
-        css = { "cursando" : 'danger active', #lo que representa cada estado en css
-                 "regularizada" : 'warning active', 
-                 "completa" : 'success active', 
-                 "disponible" : ' active'
-                } 
-        
-        mat = {}
-        for m in Materia.objects.select_related().all():
-           estado = estadoMateria(m, request.user)  #retorna "desabilitada" "cursando", "regularizada", "completa", "disponible"
-           if not(estado == "desabilitada"):
-            mat[m.nombre.lower().replace(" ","")] = css[estado]
-        
-    context = { "materias" : mat }
+    estadoMaterias = mark_safe(serializers.serialize("json", EstadoMateria.objects.all()))
+    materiasJson = mark_safe(serializers.serialize("json", Materia.objects.all()))
+
+    context = {"estados" : estadoMaterias, "matJson" : materiasJson }
     
-    return render(request, "plan/arbolMaterias.html", context)      
+    return render(request, "plan/arbol.html", context)      
       
 
 def materia(request, nombre_materia): #modal usa esto

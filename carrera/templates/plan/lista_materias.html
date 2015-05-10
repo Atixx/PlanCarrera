@@ -3,6 +3,9 @@
 {% load staticfiles %}
 <link type = "text/css" href= "{% static "carrera/css/materias.css" %}" rel="stylesheet"></link>
 {% endblock links %}
+{% block scripts %}
+<script src= "{% static "carrera/js/carrera.js" %}"></script>
+{% endblock scripts %}
 {% block titulo %}Licenciatura en Sistemas - UNLa{% endblock titulo %}
 {% block cabezera %}Las materias de Sistemas:{% endblock cabezera %}
 {% block contenido %}
