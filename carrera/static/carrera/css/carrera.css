@@ -52,7 +52,7 @@ body
 }
 .navbar-nav > li:first-child /*nth-of-type(1)*/
 {
-    margin-left:15px;
+    margin-left:30%;
 }
 
 .footer
@@ -64,10 +64,10 @@ body
   border: solid black 2px;
 }
 
-.user
+/*.user
 {
-    margin-right:60%;
-}
+    margin-right:20%;
+}*/
 
 #bottom
 {
