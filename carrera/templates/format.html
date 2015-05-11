@@ -26,22 +26,7 @@
        <a class="navbar-brand" href="/"><img src=" {% static "carrera/img/logo.png" %}" alt="Sistemas UNLa"/></a> 
     </div> --->
         <ul class="nav navbar-nav">
-                    {% if user.is_authenticated %}            
-            <li class="active dropdown"> 
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    {{ user.username }}
-                <b class="caret"></b>
-                <ul class="dropdown-menu">
-                <li><a href="/">Inicio</a></li>
-                    <li><a href="/plan/alumno">Ver datos</a></li>
-                        <li class="divider"></li>
-                        <li><a href="/plan/logout">Logout</a></li>
-                </ul>
-            </li>
-            {% else %}
-            <li class="active"><a href="/?reg=0">Login</a></li>
-            {% endif %}
-            
+            <li class="active"><a href="/">Inicio</a></li>           
             <li class="active dropdown">
                 <a href="#" class="dropdown-toggle .visible-*-block" data-toggle="dropdown">
                 Materias <b class="caret"></b>
@@ -78,6 +63,21 @@
                     target="_blank">Sistemas UNLa</a></li>
                 </ul>            
             </li>
+            {% if user.is_authenticated %}            
+            <li class="active dropdown navbar-right"> 
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    {{ user.username }}
+                <b class="caret"></b>
+                <ul class="dropdown-menu">
+                
+                    <li><a href="/plan/alumno">Ver datos</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/plan/logout">Logout</a></li>
+                </ul>
+            </li>
+            {% else %}
+            <li class="active navbar-right"><a href="/?reg=0">Login</a></li>
+            {% endif %}
         </ul>
 </nav> 
 <div class="wrapper">
