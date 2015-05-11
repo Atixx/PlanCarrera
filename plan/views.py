@@ -190,7 +190,7 @@ def lista_materias(request):
     return render(request, "plan/lista_materias.html", context)
     
 def arbol_materias(request):
-    estadoMaterias = mark_safe(serializers.serialize("json", EstadoMateria.objects.all()))
+    estadoMaterias = mark_safe(serializers.serialize("json", EstadoMateria.objects.filter(alumno = request.user.id)))
     materiasJson = mark_safe(serializers.serialize("json", Materia.objects.all()))
 
     context = {"estados" : estadoMaterias, "matJson" : materiasJson }
