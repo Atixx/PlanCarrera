@@ -128,14 +128,16 @@ def corroborarNota(nota):
 def promedioCursada(usuario):#TODO
     promedio = 0
     materias = []
-    for m in Materia.objects.all():
-        promedio = promedioMateria(m, usuario)
-        if (promedio):
-            materias.append(float(promedio))
-    if (len(materias)):
-        promedio = "{0:g}".format(math.ceil(sum(materias)/len(materias)))
-    #if (promedio == None):
-    #    promedio = ''
+    if EstadoMateria.objects.filter(estado = "FI",alumno = usuario.id).exists():
+        for m in EstadoMateria.objects.filter(estado = "FI",alumno = usuario.id):
+            mat = Materia.objects.get(pk=m.materia.id)
+            promedio = promedioMateria(mat, usuario)
+            if (promedio):
+                materias.append(float(promedio))
+        if (len(materias)):
+            promedio = "{0:g}".format(math.ceil(sum(materias)/len(materias)))
+        #if (promedio == None):
+        #    promedio = ''
     return promedio
 
 #Definimos el proximo estado de la materia
